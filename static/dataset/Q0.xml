@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<question>
+		<p>
+			<line>Without trying this in Snap!,try to answer the following question:</line>
+			<line>What does the following set of scripts do when the _CODES_Turn1_CODEE_ message is broadcast?</line>
+		</p>
+		<img>
+			<name>receive-turn1-broadcast.png</name>
+			<name>receive-turn2-broadcast.png</name>
+		</img>
+		<p>
+			<line>Choose one:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					The sprite says "Go!" and then "Team!" and then stops.
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					The sprite repeatedly says "Go!" and then "Team!" until you hit the red Stop button.
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					Nothing happens - the script does not work.
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					The sprite says "Go!" and then "Team!", repeating a few times, and then stops by itself.
+				</line>
+			</p>
+		</option>
+	</answers>
+</content>

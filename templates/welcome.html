@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome to AutoQuiz</title>
+    <!--script src="../static/jquery.min.js" type="text/javascript"></script>
+    <script src="../static/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../static/analytics.js" type="text/javascript"></script>
+    <link href="../static/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <link href="../static/bootstrap-theme.min.css" type="text/css" rel="stylesheet">
+    <link href="../static/default.css" type="text/css" rel="stylesheet"-->
+    <link rel="icon" href="{{ url_for('static', filename='img/alonzo.gif') }}">
+
+    <script src="{{ url_for('static', filename='jquery.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='analytics.js') }}" type="text/javascript"></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='echarts-all-3.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='ecStat.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='dataTool.min.js') }}"></script>
+
+    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" type="text/css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='bootstrap-theme.min.css') }}" type="text/css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='default.css') }}" type="text/css" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav class="llab-nav navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="nav navbar-nav navbar-left navbar-title">CS10 AutoQuiz | Fall 2017 | UC Berkeley</div>
+      <div class="nav navbar-nav navbar-right">
+        <ul class="nav-btns btn-group">
+          <!--a class="btn btn-default" href="url_for('default_entry')">logout</a-->
+          <a class="btn btn-default">logout</a>
+          <a class="btn btn-default" href="http://cs10.org/fa17/" target="_blank">course website</a>
+          <!--button type="button" class="btn btn-secondary"> Log Out </button-->
+        </ul>
+      </div>
+    </nav>
+    <div class="title-small-screen">CS10 AutoQuiz | Fall 2017 | UC Berkeley</div>
+    <div class="llab-full">
+      <p>
+        This is an AutoQuiz of The Beauty and Joy of Computing (Berkeley CS10) course during
+        Fall 2017.
+      </p>
+
+      <script>
+        var ZOOMABLE=true;
+        function prep_display() {
+          render_graph(ZOOMABLE);
+        }
+        function update_display() {
+          ZOOMABLE = !ZOOMABLE;
+          render_graph(ZOOMABLE);
+        }
+      </script>
+
+      <div style="width:50%;text-align:center;margin-left:auto;margin-right:auto;padding-top:10px;">
+          <h2>Knowledge Structure</h2>
+          <h5><input type="checkbox" id='zoomable' name="roam_checkbox" value="roam" checked onchange="update_display();"> Zoomable</h5>
+      </div>
+      
+      <div style="display:none;">
+        <form action="{{ url_for('exercise_section') }}" method=post id="graph_node_selection_form">
+          <input type=hidden name=section_id value=10 id="section_id"/>
+        </form>
+      </div>
+      <div class="topic_container" id="graph_container" style="height: 500px;">
+      </div>
+      <script>
+        function request_exercise_section(section_id){
+          var data = {'section_id': section_id};
+          var form = document.getElementById("graph_node_selection_form");
+          // console.log(form)
+          // console.log('section_id', form.section_id.value)
+          form.section_id.value = section_id;
+          form.submit();
+        }
+      </script>
+      <script src="{{ url_for('static', filename='knowledge_graph.js') }}" type="text/javascript" onload="prep_display();">
+
+        // console.log(document.getElementById("zoomable").checked);
+        // render_graph(true);
+      </script>
+
+      <!--FIXME: CSS Class -->
+      <div style="width:50%;text-align:center;margin-left:auto;margin-right:auto;padding-top:10px;">
+          <hr>
+          <h2>Topics Included</h2>
+      </div>
+
+      <div class="topic_container">
+
+          <div class="topic_link">
+            <a href="#">Topic 1: Abstraction</a>
+          </div>
+
+          <div class="topic_link">
+            <a href="#">Topic 2: Algorithm</a>
+          </div>
+
+          <div class="topic_link">
+            <a href="#">Topic 3: Programming</a>
+          </div>
+
+          <div class="topic_link">
+            <a href="#">Topic 4: Computer Systems</a>
+          </div>
+
+          <div class="topic_link">
+            <a href="#">Topic 5: Social Influence</a>
+          </div>
+
+      </div>
+    
+
+    </div>
+    <!--div class="page-feedback">
+      <button class="btn btn-primary btn-xs feedback-button" type="button" data-toggle="collapse" data-target="#fdbk">
+        Feedback
+      </button>
+      <div id="fdbk" class="collapse feedback-panel panel panel-primary"></div>
+    </div-->
+  </body>
+
+</html>
