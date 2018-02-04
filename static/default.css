@@ -82,7 +82,20 @@ nav {
 }
 
 /* FIXME --- poorly performant. */
+/*
 .llab-full ul, .llab-full ol {
+  font-size: 1em;
+  font-weight: inherit;
+  display:inline-block;
+  color: #004;
+  margin: 18px;
+  border: 2px solid #39F;
+  border-radius: 6px;
+}
+*/
+
+
+.boardered {
   font-size: 1em;
   font-weight: inherit;
   display:inline-block;
@@ -955,6 +968,7 @@ img.indent, div.indent {
 form li div {
   font: 500 15px/1.7 "Times New Roman", Times, serif;
 }
+
 
 form > h2, form > ol > li {
   color: #999;

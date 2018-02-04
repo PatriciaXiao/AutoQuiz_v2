@@ -67,7 +67,7 @@
         </form>
       </div>
 
-      <ul id="myTab" class="nav nav-pills">
+      <ul id="myTab" class="nav nav-pills boardered">
         <li class="active"><a href="#structure" data-toggle="tab">Knowledge Structure</a></li>
         <li><a href="#topics" data-toggle="tab">Topics Listed</a></li>
         <li><a href="#topic_1" data-toggle="tab">Topic 1</a></li>
@@ -191,7 +191,11 @@
             </div>
           </div>
           <div class="tab-pane fade" id="topic_1">
-            <table class="table" data-toggle="table" data-url="{{ url_for('static', filename='dataset/data1.json') }}">
+            <table class="table" 
+                    data-toggle="table" 
+                    data-url="{{ url_for('static', filename='dataset/data1.json') }}"
+                    data-pagination="true"
+                    data-search="true">
               <caption>Questions Related with this topic</caption>
     <thead>
         <tr>
