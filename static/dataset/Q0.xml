@@ -35,7 +35,7 @@
 				</line>
 			</p>
 		</option>
-		<option id="c4">
+		<option id="c4" correct="true">
 			<p>
 				<line>
 					The sprite says "Go!" and then "Team!", repeating a few times, and then stops by itself.

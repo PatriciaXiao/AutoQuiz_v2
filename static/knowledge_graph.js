@@ -4,9 +4,11 @@ function render_graph(roam) {
     var app = {};
     option = null;
     option = {
+        /*
         title: {
             text: 'Graph sample'
         },
+        */
         tooltip: {},
         animationDurationUpdate: 1500,
         animationEasingUpdate: 'quinticInOut',
@@ -42,15 +44,30 @@ function render_graph(roam) {
                 }, {
                     name: 'node 2',
                     x: 800,
-                    y: 300
+                    y: 300,
+                    itemStyle: {
+                        normal: {
+                            color: "red",
+                        }
+                    }
                 }, {
                     name: 'node 3',
                     x: 550,
-                    y: 100
+                    y: 100,
+                    itemStyle: {
+                        normal: {
+                            color: "red",
+                        }
+                    }
                 }, {
                     name: 'node 4',
                     x: 550,
-                    y: 500
+                    y: 500,
+                    itemStyle: {
+                        normal: {
+                            color: "red",
+                        }
+                    }
                 }],
                 // links: [],
                 links: [{
@@ -110,7 +127,7 @@ function render_graph(roam) {
     if (option && typeof option === "object") {
         console.log(option.series[0].data)
         option.series[0].data.forEach(function (node) {
-            console.log(node.itemStyle)
+            //console.log(node.itemStyle)
             /*
             node.itemStyle = {
                     normal: {
@@ -118,11 +135,16 @@ function render_graph(roam) {
                     }
                 };
                 */
-            console.log(node.itemStyle)
+            //console.log(node.itemStyle)
         })
         myChart.setOption(option, true);
         myChart.on('click', function (params) {
-            request_exercise_section(1);
+            // request_exercise_section(0);
+            // console.log(params);
+            if(params.dataType=="node") {
+                var node_name = params.data.name;
+                request_exercise_section(params.data.name);
+            }
         })
     }
 }

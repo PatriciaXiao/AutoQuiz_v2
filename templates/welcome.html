@@ -21,6 +21,14 @@
     <link href="{{ url_for('static', filename='bootstrap.min.css') }}" type="text/css" rel="stylesheet">
     <link href="{{ url_for('static', filename='bootstrap-theme.min.css') }}" type="text/css" rel="stylesheet">
     <link href="{{ url_for('static', filename='default.css') }}" type="text/css" rel="stylesheet">
+
+    <!--link href="{{ url_for('static', filename='dataTables.bootstrap.min.css') }}" type="text/css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='jquery.dataTables.min.css') }}" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='dataTables.bootstrap.js') }}"></script-->
+    <link href="{{ url_for('static', filename='bootstrap-table.css') }}" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-table.js') }}"></script>
+
   </head>
 
   <body>
@@ -43,7 +51,7 @@
       </p>
 
       <script>
-        var ZOOMABLE=true;
+        var ZOOMABLE=false;
         function prep_display() {
           render_graph(ZOOMABLE);
         }
@@ -53,18 +61,187 @@
         }
       </script>
 
-      <div style="width:50%;text-align:center;margin-left:auto;margin-right:auto;padding-top:10px;">
-          <h2>Knowledge Structure</h2>
-          <h5><input type="checkbox" id='zoomable' name="roam_checkbox" value="roam" checked onchange="update_display();"> Zoomable</h5>
-      </div>
-      
       <div style="display:none;">
         <form action="{{ url_for('exercise_section') }}" method=post id="graph_node_selection_form">
           <input type=hidden name=section_id value=10 id="section_id"/>
         </form>
       </div>
-      <div class="topic_container" id="graph_container" style="height: 500px;">
+
+      <ul id="myTab" class="nav nav-pills">
+        <li class="active"><a href="#structure" data-toggle="tab">Knowledge Structure</a></li>
+        <li><a href="#topics" data-toggle="tab">Topics Listed</a></li>
+        <li><a href="#topic_1" data-toggle="tab">Topic 1</a></li>
+        <li><a href="#topic_2" data-toggle="tab">Topic 2</a></li>
+        <li><a href="#topic_3" data-toggle="tab">Topic 3</a></li>
+        <li><a href="#topic_4" data-toggle="tab">Topic 4</a></li>
+        <li><a href="#topic_5" data-toggle="tab">Topic 5</a></li>
+        <li><a href="#random" data-toggle="tab">Random Walk</a></li>
+      </ul>
+      <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="structure">
+          <div style="width:50%;text-align:center;margin-left:auto;margin-right:auto;padding-top:10px;">
+              <h2>Knowledge Structure</h2>
+              <!--h5><input type="checkbox" id='zoomable' name="roam_checkbox" value="roam" checked onchange="update_display();"> Zoomable</h5-->
+              <h5><input type="checkbox" id='zoomable' name="roam_checkbox" value="roam" onchange="update_display();"> Zoomable</h5>
+          </div>
+          <div class="topic_container" id="graph_container" style="height: 500px;">
+          </div>
+        </div>
+        <div class="tab-pane fade" id="topics">
+
+          <div class="topic_container">
+            <table class="table">
+              <caption>Topics included in the system are listed here</caption>
+              <thead>
+                <tr>
+                  <th>Topic</th>
+                  <th>Passed</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="#">Topic 1: Abstraction</a></td>
+                  <td>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" role="progressbar"
+                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                             style="width: 30%;">
+                            <span class="sr-only">30% completed</span>
+                        </div>
+                        <div class="progress-bar progress-bar-warning" role="progressbar"
+                           aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                           style="width: 20%;">
+                          <span class="sr-only">20% half-way done</span>
+                        </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="#">Topic 2: Algorithm</a></td>
+                  <td>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" role="progressbar"
+                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                             style="width: 50%;">
+                            <span class="sr-only">50% completed</span>
+                        </div>
+                        <div class="progress-bar progress-bar-warning" role="progressbar"
+                           aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                           style="width: 0%;">
+                          <span class="sr-only">0% half-way done</span>
+                        </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="#">Topic 3: Programming</a></td>
+                  <td>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" role="progressbar"
+                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                             style="width: 100%;">
+                            <span class="sr-only">100% completed</span>
+                        </div>
+                        <div class="progress-bar progress-bar-warning" role="progressbar"
+                           aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                           style="width: 0%;">
+                          <span class="sr-only">0% half-way done</span>
+                        </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="#">Topic 4: Computer Systems</a></td>
+                  <td>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" role="progressbar"
+                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                             style="width: 60%;">
+                            <span class="sr-only">60% completed</span>
+                        </div>
+                        <div class="progress-bar progress-bar-warning" role="progressbar"
+                           aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                           style="width: 10%;">
+                          <span class="sr-only">10% half-way done</span>
+                        </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+              <!--div class="topic_link">
+                <a href="#">Topic 1: Abstraction</a>
+              </div>
+
+              <div class="topic_link">
+                <a href="#">Topic 2: Algorithm</a>
+              </div>
+
+              <div class="topic_link">
+                <a href="#">Topic 3: Programming</a>
+              </div>
+
+              <div class="topic_link">
+                <a href="#">Topic 4: Computer Systems</a>
+              </div>
+
+              <div class="topic_link">
+                <a href="#">Topic 5: Social Influence</a>
+              </div-->
+            </div>
+          </div>
+          <div class="tab-pane fade" id="topic_1">
+            <table class="table" data-toggle="table" data-url="{{ url_for('static', filename='dataset/data1.json') }}">
+              <caption>Questions Related with this topic</caption>
+    <thead>
+        <tr>
+            <th data-field="id">Item ID</th>
+            <th data-field="name">Item Name</th>
+            <th data-field="price">Item Price</th>
+        </tr>
+    </thead>
+              <!--thead>
+                <tr>
+                  <th>Question</th>
+                  <th>Last tried</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              
+              <tbody>
+                <tr>
+                  <td>Question 1</td>
+                  <td>23/11/2013</td>
+                  <td><font color="green">&#10004;</font></td>
+                </tr>
+                <tr>
+                  <td>Question 2</td>
+                  <td>10/11/2013</td>
+                  <td><font color="orange">&#10008;</font></td>
+                </tr>
+                <tr>
+                  <td>Question 3</td>
+                  <td>N/A</td>
+                  <td>&#10068;</td>
+                </tr>
+              </tbody-->
+              <!-- https://www.rapidtables.com/web/html/html-codes.html -->
+            </table>
+
+            
+          </div>
+          <div class="tab-pane fade" id="topic_2">
+          </div>
+          <div class="tab-pane fade" id="topic_3">
+          </div>
+          <div class="tab-pane fade" id="topic_4">
+          </div>
+          <div class="tab-pane fade" id="topic_5">
+          </div>
+        </div>
+
       </div>
+
       <script>
         function request_exercise_section(section_id){
           var data = {'section_id': section_id};
@@ -82,7 +259,7 @@
       </script>
 
       <!--FIXME: CSS Class -->
-      <div style="width:50%;text-align:center;margin-left:auto;margin-right:auto;padding-top:10px;">
+      <!--div style="width:50%;text-align:center;margin-left:auto;margin-right:auto;padding-top:10px;">
           <hr>
           <h2>Topics Included</h2>
       </div>
@@ -109,10 +286,17 @@
             <a href="#">Topic 5: Social Influence</a>
           </div>
 
-      </div>
+      </div-->
     
 
     </div>
+    <script>
+        $(function () {
+            $('#myTab li:eq(0) a').tab('show');
+            /* $('#topic_1').bootstrapTable({
+            });*/
+        });
+    </script>
     <!--div class="page-feedback">
       <button class="btn btn-primary btn-xs feedback-button" type="button" data-toggle="collapse" data-target="#fdbk">
         Feedback

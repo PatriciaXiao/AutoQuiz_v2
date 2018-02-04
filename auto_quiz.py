@@ -4,6 +4,7 @@ from contextlib import closing
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 import xml.etree.ElementTree as ET
+import json
 
 # create the application
 app = Flask(__name__)
@@ -31,6 +32,7 @@ def read_xml(fname):
     root = tree.getroot()
     question = []
     answers = []
+    correct_ans_id = []
     for elem in root.find('question'):
         data = []
         if elem.tag == 'p':
@@ -58,15 +60,54 @@ def read_xml(fname):
                     data.append(name.text)
                 opt_data.append(['img', data])
         answers.append([option.get('id'), opt_data])
+        if option.get('correct') == "true":
+            correct_ans_id.append(option.get('id'))
     
-    return question, answers
+    return question, answers, correct_ans_id
 
+def get_next_question(section_id):
+    return 0
 
 @app.route('/signUpUser', methods=['POST'])
 def submitAnswer():
     user =  request.form['username'];
     password = request.form['password'];
     return json.dumps({'status':'OK','user':user,'pass':password});
+
+@app.route('/test/json')
+def test_json():
+    t = [
+        {
+            'a': 1,
+            'b': 2,
+            'c': "hello"
+        }, {
+            'a': 1,
+            'b': 2,
+            'c': "hello"
+        },
+        {
+            'a': 1,
+            'b': 2,
+            'c': "hello"
+        },
+        {
+            'a': 1,
+            'b': 2,
+            'c': "hello"
+        },
+        {
+            'a': 1,
+            'b': 2,
+            'c': "hello"
+        },
+        {
+            'a': 1,
+            'b': 2,
+            'c': "hello"
+        }
+    ]
+    return json.dumps(t)
 
 @app.route('/exercise/', methods=['GET', 'POST'])
 def exercise_section():
@@ -75,16 +116,18 @@ def exercise_section():
         # print request.values
         # print request.args
         # print request.form['section_id']
-        session['section_id'] = request.form['section_id']
+        section_id = request.form['section_id']
     else:
-        session['section_id'] = 0
-    # print session['section_id']
-    question_id = session['section_id']
+        section_id = ''
+    session['section_id'] = section_id
+    print "session['section_id'] is {0}".format(session['section_id'])
+    question_id = get_next_question(section_id)
     question_fname = "Q{0}.xml".format(question_id)
+    print "question file name {0}".format(question_fname)
 
-    question, answers = read_xml(question_fname)
+    question, answers, correct_ans_id = read_xml(question_fname)
 
-    return render_template('exercise.html', question=question, answers=answers)
+    return render_template('exercise.html', question=question, answers=answers, correct_ans_id=correct_ans_id)
     # return render_template('exercise.html', **locals())
 
 @app.route('/home/', methods=['GET', 'POST'])
@@ -97,6 +140,7 @@ def welcome():
             session['userid'] = request.form['user_id']
     '''
     return render_template('welcome.html')
+
 
 @app.route('/')
 def default_entry():
