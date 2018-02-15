@@ -95,10 +95,29 @@
               <thead>
                 <tr>
                   <th>Topic</th>
-                  <th>Passed</th></tr>
+                  <th>Process</th></tr>
               </thead>
               <tbody>
-                <tr>
+                {% for topic_elem in all_topics %}
+                  <tr>
+                    <td><a href="#">Topic {{topic_elem[0]}}: {{topic_elem[1]}}</a></td>
+                    <td>
+                      <div class="progress">
+                          <div class="progress-bar progress-bar-success" role="progressbar"
+                               aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                               style="width: {{topic_elem[2]}}%;">
+                              <span class="sr-only">{{topic_elem[2]}}% completed</span>
+                          </div>
+                          <div class="progress-bar progress-bar-warning" role="progressbar"
+                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                             style="width: {{topic_elem[3]}}%;">
+                            <span class="sr-only">{{topic_elem[3]}}% half-way done</span>
+                          </div>
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+                <!--tr>
                   <td><a href="#">Topic 1: Abstraction</a></td>
                   <td>
                     <div class="progress">
@@ -165,29 +184,9 @@
                         </div>
                     </div>
                   </td>
-                </tr>
+                </tr-->
               </tbody>
             </table>
-
-              <!--div class="topic_link">
-                <a href="#">Topic 1: Abstraction</a>
-              </div>
-
-              <div class="topic_link">
-                <a href="#">Topic 2: Algorithm</a>
-              </div>
-
-              <div class="topic_link">
-                <a href="#">Topic 3: Programming</a>
-              </div>
-
-              <div class="topic_link">
-                <a href="#">Topic 4: Computer Systems</a>
-              </div>
-
-              <div class="topic_link">
-                <a href="#">Topic 5: Social Influence</a>
-              </div-->
             </div>
           </div>
           <div class="tab-pane fade" id="topic_1">
@@ -196,14 +195,14 @@
                     data-url="{{ url_for('static', filename='dataset/data1.json') }}"
                     data-pagination="true"
                     data-search="true">
-              <caption>Questions Related with this topic</caption>
-    <thead>
-        <tr>
-            <th data-field="id">Item ID</th>
-            <th data-field="name">Item Name</th>
-            <th data-field="price">Item Price</th>
-        </tr>
-    </thead>
+              <caption>Questions included in this topic</caption>
+              <thead>
+                  <tr>
+                      <th data-field="id">Question</th>
+                      <th data-field="name">Item Name</th>
+                      <th data-field="price" data-formatter="Price is %s">Item Price</th>
+                  </tr>
+              </thead>
               <!--thead>
                 <tr>
                   <th>Question</th>
@@ -254,6 +253,71 @@
           // console.log('section_id', form.section_id.value)
           form.section_id.value = section_id;
           form.submit();
+        }
+        function get_knowledge_graph_data() {
+          return [{
+                    name: 'node 1',
+                    x: 300,
+                    y: 300,
+                    itemStyle: {
+                        normal: {
+                            color: "green",
+                        }
+                    }
+                }, {
+                    name: 'node 2',
+                    x: 800,
+                    y: 300,
+                    itemStyle: {
+                        normal: {
+                            color: "gray",
+                        }
+                    }
+                }, {
+                    name: 'node 3',
+                    x: 550,
+                    y: 100,
+                    itemStyle: {
+                        normal: {
+                            color: "gray",
+                        }
+                    }
+                }, {
+                    name: 'node 4',
+                    x: 550,
+                    y: 500,
+                    itemStyle: {
+                        normal: {
+                            color: "gray",
+                        }
+                    }
+                }];
+        }
+        function get_knowledge_graph_link() {
+          return [{
+                    source: 'node 2',
+                    target: 'node 1',
+                    label: {
+                        normal: {
+                            show: true
+                        }
+                    },
+                    lineStyle: {
+                        normal: { curveness: 0.2 }
+                    }
+                }, {
+                    source: 'node 1',
+                    target: 'node 3'
+                }, {
+                    source: 'node 2',
+                    target: 'node 3'
+                }, {
+                    source: 'node 2',
+                    target: 'node 4'
+                }, {
+                    source: 'node 1',
+                    target: 'node 4'
+                }];
         }
       </script>
       <script src="{{ url_for('static', filename='knowledge_graph.js') }}" type="text/javascript" onload="prep_display();">

@@ -139,7 +139,13 @@ def welcome():
         elif len(request.form['userid']) != 0:
             session['userid'] = request.form['user_id']
     '''
-    return render_template('welcome.html')
+    all_topics = [
+                [1, 'Math', 100, 0],
+                [2, 'Programming', 80, 10],
+                [3, 'Data Structure', 90, 5],
+                [4, 'Algorithm', 30, 40]
+            ]
+    return render_template('welcome.html', all_topics=all_topics)
 
 
 @app.route('/')

@@ -32,83 +32,9 @@ function render_graph(roam) {
                         }
                     }
                 },
-                data: [{
-                    name: 'node 1',
-                    x: 300,
-                    y: 300,
-                    itemStyle: {
-                        normal: {
-                            color: "green",
-                        }
-                    }
-                }, {
-                    name: 'node 2',
-                    x: 800,
-                    y: 300,
-                    itemStyle: {
-                        normal: {
-                            color: "red",
-                        }
-                    }
-                }, {
-                    name: 'node 3',
-                    x: 550,
-                    y: 100,
-                    itemStyle: {
-                        normal: {
-                            color: "red",
-                        }
-                    }
-                }, {
-                    name: 'node 4',
-                    x: 550,
-                    y: 500,
-                    itemStyle: {
-                        normal: {
-                            color: "red",
-                        }
-                    }
-                }],
+                data: get_knowledge_graph_data(),
                 // links: [],
-                links: [{
-                    source: 0,
-                    target: 1,
-                    symbolSize: [5, 20],
-                    label: {
-                        normal: {
-                            show: true
-                        }
-                    },
-                    lineStyle: {
-                        normal: {
-                            width: 5,
-                            curveness: 0.2
-                        }
-                    }
-                }, {
-                    source: 'node 2',
-                    target: 'node 1',
-                    label: {
-                        normal: {
-                            show: true
-                        }
-                    },
-                    lineStyle: {
-                        normal: { curveness: 0.2 }
-                    }
-                }, {
-                    source: 'node 1',
-                    target: 'node 3'
-                }, {
-                    source: 'node 2',
-                    target: 'node 3'
-                }, {
-                    source: 'node 2',
-                    target: 'node 4'
-                }, {
-                    source: 'node 1',
-                    target: 'node 4'
-                }],
+                links: get_knowledge_graph_link(),
                 lineStyle: {
                     normal: {
                         opacity: 0.9,
