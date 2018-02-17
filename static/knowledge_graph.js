@@ -64,6 +64,7 @@ function render_graph(roam) {
             //console.log(node.itemStyle)
         })
         myChart.setOption(option, true);
+        // only nodes are clickable
         myChart.on('click', function (params) {
             // request_exercise_section(0);
             // console.log(params);
