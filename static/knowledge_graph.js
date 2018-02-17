@@ -1,3 +1,8 @@
+/* 
+ * for echarts documentation:
+ * https://ecomfe.github.io/echarts-doc/public/en/index.html
+ *
+ */
 function render_graph(roam) {
     var dom = document.getElementById("graph_container");
     var myChart = echarts.init(dom);
@@ -9,7 +14,15 @@ function render_graph(roam) {
             text: 'Graph sample'
         },
         */
-        tooltip: {},
+        tooltip: {
+            // formatter: '{b} <br> mastery degree estimate: {c} % '
+            formatter: function (params, ticket, callback) {
+                            console.log(params)
+                            if (params.dataType == 'node') {
+                                return params.name + '<br> mastery degree estimate: ' + params.value + '%';
+                            }
+                        }
+        },
         animationDurationUpdate: 1500,
         animationEasingUpdate: 'quinticInOut',
         series : [
