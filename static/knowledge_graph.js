@@ -70,7 +70,8 @@ function render_graph(roam) {
             // console.log(params);
             if(params.dataType=="node") {
                 var node_name = params.data.name;
-                request_exercise_section(params.data.name);
+                // request_exercise_section(params.data.name);
+                request_topic_id(params.data.id)
             }
         })
     }

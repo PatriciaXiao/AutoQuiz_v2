@@ -68,13 +68,12 @@
       </div>
 
       <ul id="myTab" class="nav nav-pills boardered">
-        <li class="active"><a href="#structure" data-toggle="tab">Knowledge Structure</a></li>
-        <li><a href="#topics" data-toggle="tab">Topics Listed</a></li>
-        <li><a href="#topic_1" data-toggle="tab">Topic 1</a></li>
-        <li><a href="#topic_2" data-toggle="tab">Topic 2</a></li>
-        <li><a href="#topic_3" data-toggle="tab">Topic 3</a></li>
-        <li><a href="#topic_4" data-toggle="tab">Topic 4</a></li>
-        <li><a href="#topic_5" data-toggle="tab">Topic 5</a></li>
+        <li class="active"><a href="#structure" data-toggle="tab">Structure</a></li>
+        <li><a href="#topics" data-toggle="tab">Topics</a></li>
+        <li><a href="#topic_1" data-toggle="tab">Topic 1: Math</a></li>
+        <li><a href="#topic_2" data-toggle="tab">Topic 2: Programming</a></li>
+        <li><a href="#topic_3" data-toggle="tab">Topic 3: Data Struct</a></li>
+        <li><a href="#topic_4" data-toggle="tab">Topic 4: Algorithm</a></li>
         <li><a href="#random" data-toggle="tab">Random Walk</a></li>
       </ul>
       <div id="myTabContent" class="tab-content">
@@ -171,8 +170,6 @@
           </div>
           <div class="tab-pane fade" id="topic_4">
           </div>
-          <div class="tab-pane fade" id="topic_5">
-          </div>
         </div>
 
       </div>
@@ -186,9 +183,14 @@
           form.section_id.value = section_id;
           form.submit();
         }
+        function request_topic_id(topic_id){
+          // 2 is for the first and second panels
+          $('#myTab li:eq('+(topic_id+2)+') a').tab('show');
+        }
         function get_knowledge_graph_data() {
           return [{
-                    name: 'Math',
+                    name: 'Topic 1:\nMath Basics',
+                    id: 0,
                     x: 300,
                     y: 300,
                     itemStyle: {
@@ -197,7 +199,8 @@
                         }
                     }
                 }, {
-                    name: 'Algorithm',
+                    name: 'Topic 2:\nProgramming Basis',
+                    id: 1,
                     x: 550,
                     y: 100,
                     itemStyle: {
@@ -206,7 +209,8 @@
                         }
                     }
                 }, {
-                    name: 'Programming',
+                    name: 'Topic 4:\nAlgorithm',
+                    id: 2,
                     x: 800,
                     y: 300,
                     itemStyle: {
@@ -215,7 +219,8 @@
                         }
                     }
                 }, {
-                    name: 'Data Structure',
+                    name: 'Topic 3:\nData Structure',
+                    id: 3,
                     x: 550,
                     y: 500,
                     itemStyle: {
@@ -227,17 +232,30 @@
         }
         function get_knowledge_graph_link() {
           return [{
+                    source: 0,
+                    target: 3,
+                }, {
+                    source: 0,
+                    target: 1
+                }, {
+                    source: 3,
+                    target: 2
+                }, {
+                    source: 1,
+                    target: 2
+                }];
+          /*
+          return [{
                     source: 'Math',
                     target: 'Data Structure',
-                    /*
-                    label: {
-                        normal: {
-                            show: true
-                        }
-                    },
-                    lineStyle: {
-                        normal: { curveness: 0.2 }
-                    }*/
+                    // label: {
+                    //     normal: {
+                    //         show: true
+                    //     }
+                    // },
+                    // lineStyle: {
+                    //     normal: { curveness: 0.2 }
+                    // }
                 }, {
                     source: 'Math',
                     target: 'Algorithm'
@@ -248,6 +266,7 @@
                     source: 'Algorithm',
                     target: 'Programming'
                 }];
+                */
         }
       </script>
       <script src="{{ url_for('static', filename='knowledge_graph.js') }}" type="text/javascript" onload="prep_display();">
