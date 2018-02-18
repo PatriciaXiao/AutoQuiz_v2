@@ -59,6 +59,16 @@
           ZOOMABLE = !ZOOMABLE;
           render_graph(ZOOMABLE);
         }
+        function status_format(value, row, index, field) {
+          if (value === -1) {
+            return '&#10068;';
+          } else if (value === 0) {
+            return '<font color="orange">&#10008;</font>';
+          } else if (value === 1) {
+            return '<font color="green">&#10004;</font>';
+          }
+          return value;
+        }
       </script>
 
       <div style="display:none;">
@@ -123,15 +133,16 @@
           <div class="tab-pane fade" id="topic_1">
             <table class="table" 
                     data-toggle="table" 
-                    data-url="{{ url_for('static', filename='dataset/data1.json') }}"
+                    data-url="{{ url_for('static', filename='dataset/topic1_test.json') }}"
                     data-pagination="true"
                     data-search="true">
               <caption>Questions included in this topic</caption>
               <thead>
                   <tr>
-                      <th data-field="id">Question</th>
-                      <th data-field="name">Item Name</th>
-                      <th data-field="price" data-formatter="Price is %s">Item Price</th>
+                      <th data-field="id" data-formatter="Question %s">Question</th>
+                      <th data-field="description">Question Description</th>
+                      <th data-field="timestamp">Last Tried</th>
+                      <th data-field="status" data-formatter="status_format">Status</th>
                   </tr>
               </thead>
               <!--thead>
