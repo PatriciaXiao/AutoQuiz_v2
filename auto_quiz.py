@@ -130,6 +130,23 @@ def exercise_section():
     return render_template('exercise.html', question=question, answers=answers, correct_ans_id=correct_ans_id)
     # return render_template('exercise.html', **locals())
 
+@app.route('/exercise_random/', methods=['GET', 'POST'])
+def exercise_random():
+    
+    if request.method == 'POST':
+        section_id = request.form['section_id']
+    else:
+        section_id = ''
+
+    session['section_id'] = section_id
+    question_id = get_next_question(section_id)
+    question_fname = "Q{0}.xml".format(question_id)
+
+    question, answers, correct_ans_id = read_xml(question_fname)
+
+    return render_template('exercise.html', random=1, question=question, answers=answers, correct_ans_id=correct_ans_id)
+    # return render_template('exercise.html', **locals())
+
 @app.route('/home/', methods=['GET', 'POST'])
 def welcome():
     '''
