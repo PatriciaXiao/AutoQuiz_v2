@@ -30,6 +30,11 @@
     </nav>
     <div class="title-small-screen">CS10 AutoQuiz | Fall 2017 | UC Berkeley</div>
     <div class="llab-full">
+      <script type="text/javascript">
+        $('.disabled').click(function(e){
+            e.preventDefault();
+        });
+      </script>
       <div class="panel panel-primary MultipleChoice Question">
         <div class="panel-heading questionType">Question 1</div>
         <div class="panel-body currentQuestionBox">
@@ -196,7 +201,14 @@
           </div>
         </div-->
       </div>
-    
+      <div class="topic_container">
+          <!--h5><b>Guess You'll need:</b></h5-->
+          <br>
+          <a class="disabled" style="color: gray; pointer-events: none;">Guess You'll need:</a><br>
+          <a href="#">Question 1: Number System Conversion</a><br>
+          <a href="#">Question 2: Boolean Expression</a><br>
+          <a href="#">Question 3: Binary Search</a><br>
+      </div>
 
     </div>
     <!--div class="page-feedback">
