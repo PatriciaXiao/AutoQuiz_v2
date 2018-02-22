@@ -3,6 +3,10 @@ from contextlib import closing
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 
+# the way of creating database:
+# http://flask.pocoo.org/docs/0.12/tutorial/dbinit/#tutorial-dbinit
+# using sqlite
+ 
 def connect_db():
     """Connects to the specific database."""
     # print app.config['DATABASE']
