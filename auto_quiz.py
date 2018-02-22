@@ -65,15 +65,6 @@ def read_xml(fname):
     
     return question, answers, correct_ans_id
 
-def get_next_question(section_id):
-    return 0
-
-@app.route('/signUpUser', methods=['POST'])
-def submitAnswer():
-    user =  request.form['username'];
-    password = request.form['password'];
-    return json.dumps({'status':'OK','user':user,'pass':password});
-
 @app.route('/test/json')
 def test_json():
     t = [{
