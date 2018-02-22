@@ -69,6 +69,10 @@
           }
           return value;
         }
+        function question_format(value, row, index, field) {
+          value = 0
+          return '<a href="#" onclick="request_exercise_section(' + value + ')">Question ' + value + '</a>';
+        }
       </script>
 
       <div style="display:none;">
@@ -80,10 +84,9 @@
       <ul id="myTab" class="nav nav-pills boardered">
         <li class="active"><a href="#structure" data-toggle="tab">Structure</a></li>
         <li><a href="#topics" data-toggle="tab">Topics</a></li>
-        <li><a href="#topic_1" data-toggle="tab">Topic 1: Math</a></li>
-        <li><a href="#topic_2" data-toggle="tab">Topic 2: Programming</a></li>
-        <li><a href="#topic_3" data-toggle="tab">Topic 3: Data Struct</a></li>
-        <li><a href="#topic_4" data-toggle="tab">Topic 4: Algorithm</a></li>
+        {% for topic_elem in all_topics %}
+        <li><a href="#topic_{{topic_elem[0]}}" data-toggle="tab">Topic {{topic_elem[0]}}: {{topic_elem[1]}}</a></li>
+        {% endfor %}
         <li><a href="#random" data-toggle="tab" onclick="request_exercise_section(0)">Random Walk</a></li>
       </ul>
       <div id="myTabContent" class="tab-content">
@@ -158,7 +161,8 @@
               <caption>Questions included in Programming</caption>
               <thead>
                   <tr>
-                      <th data-field="id" data-formatter="Question %s">Question</th>
+                      <!--th data-field="id" data-formatter="Question %s">Question</th-->
+                      <th data-field="id" data-formatter="question_format">Question</th>
                       <th data-field="description">Question Description</th>
                       <th data-field="timestamp">Last Tried</th>
                       <th data-field="status" data-formatter="status_format">Status</th>
@@ -190,67 +194,39 @@
           // 2 is for the first and second panels
           $('#myTab li:eq('+(topic_id+2)+') a').tab('show');
         }
+        function color_format(correct, wrong) {
+          if (correct > 60 && wrong == 0)
+            return "green";
+          if (wrong > 0)
+            return "orange";
+          return "gray";
+        }
         function get_knowledge_graph_data() {
-          return [{
-                    name: 'Topic 1:\nMath Basics',
-                    id: 0,
-                    x: 300,
-                    y: 300,
-                    value: 100,
-                    itemStyle: {
-                        normal: {
-                            color: "green",
-                        }
-                    }
-                }, {
-                    name: 'Topic 2:\nProgramming Basis',
-                    id: 1,
-                    x: 550,
-                    y: 100,
-                    value: 80,
-                    itemStyle: {
-                        normal: {
-                            color: "gray",
-                        }
-                    }
-                }, {
-                    name: 'Topic 4:\nAlgorithm',
-                    id: 2,
-                    x: 800,
-                    y: 300,
-                    value: 70,
-                    itemStyle: {
-                        normal: {
-                            color: "gray",
-                        }
-                    }
-                }, {
-                    name: 'Topic 3:\nData Structure',
-                    id: 3,
-                    x: 550,
-                    y: 500,
-                    value: 60,
-                    itemStyle: {
-                        normal: {
-                            color: "gray",
-                        }
-                    }
-                }];
+          var ret_val = [];
+          {% for topic_elem in all_topics %}
+          ret_val.push({
+            name: 'Topic {{topic_elem[0]}}:\n{{topic_elem[1]}}',
+            value: {{topic_elem[2]}},
+            x: {{topic_elem[4][0]}},
+            y: {{topic_elem[4][1]}},
+            itemStyle: {
+              normal: {
+                color: color_format({{topic_elem[2]}}, {{topic_elem[3]}})
+              }
+            }
+          });
+          {% endfor %}
+          return ret_val;
         }
         function get_knowledge_graph_link() {
-          return [{
-                    source: 0,
-                    target: 3,
-                }, {
-                    source: 0,
-                    target: 1
-                }, {
-                    source: 3,
-                    target: 2
-                }, {
-                    source: 1,
-                    target: 2
-                }];
+          var ret_val = [];
+          {% for link_elem in topic_links %}
+          ret_val.push({
+            source: parseInt({{link_elem[0]}}),
+            target: parseInt({{link_elem[1]}})
+          });
+          {% endfor %}
+          return ret_val;
           /*
           return [{
                     source: 'Math',

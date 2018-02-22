@@ -127,7 +127,7 @@ def exercise_section():
 
     question, answers, correct_ans_id = read_xml(question_fname)
 
-    return render_template('exercise.html', question=question, answers=answers, correct_ans_id=correct_ans_id)
+    return render_template('exercise.html', random=0, question=question, answers=answers, correct_ans_id=correct_ans_id)
     # return render_template('exercise.html', **locals())
 
 @app.route('/exercise_random/', methods=['GET', 'POST'])
@@ -156,13 +156,18 @@ def welcome():
         elif len(request.form['userid']) != 0:
             session['userid'] = request.form['user_id']
     '''
+    # topic id (starts from 1), topic name, correct percent, wrong percent, location in layout [x, y]
     all_topics = [
-                [1, 'Math', 100, 0],
-                [2, 'Programming', 80, 10],
-                [3, 'Data Structure', 90, 5],
-                [4, 'Algorithm', 30, 40]
+                [1, 'Math Basis', 100, 0, [300, 300]],
+                [2, 'Programming', 80, 10, [550, 100]],
+                [3, 'Data Structure', 90, 5, [550, 500]],
+                [4, 'Algorithm', 0, 0, [800, 300]]
             ]
-    return render_template('welcome.html', all_topics=all_topics)
+    # topic links: [source, target] (id starts from 0)
+    topic_links = [
+                [0, 1], [0, 2], [1, 3], [2, 3]
+            ]
+    return render_template('welcome.html', all_topics=all_topics, topic_links=topic_links)
 
 
 @app.route('/')
