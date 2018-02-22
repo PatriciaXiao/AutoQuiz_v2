@@ -6,6 +6,8 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 import xml.etree.ElementTree as ET
 import json
 
+from database_func import init_db
+
 # create the application
 app = Flask(__name__)
 
@@ -18,6 +20,19 @@ app.config.update(dict(
     PASSWORD='default'
 ))
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
+
+@app.cli.command('initdb')
+def initdb_command():
+    """Creates the database tables."""
+    init_db()
+    print('Initialized the database.')
+
+
+@app.teardown_appcontext
+def close_db(error):
+    """Closes the database again at the end of the request."""
+    if hasattr(g, 'sqlite_db'):
+        g.sqlite_db.close()
 
 def read_xml(fname):
     def parse_line(str_content):
@@ -64,6 +79,9 @@ def read_xml(fname):
             correct_ans_id.append(option.get('id'))
     
     return question, answers, correct_ans_id
+
+def get_next_question(section_id):
+    return 0
 
 @app.route('/test/json')
 def test_json():
