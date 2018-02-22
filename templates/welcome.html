@@ -70,7 +70,6 @@
           return value;
         }
         function question_format(value, row, index, field) {
-          value = 0
           return '<a href="#" onclick="request_exercise_section(' + value + ')">Question ' + value + '</a>';
         }
       </script>
@@ -155,7 +154,7 @@
           <div class="tab-pane fade" id="topic_2">
             <table class="table" 
                     data-toggle="table" 
-                    data-url="{{ url_for('static', filename='dataset/topic1_test.json') }}"
+                    data-url="/test/json"
                     data-pagination="true"
                     data-search="true">
               <caption>Questions included in Programming</caption>
@@ -195,10 +194,17 @@
           $('#myTab li:eq('+(topic_id+2)+') a').tab('show');
         }
         function color_format(correct, wrong) {
-          if (correct > 60 && wrong == 0)
-            return "green";
-          if (wrong > 0)
+          if (wrong > correct * 3)
             return "orange";
+          if (correct >= 80) {
+            return "#009400";
+          } else if (correct >= 60) {
+            return "#3c923c";
+          } else if (correct >= 30) {
+            return "#68AB68";
+          } else if (correct >= 10) {
+            return "#90A690";
+          }
           return "gray";
         }
         function get_knowledge_graph_data() {
@@ -279,9 +285,6 @@
               Login Form
             </h4>
           </div>
-          <!--div class="modal-body">
-            按下 ESC 按钮退出。
-          </div-->
           <div class="modal-body">
             <form class="form-horizontal" role="form">
               <div class="form-group">

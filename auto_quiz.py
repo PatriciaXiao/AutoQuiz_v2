@@ -76,35 +76,29 @@ def submitAnswer():
 
 @app.route('/test/json')
 def test_json():
-    t = [
-        {
-            'a': 1,
-            'b': 2,
-            'c': "hello"
-        }, {
-            'a': 1,
-            'b': 2,
-            'c': "hello"
+    t = [{
+            "id": 1,
+            "description": "Higher Order Functions",
+            "timestamp": "N/A",
+            "status": -1
         },
         {
-            'a': 1,
-            'b': 2,
-            'c': "hello"
+            "id": 2,
+            "description": "Python Syntax",
+            "timestamp": "12/01/2018",
+            "status": 0
         },
         {
-            'a': 1,
-            'b': 2,
-            'c': "hello"
+            "id": 3,
+            "description": "Loop",
+            "timestamp": "20/02/2018",
+            "status": 1
         },
         {
-            'a': 1,
-            'b': 2,
-            'c': "hello"
-        },
-        {
-            'a': 1,
-            'b': 2,
-            'c': "hello"
+            "id": 4,
+            "description": "Recursion",
+            "timestamp": "N/A",
+            "status": -1
         }
     ]
     return json.dumps(t)
@@ -159,9 +153,9 @@ def welcome():
     # topic id (starts from 1), topic name, correct percent, wrong percent, location in layout [x, y]
     all_topics = [
                 [1, 'Math Basis', 100, 0, [300, 300]],
-                [2, 'Programming', 80, 10, [550, 100]],
-                [3, 'Data Structure', 90, 5, [550, 500]],
-                [4, 'Algorithm', 0, 0, [800, 300]]
+                [2, 'Programming', 50, 10, [550, 100]],
+                [3, 'Data Structure', 20, 5, [550, 500]],
+                [4, 'Algorithm', 5, 0, [800, 300]]
             ]
     # topic links: [source, target] (id starts from 0)
     topic_links = [
