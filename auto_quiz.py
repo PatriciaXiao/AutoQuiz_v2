@@ -83,8 +83,9 @@ def read_xml(fname):
 def get_next_question(section_id):
     return 0
 
-@app.route('/test/json')
-def test_json():
+@app.route('/topic/<topic_id>')
+def topic_question_lst(topic_id):
+    print "topic id = {0}".format(topic_id)
     t = [{
             "id": 1,
             "description": "Higher Order Functions",

@@ -8,7 +8,7 @@
     <link href="../static/bootstrap.min.css" type="text/css" rel="stylesheet">
     <link href="../static/bootstrap-theme.min.css" type="text/css" rel="stylesheet">
     <link href="../static/default.css" type="text/css" rel="stylesheet"-->
-    <link rel="icon" href="{{ url_for('static', filename='img/alonzo.gif') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
 
     <script src="{{ url_for('static', filename='jquery.min.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='bootstrap.min.js') }}" type="text/javascript"></script>
@@ -132,8 +132,26 @@
             </table>
             </div>
           </div>
-
-          <div class="tab-pane fade" id="topic_1">
+          {% for topic_elem in all_topics %}
+          <div class="tab-pane fade" id="topic_{{topic_elem[0]}}">
+            <table class="table" 
+                    data-toggle="table" 
+                    data-url="/topic/{{topic_elem[0]}}"
+                    data-pagination="true"
+                    data-search="true">
+              <caption>Questions included in Programming</caption>
+              <thead>
+                  <tr>
+                      <th data-field="id" data-formatter="question_format">Question</th>
+                      <th data-field="description">Question Description</th>
+                      <th data-field="timestamp">Last Tried</th>
+                      <th data-field="status" data-formatter="status_format">Status</th>
+                  </tr>
+              </thead>
+            </table>
+          </div>
+          {% endfor %}
+          <!--div class="tab-pane fade" id="topic_1">
             <table class="table" 
                     data-toggle="table" 
                     data-url="{{ url_for('static', filename='dataset/topic1_test.json') }}"
@@ -154,13 +172,12 @@
           <div class="tab-pane fade" id="topic_2">
             <table class="table" 
                     data-toggle="table" 
-                    data-url="/test/json"
+                    data-url="/topic/2"
                     data-pagination="true"
                     data-search="true">
               <caption>Questions included in Programming</caption>
               <thead>
                   <tr>
-                      <!--th data-field="id" data-formatter="Question %s">Question</th-->
                       <th data-field="id" data-formatter="question_format">Question</th>
                       <th data-field="description">Question Description</th>
                       <th data-field="timestamp">Last Tried</th>
@@ -174,7 +191,7 @@
           </div>
 
           <div class="tab-pane fade" id="topic_4">
-          </div>
+          </div-->
 
         </div>
 
