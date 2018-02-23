@@ -6,6 +6,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 import xml.etree.ElementTree as ET
 import json
 
+from fileio_func import read_xml
 from database_func import init_db
 
 # create the application
@@ -26,59 +27,11 @@ def initdb_command():
     """Creates the database tables."""
     init_db()
     print('Initialized the database.')
-
-
 @app.teardown_appcontext
 def close_db(error):
     """Closes the database again at the end of the request."""
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
-
-def read_xml(fname):
-    def parse_line(str_content):
-        content_list = str_content.split('_CODES_')
-        str_content = "\n<code>\n".join(content_list)
-        content_list = str_content.split('_CODEE_')
-        str_content = "\n</code>\n".join(content_list)
-        return str_content.split('\n')
-    # read xml
-    fpath = os.path.join('./static/dataset/', fname)
-    tree = ET.parse(fpath)
-    root = tree.getroot()
-    question = []
-    answers = []
-    correct_ans_id = []
-    for elem in root.find('question'):
-        data = []
-        if elem.tag == 'p':
-            for line in elem:
-                content = parse_line(line.text)
-                data += content
-                data.append("<br>")
-            question.append(['p', data])
-        elif elem.tag == 'img':
-            for name in elem:
-                data.append(name.text)
-            question.append(['img', data])
-    for option in root.find('answers'):
-        opt_data = []
-        for elem in option:
-            data = []
-            if elem.tag == 'p':
-                for line in elem:
-                    content = parse_line(line.text)
-                    data += content
-                    data.append("<br>")
-                opt_data.append(['p', data])
-            elif elem.tag == 'img':
-                for name in elem:
-                    data.append(name.text)
-                opt_data.append(['img', data])
-        answers.append([option.get('id'), opt_data])
-        if option.get('correct') == "true":
-            correct_ans_id.append(option.get('id'))
-    
-    return question, answers, correct_ans_id
 
 def get_next_question(section_id):
     return 0
