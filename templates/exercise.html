@@ -39,6 +39,17 @@
           {% for candidate in answers %}
             document.getElementById("{{candidate[0]}}").disabled=true;
           {% endfor %}
+          // enable try again
+          document.getElementById("try_again_button").disabled=false;
+        }
+        function try_again() {
+          // enable all the candidates
+          {% for candidate in answers %}
+            document.getElementById("{{candidate[0]}}").disabled=false;
+            document.getElementById("{{candidate[0]}}").checked=false;
+          {% endfor %}
+          // disable try again button
+          document.getElementById("try_again_button").disabled=true;
         }
       </script>
       <div class="panel panel-primary MultipleChoice Question">
@@ -153,7 +164,7 @@
                   </td>
                   <td>
                     <div class="buttonDiv">
-                      <button class="btn btn-primary disabled">Try Again</button>
+                      <button class="btn btn-primary" onclick="try_again()" id="try_again_button" disabled>Try Again</button>
                     </div>
                   </td>
                   <td>
