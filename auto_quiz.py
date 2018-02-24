@@ -68,7 +68,6 @@ def topic_question_lst(topic_id):
 
 @app.route('/exercise/', methods=['GET', 'POST'])
 def exercise_section():
-    
     if request.method == 'POST':
         # print request.values
         # print request.args

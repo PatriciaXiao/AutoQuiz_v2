@@ -34,6 +34,12 @@
         $('.disabled').click(function(e){
             e.preventDefault();
         });
+        function check_answer() {
+          // disable all the candidates
+          {% for candidate in answers %}
+            document.getElementById("{{candidate[0]}}").disabled=true;
+          {% endfor %}
+        }
       </script>
       <div class="panel panel-primary MultipleChoice Question">
         <div class="panel-heading questionType">Question 1</div>
@@ -133,7 +139,7 @@
         <div class="interactionBox">
           <div class="statusMessages">
             <div class="numberAttemptsDiv">This is your 0st attempt.</div>
-            <div class="scoreDiv">Score 0 out of 0</div>
+            <div class="scoreDiv"></div> <!--correct / not yet correct-->
             <div class="resultMessageDiv">result message</div>
           </div> 
           <div class="buttonDiv">
@@ -142,7 +148,7 @@
                 <tr>
                   <td>
                     <div class="buttonDiv">
-                      <button class="btn btn-primary">Check Answer</button>
+                      <button class="btn btn-primary" onclick="check_answer()">Check Answer</button>
                     </div>
                   </td>
                   <td>
@@ -175,31 +181,6 @@
           </div-->
 
         </div>
-        <!--div class="interactionBox">
-          <div class="statusMessages">
-            <div class="numberAttemptsDiv">This is your 1st attempt.</div>
-            <div class="scoreDiv">Score 1 out of 1</div>
-            <div class="resultMessageDiv">result message</div>
-          </div> 
-          <div class="buttonDiv">
-            <table class="buttonTable">
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="buttonDiv">
-                      <button class="btn btn-primary">Check Answer</button>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="buttonDiv">
-                      <button class="btn btn-primary disabled">Try Again</button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div-->
       </div>
       <div class="topic_container">
           <!--h5><b>Guess You'll need:</b></h5-->

@@ -362,6 +362,7 @@ pre > code.hljs {
 
 .resultMessageDiv {
   font-size: 1.2em;
+  background-color: lightblue;
 }
 /* FEEDBACK BUTTON ON BOTTOM RIGHT
  * TODO: This section doesn't belong in llab. Bad Michael.
