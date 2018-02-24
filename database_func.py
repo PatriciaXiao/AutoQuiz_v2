@@ -6,6 +6,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 # the way of creating database:
 # http://flask.pocoo.org/docs/0.12/tutorial/dbinit/#tutorial-dbinit
 # using sqlite
+# sqlite3 auto_quiz.db < schema.sql
  
 def connect_db():
     """Connects to the specific database."""
