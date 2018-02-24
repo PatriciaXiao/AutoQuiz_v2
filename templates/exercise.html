@@ -35,6 +35,23 @@
             e.preventDefault();
         });
         function check_answer() {
+          // get the selected answer
+          // console.log("radio button selected", document.querySelector('input[name="radiobutton"]:checked').value)
+          if (document.querySelector('input[name="radiobutton"]:checked') == null) return;
+          var id_selected = document.querySelector('input[name="radiobutton"]:checked').value;
+          var id_correct = "{{correct_ans_id[0]}}";
+          // console.log(id_selected, id_correct)
+          if (id_selected == id_correct) {
+            // correctly answered
+            document.getElementById("correctness").innerHTML="Correct! Congratulations!";
+            // show explain
+            document.getElementById("show_hint").innerHTML="Explain: {{hint}}";
+          } else {
+            // wrong
+            document.getElementById("correctness").innerHTML="Haven't get it correct yet, please think twice.";
+            // show hint
+            document.getElementById("show_hint").innerHTML="HINT: {{hint}}";
+          }
           // disable all the candidates
           {% for candidate in answers %}
             document.getElementById("{{candidate[0]}}").disabled=true;
@@ -48,6 +65,9 @@
             document.getElementById("{{candidate[0]}}").disabled=false;
             document.getElementById("{{candidate[0]}}").checked=false;
           {% endfor %}
+          // hide hint
+          // show hint
+          document.getElementById("show_hint").innerHTML="";
           // disable try again button
           document.getElementById("try_again_button").disabled=true;
         }
@@ -149,9 +169,9 @@
         </div>
         <div class="interactionBox">
           <div class="statusMessages">
-            <div class="numberAttemptsDiv">This is your 0st attempt.</div>
-            <div class="scoreDiv"></div> <!--correct / not yet correct-->
-            <div class="resultMessageDiv">result message</div>
+            <!--div class="numberAttemptsDiv">This is your 0st attempt.</div-->
+            <div class="scoreDiv" id="correctness"></div> <!--correct / not yet correct-->
+            <div class="resultMessageDiv" id="show_hint"></div>
           </div> 
           <div class="buttonDiv">
             <table class="buttonTable">

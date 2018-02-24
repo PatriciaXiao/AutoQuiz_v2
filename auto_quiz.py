@@ -81,9 +81,9 @@ def exercise_section():
     question_fname = "Q{0}.xml".format(question_id)
     print "question file name {0}".format(question_fname)
 
-    question, answers, correct_ans_id = read_xml(question_fname)
+    question, answers, correct_ans_id, hint = read_xml(question_fname)
 
-    return render_template('exercise.html', random=0, question=question, answers=answers, correct_ans_id=correct_ans_id)
+    return render_template('exercise.html', random=0, question=question, answers=answers, correct_ans_id=correct_ans_id, hint=hint)
     # return render_template('exercise.html', **locals())
 
 @app.route('/exercise_random/', methods=['GET', 'POST'])
@@ -98,9 +98,9 @@ def exercise_random():
     question_id = get_next_question(section_id)
     question_fname = "Q{0}.xml".format(question_id)
 
-    question, answers, correct_ans_id = read_xml(question_fname)
+    question, answers, correct_ans_id, hint = read_xml(question_fname)
 
-    return render_template('exercise.html', random=1, question=question, answers=answers, correct_ans_id=correct_ans_id)
+    return render_template('exercise.html', random=1, question=question, answers=answers, correct_ans_id=correct_ans_id, hint=hint)
     # return render_template('exercise.html', **locals())
 
 @app.route('/home/', methods=['GET', 'POST'])

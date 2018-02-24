@@ -44,5 +44,7 @@ def read_xml(fname):
         answers.append([option.get('id'), opt_data])
         if option.get('correct') == "true":
             correct_ans_id.append(option.get('id'))
+    hint = root.find('hint').text
+    print hint
     
-    return question, answers, correct_ans_id
+    return question, answers, correct_ans_id, hint

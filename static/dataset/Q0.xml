@@ -21,7 +21,7 @@
 				</line>
 			</p>
 		</option>
-		<option id="c2">
+		<option id="c2" correct="true">
 			<p>
 				<line>
 					The sprite repeatedly says "Go!" and then "Team!" until you hit the red Stop button.
@@ -35,7 +35,7 @@
 				</line>
 			</p>
 		</option>
-		<option id="c4" correct="true">
+		<option id="c4" correct="false">
 			<p>
 				<line>
 					The sprite says "Go!" and then "Team!", repeating a few times, and then stops by itself.
@@ -43,4 +43,5 @@
 			</p>
 		</option>
 	</answers>
+	<hint>The two blocks take turns to call each other infinitely.</hint>
 </content>
