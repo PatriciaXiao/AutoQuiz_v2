@@ -38,7 +38,7 @@ def get_next_question(section_id):
 
 @app.route('/topic/<topic_id>')
 def topic_question_lst(topic_id):
-    print "topic id = {0}".format(topic_id)
+    # print "topic id = {0}".format(topic_id)
     t = [{
             "id": 1,
             "description": "Higher Order Functions",
@@ -68,6 +68,7 @@ def topic_question_lst(topic_id):
 
 @app.route('/exercise/', methods=['GET', 'POST'])
 def exercise_section():
+    # request.args.get('name', '')
     if request.method == 'POST':
         # print request.values
         # print request.args
@@ -102,6 +103,40 @@ def exercise_random():
 
     return render_template('exercise.html', random=1, question=question, answers=answers, correct_ans_id=correct_ans_id, hint=hint)
     # return render_template('exercise.html', **locals())
+
+@app.route('/test', methods=['GET', 'POST'])
+def log_exercise_result():
+    jsondata = request.form.get('data')
+    data = json.loads(jsondata)
+    print "hello"
+    print data["name"]
+    print "world?"
+    t = [{
+            "id": 1,
+            "description": "Higher Order Functions",
+            "timestamp": "N/A",
+            "status": -1
+        },
+        {
+            "id": 2,
+            "description": "Python Syntax",
+            "timestamp": "12/01/2018",
+            "status": 0
+        },
+        {
+            "id": 3,
+            "description": "Loop",
+            "timestamp": "20/02/2018",
+            "status": 1
+        },
+        {
+            "id": 4,
+            "description": "Recursion",
+            "timestamp": "N/A",
+            "status": -1
+        }
+    ]
+    return json.dumps(t)
 
 @app.route('/home/', methods=['GET', 'POST'])
 def welcome():

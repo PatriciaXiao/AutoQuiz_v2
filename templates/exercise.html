@@ -29,6 +29,12 @@
       </div>
     </nav>
     <div class="title-small-screen">CS10 AutoQuiz | Fall 2017 | UC Berkeley</div>
+    <!--div style="display:none;">
+      <form action="{{ url_for('log_exercise_result') }}" method=post id="exercise_result_form">
+        <input type=hidden name=exercise_id value=0 id="exercise_id"/>
+        <input type=hidden name=correctness value=0 id="correctness"/>
+      </form>
+    </div-->
     <div class="llab-full">
       <script type="text/javascript">
         $('.disabled').click(function(e){
@@ -40,8 +46,11 @@
           if (document.querySelector('input[name="radiobutton"]:checked') == null) return;
           var id_selected = document.querySelector('input[name="radiobutton"]:checked').value;
           var id_correct = "{{correct_ans_id[0]}}";
+          var correct = 0;
+          if (id_selected == id_correct)
+            correct = 1;
           // console.log(id_selected, id_correct)
-          if (id_selected == id_correct) {
+          if (correct) {
             // correctly answered
             document.getElementById("correctness").innerHTML="Correct! Congratulations!";
             // show explain
@@ -58,6 +67,26 @@
           {% endfor %}
           // enable try again
           document.getElementById("try_again_button").disabled=false;
+          //////
+          var data = {
+            data: JSON.stringify({
+              "name": "test",
+              "age": 1
+            })
+          };
+          $.ajax({
+              url: "/test",
+              type: "POST",
+              data: data,
+              dataType: 'json',
+              success: function(data) {
+                console.log("success")
+              },
+              error: function(xhr, type) {
+                console.log("error")
+              }
+          });
+          //////
         }
         function try_again() {
           // enable all the candidates
@@ -65,8 +94,9 @@
             document.getElementById("{{candidate[0]}}").disabled=false;
             document.getElementById("{{candidate[0]}}").checked=false;
           {% endfor %}
+          // hide correctness information
+          document.getElementById("correctness").innerHTML="";
           // hide hint
-          // show hint
           document.getElementById("show_hint").innerHTML="";
           // disable try again button
           document.getElementById("try_again_button").disabled=true;
