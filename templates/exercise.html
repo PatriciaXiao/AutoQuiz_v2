@@ -23,7 +23,7 @@
       <div class="nav navbar-nav navbar-left navbar-title">CS10 AutoQuiz | Fall 2017 | UC Berkeley</div>
       <div class="nav navbar-nav navbar-right">
         <ul class="nav-btns btn-group">
-          <a class="btn btn-default" id="return" href="#">logout</a>
+          <!--a class="btn btn-default" id="return" href="#">logout</a-->
           <a class="btn btn-default" id="return" href="{{url_for('welcome')}}">return</a>
         </ul>
       </div>
@@ -37,9 +37,6 @@
     </div-->
     <div class="llab-full">
       <script type="text/javascript">
-        $('.disabled').click(function(e){
-            e.preventDefault();
-        });
         function check_answer() {
           // get the selected answer
           // console.log("radio button selected", document.querySelector('input[name="radiobutton"]:checked').value)
@@ -70,20 +67,20 @@
           //////
           var data = {
             data: JSON.stringify({
-              "name": "test",
-              "age": 1
+              "correctness": correct,
+              "question_id": parseInt("{{question_id}}")
             })
           };
           $.ajax({
-              url: "/test",
+              url: "/log_exercise",
               type: "POST",
               data: data,
               dataType: 'json',
               success: function(data) {
-                console.log("success")
+                // console.log("success")
               },
               error: function(xhr, type) {
-                console.log("error")
+                console.log("error", xhr, type)
               }
           });
           //////
@@ -103,7 +100,7 @@
         }
       </script>
       <div class="panel panel-primary MultipleChoice Question">
-        <div class="panel-heading questionType">Question 1</div>
+        <div class="panel-heading questionType">Question {{question_id}}</div>
         <div class="panel-body currentQuestionBox">
           <div class="leftColumn">
             <div class="promptDiv">
@@ -219,7 +216,11 @@
                   </td>
                   <td>
                     <div class="buttonDiv">
-                      <button class="btn btn-primary">Next Question</button>
+                      {% if next_id == -1 or next_id == '-1' %}
+                        <button class="btn btn-primary" disabled>Next Question</button>
+                      {% else %}
+                        <button class="btn btn-primary">Next Question</button>
+                      {% endif %}
                     </div>
                   </td>
                 </tr>

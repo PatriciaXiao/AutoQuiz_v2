@@ -5,12 +5,17 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 import xml.etree.ElementTree as ET
 import json
+from werkzeug.contrib.cache import SimpleCache
 
 from fileio_func import read_xml
 from database_func import init_db
 
 # create the application
 app = Flask(__name__)
+
+# cache
+next_cache = SimpleCache()
+# my_cache = SimpleCache()
 
 # Load default config and override config from an environment variable
 app.config.update(dict(
@@ -58,12 +63,24 @@ def topic_question_lst(topic_id):
             "status": 1
         },
         {
-            "id": 4,
+            "id": 0,
             "description": "Recursion",
             "timestamp": "N/A",
             "status": -1
         }
     ]
+    print "question_next updated"
+    if session.get('question_next') is None:
+        session["question_next"] = {}
+    session["question_next"][1] = 2
+    session["question_next"][2] = 3
+    session["question_next"][3] = 0
+    session["question_next"][0] = -1
+    next_cache.set(1, 2)
+    next_cache.set(2, 3)
+    next_cache.set(3, 0)
+    next_cache.set(0, -1)
+    print session["question_next"]
     return json.dumps(t)
 
 @app.route('/exercise/', methods=['GET', 'POST'])
@@ -73,25 +90,29 @@ def exercise_section():
         # print request.values
         # print request.args
         # print request.form['section_id']
-        section_id = request.form['section_id']
+        question_id = request.form['question_id']
+        # next_id = request.form['next_id']
+        print 'session["question_next"]'
+        print session["question_next"]
+        # next_id = session["question_next"][int(question_id)]
+        next_id = next_cache.get(int(question_id))
+        next_id = -1
     else:
-        section_id = ''
-    session['section_id'] = section_id
-    print "session['section_id'] is {0}".format(session['section_id'])
-    question_id = get_next_question(section_id)
+        return redirect(url_for('welcome'))
     question_fname = "Q{0}.xml".format(question_id)
-    print "question file name {0}".format(question_fname)
-
+    # print "question file name {0}".format(question_fname)
     question, answers, correct_ans_id, hint = read_xml(question_fname)
+    # print "next question is {0}".format(next_id)
 
-    return render_template('exercise.html', random=0, question=question, answers=answers, correct_ans_id=correct_ans_id, hint=hint)
+    return render_template('exercise.html', question=question, answers=answers, \
+        question_id=question_id, correct_ans_id=correct_ans_id, hint=hint, next_id=next_id)
     # return render_template('exercise.html', **locals())
 
 @app.route('/exercise_random/', methods=['GET', 'POST'])
 def exercise_random():
     
     if request.method == 'POST':
-        section_id = request.form['section_id']
+        section_id = request.form['question_id']
     else:
         section_id = ''
 
@@ -101,42 +122,25 @@ def exercise_random():
 
     question, answers, correct_ans_id, hint = read_xml(question_fname)
 
-    return render_template('exercise.html', random=1, question=question, answers=answers, correct_ans_id=correct_ans_id, hint=hint)
+    return render_template('exercise.html', question=question, answers=answers, correct_ans_id=correct_ans_id, hint=hint)
     # return render_template('exercise.html', **locals())
 
-@app.route('/test', methods=['GET', 'POST'])
+# https://segmentfault.com/a/1190000007605055
+@app.route('/log_exercise', methods=['GET', 'POST'])
 def log_exercise_result():
     jsondata = request.form.get('data')
     data = json.loads(jsondata)
+    question_id = data["question_id"]
+    correctness = data["correctness"]
     print "hello"
-    print data["name"]
+    print question_id
+    print correctness
     print "world?"
-    t = [{
-            "id": 1,
-            "description": "Higher Order Functions",
-            "timestamp": "N/A",
-            "status": -1
-        },
-        {
-            "id": 2,
-            "description": "Python Syntax",
-            "timestamp": "12/01/2018",
-            "status": 0
-        },
-        {
-            "id": 3,
-            "description": "Loop",
-            "timestamp": "20/02/2018",
-            "status": 1
-        },
-        {
-            "id": 4,
-            "description": "Recursion",
-            "timestamp": "N/A",
-            "status": -1
+    info = [{
+            "success": 1
         }
     ]
-    return json.dumps(t)
+    return json.dumps(info)
 
 @app.route('/home/', methods=['GET', 'POST'])
 def welcome():

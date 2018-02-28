@@ -70,13 +70,14 @@
           return value;
         }
         function question_format(value, row, index, field) {
-          return '<a href="#" onclick="request_exercise_section(' + value + ')">Question ' + value + '</a>';
+          return '<a href="#" onclick="request_exercise(' + value + ')">Question ' + value + '</a>';
         }
       </script>
 
       <div style="display:none;">
-        <form action="{{ url_for('exercise_section') }}" method=post id="graph_node_selection_form">
-          <input type=hidden name=section_id value=10 id="section_id"/>
+        <form action="{{ url_for('exercise_section') }}" method=post id="selection_form">
+          <input type=hidden name=question_id value=10 id="question_id"/>
+          <input type=hidden name=next_id value=10 id="next_id"/>
         </form>
       </div>
 
@@ -86,7 +87,7 @@
         {% for topic_elem in all_topics %}
         <li><a href="#topic_{{topic_elem[0]}}" data-toggle="tab">Topic {{topic_elem[0]}}: {{topic_elem[1]}}</a></li>
         {% endfor %}
-        <li><a href="#random" data-toggle="tab" onclick="request_exercise_section(0)">Random Walk</a></li>
+        <li><a href="#random" data-toggle="tab" onclick="request_exercise_random()">Random Walk</a></li>
       </ul>
       <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="structure">
@@ -157,12 +158,15 @@
       </div>
 
       <script>
-        function request_exercise_section(section_id){
-          var data = {'section_id': section_id};
-          var form = document.getElementById("graph_node_selection_form");
+        function request_exercise_random() {
+          return request_exercise(0);
+        }
+        function request_exercise(question_id){
+          var form = document.getElementById("selection_form");
           // console.log(form)
           // console.log('section_id', form.section_id.value)
-          form.section_id.value = section_id;
+          form.question_id.value = question_id;
+          // form.next_id.value = next_id;
           form.submit();
         }
         function request_topic_id(topic_id){
