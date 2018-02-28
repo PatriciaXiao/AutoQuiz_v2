@@ -6,6 +6,8 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 import xml.etree.ElementTree as ET
 import json
 from werkzeug.contrib.cache import SimpleCache
+import time
+import datetime
 
 from fileio_func import read_xml
 from database_func import init_db
@@ -13,8 +15,11 @@ from database_func import init_db
 # create the application
 app = Flask(__name__)
 
+# http://blog.csdn.net/yannanxiu/article/details/52916892
+# http://werkzeug.pocoo.org/docs/0.14/contrib/cache/
 # cache
 next_cache = SimpleCache()
+user_cache = SimpleCache()
 # my_cache = SimpleCache()
 
 # Load default config and override config from an environment variable
@@ -47,40 +52,32 @@ def topic_question_lst(topic_id):
     t = [{
             "id": 1,
             "description": "Higher Order Functions",
-            "timestamp": "N/A",
+            "timestring": "N/A",
             "status": -1
         },
         {
             "id": 2,
             "description": "Python Syntax",
-            "timestamp": "12/01/2018",
+            "timestring": "12/01/2018",
             "status": 0
         },
         {
             "id": 3,
             "description": "Loop",
-            "timestamp": "20/02/2018",
+            "timestring": "20/02/2018",
             "status": 1
         },
         {
-            "id": 0,
+            "id": 4,
             "description": "Recursion",
-            "timestamp": "N/A",
+            "timestring": "N/A",
             "status": -1
         }
     ]
-    print "question_next updated"
-    if session.get('question_next') is None:
-        session["question_next"] = {}
-    session["question_next"][1] = 2
-    session["question_next"][2] = 3
-    session["question_next"][3] = 0
-    session["question_next"][0] = -1
     next_cache.set(1, 2)
     next_cache.set(2, 3)
     next_cache.set(3, 0)
     next_cache.set(0, -1)
-    print session["question_next"]
     return json.dumps(t)
 
 @app.route('/exercise/', methods=['GET', 'POST'])
@@ -89,14 +86,10 @@ def exercise_section():
     if request.method == 'POST':
         # print request.values
         # print request.args
-        # print request.form['section_id']
         question_id = request.form['question_id']
         # next_id = request.form['next_id']
-        print 'session["question_next"]'
-        print session["question_next"]
-        # next_id = session["question_next"][int(question_id)]
+        # next_id = session["question_next"][int(question_id)] # doesn't work because session only works within this temp thread
         next_id = next_cache.get(int(question_id))
-        next_id = -1
     else:
         return redirect(url_for('welcome'))
     question_fname = "Q{0}.xml".format(question_id)
@@ -108,23 +101,6 @@ def exercise_section():
         question_id=question_id, correct_ans_id=correct_ans_id, hint=hint, next_id=next_id)
     # return render_template('exercise.html', **locals())
 
-@app.route('/exercise_random/', methods=['GET', 'POST'])
-def exercise_random():
-    
-    if request.method == 'POST':
-        section_id = request.form['question_id']
-    else:
-        section_id = ''
-
-    session['section_id'] = section_id
-    question_id = get_next_question(section_id)
-    question_fname = "Q{0}.xml".format(question_id)
-
-    question, answers, correct_ans_id, hint = read_xml(question_fname)
-
-    return render_template('exercise.html', question=question, answers=answers, correct_ans_id=correct_ans_id, hint=hint)
-    # return render_template('exercise.html', **locals())
-
 # https://segmentfault.com/a/1190000007605055
 @app.route('/log_exercise', methods=['GET', 'POST'])
 def log_exercise_result():
@@ -132,10 +108,12 @@ def log_exercise_result():
     data = json.loads(jsondata)
     question_id = data["question_id"]
     correctness = data["correctness"]
-    print "hello"
-    print question_id
-    print correctness
-    print "world?"
+    timestamp = time.time()
+    timestring = datetime.datetime.fromtimestamp(timestamp).strftime('%Y/%m/%d %H:%M:%S')
+    user_id = user_cache.get('user_id')
+    if user_id is None:
+        user_id = request.remote_addr
+    print "user {0} do exe {1} at time {2}, correctness: {3}".format(user_id, question_id, timestring, correctness)
     info = [{
             "success": 1
         }
@@ -144,13 +122,19 @@ def log_exercise_result():
 
 @app.route('/home/', methods=['GET', 'POST'])
 def welcome():
-    '''
     if request.method == 'POST':
-        if len(request.form['username']) != 0:
-            session['username'] = request.form['user_id']
-        elif len(request.form['userid']) != 0:
-            session['userid'] = request.form['user_id']
-    '''
+        # get login / register information
+        username = request.form.get('username', '')
+        password = request.form.get('password', '')
+        confirm = request.form.get('confirm', '')
+        to_register = len(request.form.get('reg', '')) > 0 # on or None
+        print "User Name is: {0}, password {1}, confirm {2}, to register {3}.".format(username, password, confirm, to_register)
+        login = True
+    else:
+        # check it up in cache
+        login = False
+        username = ""
+    # hard-coded for now, this part could also be customized from the backend
     # topic id (starts from 1), topic name, correct percent, wrong percent, location in layout [x, y]
     all_topics = [
                 [1, 'Math Basis', 100, 0, [300, 300]],
@@ -162,7 +146,7 @@ def welcome():
     topic_links = [
                 [0, 1], [0, 2], [1, 3], [2, 3]
             ]
-    return render_template('welcome.html', all_topics=all_topics, topic_links=topic_links)
+    return render_template('welcome.html', login=login, username=username, all_topics=all_topics, topic_links=topic_links)
 
 
 @app.route('/')

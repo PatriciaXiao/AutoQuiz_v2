@@ -29,12 +29,11 @@
       </div>
     </nav>
     <div class="title-small-screen">CS10 AutoQuiz | Fall 2017 | UC Berkeley</div>
-    <!--div style="display:none;">
-      <form action="{{ url_for('log_exercise_result') }}" method=post id="exercise_result_form">
-        <input type=hidden name=exercise_id value=0 id="exercise_id"/>
-        <input type=hidden name=correctness value=0 id="correctness"/>
-      </form>
-    </div-->
+    <div style="display:none;">
+        <form action="{{ url_for('exercise_section') }}" method=post id="selection_form">
+          <input type=hidden name=question_id value=10 id="question_id"/>
+        </form>
+    </div>
     <div class="llab-full">
       <script type="text/javascript">
         function check_answer() {
@@ -62,6 +61,8 @@
           {% for candidate in answers %}
             document.getElementById("{{candidate[0]}}").disabled=true;
           {% endfor %}
+          // disable check answer
+          document.getElementById("check_answer_button").disabled=true;
           // enable try again
           document.getElementById("try_again_button").disabled=false;
           //////
@@ -95,8 +96,15 @@
           document.getElementById("correctness").innerHTML="";
           // hide hint
           document.getElementById("show_hint").innerHTML="";
+          // enable check answer
+          document.getElementById("check_answer_button").disabled=false;
           // disable try again button
           document.getElementById("try_again_button").disabled=true;
+        }
+        function request_exercise(question_id){
+          var form = document.getElementById("selection_form");
+          form.question_id.value = question_id;
+          form.submit();
         }
       </script>
       <div class="panel panel-primary MultipleChoice Question">
@@ -206,7 +214,7 @@
                 <tr>
                   <td>
                     <div class="buttonDiv">
-                      <button class="btn btn-primary" onclick="check_answer()">Check Answer</button>
+                      <button class="btn btn-primary" onclick="check_answer()" id="check_answer_button">Check Answer</button>
                     </div>
                   </td>
                   <td>
@@ -219,7 +227,7 @@
                       {% if next_id == -1 or next_id == '-1' %}
                         <button class="btn btn-primary" disabled>Next Question</button>
                       {% else %}
-                        <button class="btn btn-primary">Next Question</button>
+                        <button class="btn btn-primary" onclick="request_exercise({{next_id}})">Next Question</button>
                       {% endif %}
                     </div>
                   </td>
@@ -246,11 +254,16 @@
       </div>
       <div class="topic_container">
           <!--h5><b>Guess You'll need:</b></h5-->
-          <br>
+          <!--hr>
           <a class="disabled" style="color: gray; pointer-events: none;">Guess You'll need:</a><br>
           <a href="#">Question 1: Number System Conversion</a><br>
           <a href="#">Question 2: Boolean Expression</a><br>
-          <a href="#">Question 3: Binary Search</a><br>
+          <a href="#">Question 3: Binary Search</a><br-->
+          <hr>
+          <a class="disabled" style="color: gray; pointer-events: none;">Guess You'll need:</a><br>
+          <a href="#" id="recommend_1"></a><br>
+          <a href="#" id="recommend_2"></a><br>
+          <a href="#" id="recommend_3"></a><br>
       </div>
 
     </div>

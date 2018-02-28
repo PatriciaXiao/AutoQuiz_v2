@@ -37,8 +37,12 @@
       <div class="nav navbar-nav navbar-right">
         <ul class="nav-btns btn-group">
           <!--a class="btn btn-default" href="url_for('default_entry')">logout</a-->
+          {% if login %}
+          <a class="btn btn-default" onclick=>logout {{username}}</a>
+          {% else %}
           <a class="btn btn-default" data-toggle="modal" data-target="#myModal">login</a>
-          <a class="btn btn-default" href="http://cs10.org/fa17/" target="_blank">course website</a>
+          {% endif %}
+          <a class="btn btn-default" href="http://cs10.org/fa17/" target="_blank">CS10</a>
           <!--button type="button" class="btn btn-secondary"> Log Out </button-->
         </ul>
       </div>
@@ -87,7 +91,7 @@
         {% for topic_elem in all_topics %}
         <li><a href="#topic_{{topic_elem[0]}}" data-toggle="tab">Topic {{topic_elem[0]}}: {{topic_elem[1]}}</a></li>
         {% endfor %}
-        <li><a href="#random" data-toggle="tab" onclick="request_exercise_random()">Random Walk</a></li>
+        <li><a href="#random" data-toggle="tab" onclick="request_exercise_random()">Challenge</a></li>
       </ul>
       <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="structure">
@@ -252,6 +256,27 @@
             /* $('#topic_1').bootstrapTable({
             });*/
         });
+        function show_password() {
+          var x = document.getElementById("password");
+          var x_conf = document.getElementById("password_confirm");
+          if (x.type === "password") {
+              x.type = "text";
+              x_conf.type = "text";
+          } else {
+              x.type = "password";
+              x_conf.type = "password";
+          }
+        }
+        function show_confirm() {
+          var x = document.getElementById("pwd_confirm");
+          //console.log(x)
+          //console.log(x.style.display)
+          if (x.style.display === "none") {
+              x.style.display = "";
+          } else {
+              x.style.display = "none";
+          }
+        }
     </script>
     <!-- 模态框（Modal） -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -262,37 +287,53 @@
                 aria-hidden="true">×
             </button>
             <h4 class="modal-title" id="myModalLabel">
-              Login Form
+              Login/Register Form
             </h4>
           </div>
           <div class="modal-body">
-            <form class="form-horizontal" role="form">
+            <form class="form-horizontal" role="form" action="{{ url_for('welcome') }}" method=post id="login_form">
               <div class="form-group">
-                <label for="firstname" class="col-sm-2 control-label">User Name</label>
+                <label for="usr" class="col-sm-2 control-label">name</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="username" 
+                  <input type="text" class="form-control" id="username" name="username"
                        placeholder="user name please">
                 </div>
               </div>
               <div class="form-group">
-                <label for="lastname" class="col-sm-2 control-label">password</label>
+                <label for="pwd" class="col-sm-2 control-label">password</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="password" 
+                  <input type="password" class="form-control" id="password" name="password"
                        placeholder="password please">
                 </div>
+              </div>
+              <div style="display:none;" id="pwd_confirm" class="form-group">
+                  <label for="pwd" class="col-sm-2 control-label">confirm password</label>
+                  <div class="col-sm-10">
+                    <input type="password" class="form-control" id="password_confirm" name="confirm"
+                         placeholder="password please">
+                  </div>
               </div>
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox"> remember me
+                      <input type="checkbox" onclick="show_password()"> show password
                     </label>
                   </div>
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-default">Login</button>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" onclick="show_confirm()" name="reg"> for registration
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-default">Confirm &amp; Submit</button>
                 </div>
               </div>
             </form>

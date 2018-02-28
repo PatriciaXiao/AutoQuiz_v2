@@ -24,6 +24,10 @@ body {
   padding-top: 42.75px;
 }
 
+.my_hidden {
+  display: none;
+}
+
 /* END FONT SETTINGS */
 
 a:visited {
