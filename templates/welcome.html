@@ -32,6 +32,15 @@
   </head>
 
   <body>
+    {% if show_msg %}
+    <div class="alert alert-{{msg[0]}} alert-dismissable" style="margin-left:15px;padding-left:15px;padding-right:30px;">
+      <a href="#" class="close" data-dismiss="alert">
+        &times;
+      </a>
+      <strong>{{msg[1]}}: </strong>{{msg[2]}}
+    </div>
+    {% endif %}
+
     <nav class="llab-nav navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="nav navbar-nav navbar-left navbar-title">CS10 AutoQuiz | Fall 2017 | UC Berkeley</div>
       <div class="nav navbar-nav navbar-right">
@@ -47,6 +56,7 @@
         </ul>
       </div>
     </nav>
+
     <div class="title-small-screen">CS10 AutoQuiz | Fall 2017 | UC Berkeley</div>
     <div class="llab-full">
       <p>
@@ -277,6 +287,39 @@
               x.style.display = "none";
           }
         }
+        function check_valid_string(string_content) {
+          // return string_content.matches("^[a-zA-Z0-9]+$");
+          return string_content.match("^[a-zA-Z0-9]+$")
+        }
+        function check_valid_pwd(pwd) {
+          return pwd.match("^[a-zA-Z0-9\\.;,:'@^!~#$%^&*-+_=]{1,32}$")
+        }
+        function check_valid_before_submit() {
+          var form = document.getElementById("login_form");
+          var reg = form.reg.checked;
+          var username = form.username.value;
+          var password = form.password.value;
+          var confirm = form.confirm.value;
+          var message = document.getElementById("login_format_message");
+          if (!check_valid_string(username)) {
+            message.innerHTML = "We are sorry, but user name in this system has to be a string contains ONLY characters (a-z, A-Z) or numbers. Sorry for the inconvenience and thank your for your understanding.";
+            message.style.display=""; // display the message
+          } else if (username.length > 30) {
+            message.innerHTML = "We are sorry, but it seems that your user name is way too long, could you please use a name that is not longer than 30 characters in total? Thank you for your understanding.";
+            message.style.display=""; // display the message
+          } else if (username.length == 0 || password.length == 0) {
+            message.innerHTML = "Please check it again before submission, neither user name nor password should be blank.";
+            message.style.display=""; // display the message
+          } else if (!check_valid_pwd(password)) {
+            message.innerHTML = "We are sorry, but password has to be a string contains ONLY characters (a-z, A-Z), numbers, or some of the special characters namely in this set (brackets excluded): ( . , : ; ! @ # $ % ^ & * + - = _ ~ ). And we also have a maximum length limit of 32. We do appreciate that you attempted to design a special password, and thank your for your understanding.";
+            message.style.display=""; // display the message
+          } else if (reg && password != confirm) {
+            message.innerHTML = "please make sure that the password you entered matches the password confirmation before you submit this form";
+            message.style.display=""; // display the message
+          } else {
+            form.submit();
+          }
+        }
     </script>
     <!-- 模态框（Modal） -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -333,19 +376,13 @@
               </div>
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-default">Confirm &amp; Submit</button>
+                  <!--button type="submit" class="btn btn-default">Confirm &amp; Submit</button-->
+                  <button type="button" class="btn btn-default" onclick="check_valid_before_submit();">Confirm &amp; Submit</button>
+                  <font color="red" id="login_format_message" style="display:none"></font>
                 </div>
               </div>
             </form>
           </div>
-          <!--div class="modal-footer">
-            <button type="button" class="btn btn-default" 
-                data-dismiss="modal">X
-            </button>
-            <button type="button" class="btn btn-primary">
-              提交更改
-            </button>
-          </div-->
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->

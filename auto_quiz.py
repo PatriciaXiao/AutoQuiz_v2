@@ -129,11 +129,22 @@ def welcome():
         confirm = request.form.get('confirm', '')
         to_register = len(request.form.get('reg', '')) > 0 # on or None
         print "User Name is: {0}, password {1}, confirm {2}, to register {3}.".format(username, password, confirm, to_register)
-        login = True
+        login = False
+        # type, show-type, content
+        # type in ['success', 'info', 'warning', 'danger']
+        show_msg = True
+        msg = ['warning', 'WARNING', 'Incorrect Password or User Name']
     else:
         # check it up in cache
-        login = False
-        username = ""
+        username = user_cache.get('username')
+        if username is None:
+            username = request.remote_addr
+            login = False
+        else:
+            login = True
+        # message to show when not logged in
+        show_msg = True
+        msg = ['warning', 'WARNING', 'Incorrect Password or User Name']
     # hard-coded for now, this part could also be customized from the backend
     # topic id (starts from 1), topic name, correct percent, wrong percent, location in layout [x, y]
     all_topics = [
@@ -146,7 +157,9 @@ def welcome():
     topic_links = [
                 [0, 1], [0, 2], [1, 3], [2, 3]
             ]
-    return render_template('welcome.html', login=login, username=username, all_topics=all_topics, topic_links=topic_links)
+    return render_template('welcome.html', login=login, username=username, \
+        all_topics=all_topics, topic_links=topic_links,\
+        show_msg=show_msg, msg=msg)
 
 
 @app.route('/')
