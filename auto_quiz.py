@@ -11,7 +11,7 @@ import time
 import datetime
 
 from fileio_func import read_xml
-from database_func import user_registration, user_login
+from database_func import check_user, user_registration, user_login, log_answer
 
 @app.route('/topic/<topic_id>')
 def topic_question_lst(topic_id):
@@ -83,6 +83,21 @@ def log_exercise_result():
     print "user {0} do exe {1} at time {2}, correctness: {3}".format(user_id, question_id, timestring, correctness)
     info = [{
             "success": 1
+        }
+    ]
+    return json.dumps(info)
+
+@app.route('/check_user', methods=['GET', 'POST'])
+def check_user_exists():
+    jsondata = request.form.get('data')
+    data = json.loads(jsondata)
+    username = data["username"]
+    if check_user(username):
+        success = 0
+    else:
+        success = 1
+    info = [{
+            "success": success
         }
     ]
     return json.dumps(info)

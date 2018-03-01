@@ -7,6 +7,6 @@ create table users (
 );
 create table records (
   id integer primary key autoincrement,
-  name string not null,
-  password string not null
+  user_id integer not null,
+  log_ip string not null
 );

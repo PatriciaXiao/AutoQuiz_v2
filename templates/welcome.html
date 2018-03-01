@@ -327,7 +327,31 @@
             message.innerHTML = "please make sure that the password you entered matches the password confirmation before you submit this form";
             message.style.display=""; // display the message
           } else {
-            form.submit();
+            // form.submit();
+            var data = {
+              data: JSON.stringify({
+                "username": username,
+              })
+            };
+            $.ajax({
+                url: "/check_user",
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                success: function(data) {
+                  // console.log(data)
+                  if (data[0].success == 1) {
+                    form.submit();
+                  } else {
+                    // user already exists
+                    message.innerHTML = "Sorry for the inconvenience, but user " + username + " already exists.";
+                    message.style.display=""; // display the message
+                  }
+                },
+                error: function(xhr, type) {
+                  console.log("error", xhr, type)
+                }
+            });
           }
         }
     </script>

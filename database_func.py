@@ -45,6 +45,16 @@ def init_db():
     # db.close()
     close_db()
 
+def check_user(name):
+    db = get_db()
+    cursor = db.cursor()
+    # check if already exists
+    sql = "select * from users where name='{0}';".format(name)
+    cursor.execute(sql)
+    existing_user = cursor.fetchone()
+    close_db()
+    return existing_user is not None
+
 def user_registration(name, pwd):
     success = False
     db = get_db()
@@ -86,3 +96,6 @@ def user_login(name, pwd):
     # db.close()
     close_db()
     return success, user_id
+
+def log_answer():
+    pass
