@@ -97,5 +97,18 @@ def user_login(name, pwd):
     close_db()
     return success, user_id
 
-def log_answer():
-    pass
+def log_exercise_db(question_id, user_id, correctness, log_ip, log_time):
+    success = False
+
+    db = get_db()
+    cursor = db.cursor()
+    if user_id is None:
+        sql = "insert into records (log_ip, log_time, correct, question_id) values ('{0}', '{1}', {2}, {3});".format(\
+            log_ip, log_time, correctness, question_id)
+    else:
+        sql = "insert into records (log_ip, log_time, correct, question_id, user_id) values ('{0}', '{1}', {2}, {3}, {4});".format(\
+            log_ip, log_time, correctness, question_id, user_id)
+    cursor.execute(sql)
+    db.commit()
+    close_db()
+    return success

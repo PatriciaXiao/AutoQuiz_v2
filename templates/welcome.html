@@ -136,7 +136,7 @@
               <tbody>
                 {% for topic_elem in all_topics %}
                   <tr>
-                    <td><a href="#">Topic {{topic_elem[0]}}: {{topic_elem[1]}}</a></td>
+                    <td><a href="#topic_{{topic_elem[0]}}" onclick="request_topic_id({{topic_elem[0]}}, 1)">Topic {{topic_elem[0]}}: {{topic_elem[1]}}</a></td>
                     <td>
                       <div class="progress">
                           <div class="progress-bar progress-bar-success" role="progressbar"
@@ -193,9 +193,9 @@
           // form.next_id.value = next_id;
           form.submit();
         }
-        function request_topic_id(topic_id){
-          // 2 is for the first and second panels
-          $('#myTab li:eq('+(topic_id+2)+') a').tab('show');
+        function request_topic_id(topic_id, first_idx){
+          // 2 is for the first topic and third panel, starting from 0
+          $('#myTab li:eq('+(topic_id+2-first_idx)+') a').tab('show');
         }
         function color_format(correct, wrong) {
           if (wrong > correct * 3)
@@ -216,6 +216,7 @@
           {% for topic_elem in all_topics %}
           ret_val.push({
             name: 'Topic {{topic_elem[0]}}:\n{{topic_elem[1]}}',
+            id: parseInt({{topic_elem[0]}}) - 1,
             value: {{topic_elem[2]}},
             x: {{topic_elem[4][0]}},
             y: {{topic_elem[4][1]}},

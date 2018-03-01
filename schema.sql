@@ -19,6 +19,9 @@ create table questions (
 );
 create table records (
   id integer primary key autoincrement,
-  user_id integer not null,
-  log_ip string not null
+  user_id integer,
+  log_ip string not null,
+  log_time timestamp not null,
+  correct integer not null,
+  question_id integer not null
 );

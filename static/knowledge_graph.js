@@ -17,7 +17,7 @@ function render_graph(roam) {
         tooltip: {
             // formatter: '{b} <br> mastery degree estimate: {c} % '
             formatter: function (params, ticket, callback) {
-                            console.log(params)
+                            // console.log(params)
                             if (params.dataType == 'node') {
                                 return params.name + '<br> mastery degree estimate: ' + params.value + '%';
                             }
@@ -64,18 +64,16 @@ function render_graph(roam) {
         ]
     };
     if (option && typeof option === "object") {
-        console.log(option.series[0].data)
-        option.series[0].data.forEach(function (node) {
+        // console.log(option.series[0].data)
+        // option.series[0].data.forEach(function (node) {
             //console.log(node.itemStyle)
-            /*
-            node.itemStyle = {
-                    normal: {
-                        color: "green",
-                    }
-                };
-                */
+            //// node.itemStyle = {
+            ////         normal: {
+            ////             color: "green",
+            ////         }
+            ////     };
             //console.log(node.itemStyle)
-        })
+        // })
         myChart.setOption(option, true);
         // only nodes are clickable
         myChart.on('click', function (params) {
@@ -84,7 +82,7 @@ function render_graph(roam) {
             if(params.dataType=="node") {
                 var node_name = params.data.name;
                 // request_exercise_section(params.data.name);
-                request_topic_id(params.data.id)
+                request_topic_id(params.data.id, 0)
             }
         })
     }

@@ -11,7 +11,7 @@ import time
 import datetime
 
 from fileio_func import read_xml
-from database_func import check_user, user_registration, user_login, log_answer
+from database_func import check_user, user_registration, user_login, log_exercise_db
 
 @app.route('/topic/<topic_id>')
 def topic_question_lst(topic_id):
@@ -75,14 +75,19 @@ def log_exercise_result():
     data = json.loads(jsondata)
     question_id = data["question_id"]
     correctness = data["correctness"]
-    timestamp = time.time()
-    timestring = datetime.datetime.fromtimestamp(timestamp).strftime('%Y/%m/%d %H:%M:%S')
+    # timestamp = time.time()
+    # timestring = datetime.datetime.fromtimestamp(timestamp).strftime('%Y/%m/%d %H:%M:%S')
     user_id = user_cache.get('user_id')
-    if user_id is None:
-        user_id = request.remote_addr
-    print "user {0} do exe {1} at time {2}, correctness: {3}".format(user_id, question_id, timestring, correctness)
+    log_ip = request.remote_addr
+    log_time = datetime.datetime.now()
+    # print "user {0} do exe {1} at time {2}, correctness: {3}".format(user_id, question_id, timestring, correctness)
+    result = log_exercise_db(question_id, user_id, correctness, log_ip, log_time)
+    if result:
+        success = 1
+    else:
+        success = 0
     info = [{
-            "success": 1
+            "success": success
         }
     ]
     return json.dumps(info)
