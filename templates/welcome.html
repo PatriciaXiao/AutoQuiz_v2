@@ -289,7 +289,7 @@
         }
         function check_valid_string(string_content) {
           // return string_content.matches("^[a-zA-Z0-9]+$");
-          return string_content.match("^[a-zA-Z0-9]+$")
+          return string_content.match("^[a-zA-Z0-9\\_@.]+$")
         }
         function check_valid_pwd(pwd) {
           return pwd.match("^[a-zA-Z0-9\\.;,:'@^!~#$%^&*-+_=]{1,32}$")
@@ -302,7 +302,7 @@
           var confirm = form.confirm.value;
           var message = document.getElementById("login_format_message");
           if (!check_valid_string(username)) {
-            message.innerHTML = "We are sorry, but user name in this system has to be a string contains ONLY characters (a-z, A-Z) or numbers. Sorry for the inconvenience and thank your for your understanding.";
+            message.innerHTML = "We are sorry, but user name in this system has to be a string contains ONLY characters (a-z, A-Z), numbers (0-9), underscore, dot ('.'), or at ('@'). Sorry for the inconvenience and thank your for your understanding.";
             message.style.display=""; // display the message
           } else if (username.length > 30) {
             message.innerHTML = "We are sorry, but it seems that your user name is way too long, could you please use a name that is not longer than 30 characters in total? Thank you for your understanding.";

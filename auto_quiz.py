@@ -1,3 +1,4 @@
+from __init__ import *
 import os
 from sqlite3 import dbapi2 as sqlite3
 from contextlib import closing
@@ -10,41 +11,7 @@ import time
 import datetime
 
 from fileio_func import read_xml
-from database_func import init_db
-
-# create the application
-app = Flask(__name__)
-
-# http://blog.csdn.net/yannanxiu/article/details/52916892
-# http://werkzeug.pocoo.org/docs/0.14/contrib/cache/
-# cache
-next_cache = SimpleCache()
-user_cache = SimpleCache()
-# my_cache = SimpleCache()
-
-# Load default config and override config from an environment variable
-app.config.update(dict(
-    DATABASE=os.path.join(app.root_path, 'auto_quiz.db'),
-    # DEBUG=True,
-    SECRET_KEY='development key',
-    USERNAME='admin',
-    PASSWORD='default'
-))
-app.config.from_envvar('FLASKR_SETTINGS', silent=True)
-
-@app.cli.command('initdb')
-def initdb_command():
-    """Creates the database tables."""
-    init_db()
-    print('Initialized the database.')
-@app.teardown_appcontext
-def close_db(error):
-    """Closes the database again at the end of the request."""
-    if hasattr(g, 'sqlite_db'):
-        g.sqlite_db.close()
-
-def get_next_question(section_id):
-    return 0
+from database_func import user_registration
 
 @app.route('/topic/<topic_id>')
 def topic_question_lst(topic_id):
@@ -128,23 +95,44 @@ def welcome():
         password = request.form.get('password', '')
         confirm = request.form.get('confirm', '')
         to_register = len(request.form.get('reg', '')) > 0 # on or None
-        print "User Name is: {0}, password {1}, confirm {2}, to register {3}.".format(username, password, confirm, to_register)
-        login = False
-        # type, show-type, content
-        # type in ['success', 'info', 'warning', 'danger']
-        show_msg = True
-        msg = ['warning', 'WARNING', 'Incorrect Password or User Name']
+        # print "User Name is: {0}, password {1}, confirm {2}, to register {3}.".format(username, password, confirm, to_register)
+        # try to login
+        if to_register:
+            print "register"
+            reg_success, user_id = user_registration(username, password)
+            if reg_success:
+                show_msg = True
+                msg = ['success', 'Welcome', 'You are registered in our system as {0}'.format(username)]
+                login = True
+                user_cache.set('user_name', username)
+                user_cache.set('user_id', user_id)
+            else:
+                show_msg = True
+                msg = ['danger', 'Sorry', 'The user name "{0}" you came up with already exists in our system. Please try another one.'.format(username)]
+                login = False
+        else:
+            # login
+            print "login"
+            ######
+            login = False
+            # type, show-type, content
+            # type in ['success', 'info', 'warning', 'danger']
+            show_msg = True
+            msg = ['warning', 'WARNING', 'Incorrect Password or User Name']
     else:
         # check it up in cache
-        username = user_cache.get('username')
+        username = user_cache.get('user_id')
         if username is None:
             username = request.remote_addr
             login = False
+            # message to show when not logged in
+            show_msg = True
+            msg = ['warning', 'WARNING', 'You are not logged in, so all your records will not be logged.']
         else:
             login = True
-        # message to show when not logged in
-        show_msg = True
-        msg = ['warning', 'WARNING', 'Incorrect Password or User Name']
+            # no message
+            show_msg = False
+            msg = []
     # hard-coded for now, this part could also be customized from the backend
     # topic id (starts from 1), topic name, correct percent, wrong percent, location in layout [x, y]
     all_topics = [
