@@ -11,7 +11,7 @@ import time
 import datetime
 
 from fileio_func import read_xml
-from database_func import user_registration
+from database_func import user_registration, user_login
 
 @app.route('/topic/<topic_id>')
 def topic_question_lst(topic_id):
@@ -90,40 +90,56 @@ def log_exercise_result():
 @app.route('/home/', methods=['GET', 'POST'])
 def welcome():
     if request.method == 'POST':
-        # get login / register information
-        username = request.form.get('username', '')
-        password = request.form.get('password', '')
-        confirm = request.form.get('confirm', '')
-        to_register = len(request.form.get('reg', '')) > 0 # on or None
-        # print "User Name is: {0}, password {1}, confirm {2}, to register {3}.".format(username, password, confirm, to_register)
-        # try to login
-        if to_register:
-            print "register"
-            reg_success, user_id = user_registration(username, password)
-            if reg_success:
-                show_msg = True
-                msg = ['success', 'Welcome', 'You are registered in our system as {0}'.format(username)]
-                login = True
-                user_cache.set('user_name', username)
-                user_cache.set('user_id', user_id)
-            else:
-                show_msg = True
-                msg = ['danger', 'Sorry', 'The user name "{0}" you came up with already exists in our system. Please try another one.'.format(username)]
-                login = False
-        else:
-            # login
-            print "login"
-            ######
-            login = False
-            # type, show-type, content
-            # type in ['success', 'info', 'warning', 'danger']
+        # if it is login, not logout
+        status = request.form.get('confirm_logout', '0')
+        if str(status) == '1':
+            # logout
+            username = user_cache.get('user_name')
+            user_cache.clear()
             show_msg = True
-            msg = ['warning', 'WARNING', 'Incorrect Password or User Name']
+            msg = ['success', 'Done', 'You successfully logged out {0}'.format(username)]
+            login = False
+            username=None
+        else:
+            # get login / register information
+            username = request.form.get('username', '')
+            password = request.form.get('password', '')
+            confirm = request.form.get('confirm', '')
+            to_register = len(request.form.get('reg', '')) > 0 # on or None
+            # print "User Name is: {0}, password {1}, confirm {2}, to register {3}.".format(username, password, confirm, to_register)
+            # try to login
+            if to_register:
+                # print "register"
+                reg_success, user_id = user_registration(username, password)
+                if reg_success:
+                    show_msg = True
+                    msg = ['success', 'Welcome', 'You are registered in our system as {0}'.format(username)]
+                    login = True
+                    user_cache.set('user_name', username)
+                    user_cache.set('user_id', user_id)
+                else:
+                    show_msg = True
+                    msg = ['danger', 'Sorry', 'The user name "{0}" you came up with already exists in our system. Please try another one.'.format(username)]
+                    login = False
+            else:
+                # login
+                # print "login"
+                login_success, user_id = user_login(username, password)
+                if login_success:
+                    show_msg = True
+                    msg = ['success', 'Hi {0}'.format(username), 'Welcome back!'.format(username)]
+                    login = True
+                    user_cache.set('user_name', username)
+                    user_cache.set('user_id', user_id)
+                else:   
+                    login = False
+                    show_msg = True
+                    msg = ['danger', 'ERROR', 'Incorrect Password or User Name; Please try again, or contact us at {0} if you need help.'.format(OFFICIAL_MAILBOX)]
     else:
         # check it up in cache
-        username = user_cache.get('user_id')
+        username = user_cache.get('user_name')
         if username is None:
-            username = request.remote_addr
+            # userip = request.remote_addr
             login = False
             # message to show when not logged in
             show_msg = True

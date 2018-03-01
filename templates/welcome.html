@@ -47,9 +47,9 @@
         <ul class="nav-btns btn-group">
           <!--a class="btn btn-default" href="url_for('default_entry')">logout</a-->
           {% if login %}
-          <a class="btn btn-default" onclick=>logout {{username}}</a>
+          <a class="btn btn-default" onclick="logout()">logout {{username}}</a>
           {% else %}
-          <a class="btn btn-default" data-toggle="modal" data-target="#myModal">login</a>
+          <a class="btn btn-default" data-toggle="modal" data-target="#myModal">login/register</a>
           {% endif %}
           <a class="btn btn-default" href="http://cs10.org/fa17/" target="_blank">CS10</a>
           <!--button type="button" class="btn btn-secondary"> Log Out </button-->
@@ -86,12 +86,22 @@
         function question_format(value, row, index, field) {
           return '<a href="#" onclick="request_exercise(' + value + ')">Question ' + value + '</a>';
         }
+        function logout() {
+          var form = document.getElementById("logout_form");
+          form.confirm_logout.value = 1;
+          form.submit();
+        }
       </script>
 
       <div style="display:none;">
         <form action="{{ url_for('exercise_section') }}" method=post id="selection_form">
           <input type=hidden name=question_id value=10 id="question_id"/>
           <input type=hidden name=next_id value=10 id="next_id"/>
+        </form>
+      </div>
+      <div style="display:none;">
+        <form action="{{ url_for('welcome') }}" method=post id="logout_form">
+          <input type=hidden name=confirm_logout value=0 id="confirm_logout"/>
         </form>
       </div>
 

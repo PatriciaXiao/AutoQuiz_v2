@@ -3,6 +3,8 @@ from werkzeug.contrib.cache import SimpleCache
 from flask import Flask, request, session, g, redirect, url_for, abort, \
 	 render_template, flash
 
+OFFICIAL_MAILBOX = 'cs10.autoquiz@gmail.com'
+
 # create the application
 app = Flask(__name__)
 

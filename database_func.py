@@ -67,3 +67,18 @@ def user_registration(name, pwd):
         new_id = cursor.fetchone()[0]
     db.close()
     return success, new_id
+
+def user_login(name, pwd):
+    success = False
+    user_id=None
+    db = get_db()
+    cursor = db.cursor()
+    # check if exists a match
+    sql = "select id from users where name='{0}' and password='{1}';".format(name, pwd)
+    cursor.execute(sql)
+    existing_user = cursor.fetchone()
+    if existing_user is not None:
+        success = True
+        user_id = existing_user[0]
+    db.close()
+    return success, user_id
