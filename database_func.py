@@ -10,7 +10,7 @@ def initdb_command():
     init_db()
     print('Initialized the database.')
 @app.teardown_appcontext
-def close_db(error):
+def close_db(error=None):
     """Closes the database again at the end of the request."""
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
@@ -42,6 +42,8 @@ def init_db():
     with app.open_resource('schema.sql', mode='r') as f:
         db.cursor().executescript(f.read())
     db.commit()
+    # db.close()
+    close_db()
 
 def user_registration(name, pwd):
     success = False
@@ -65,7 +67,8 @@ def user_registration(name, pwd):
         sql = "select id from users where name='{0}';".format(name)
         cursor.execute(sql)
         new_id = cursor.fetchone()[0]
-    db.close()
+    # db.close()
+    close_db()
     return success, new_id
 
 def user_login(name, pwd):
@@ -80,5 +83,6 @@ def user_login(name, pwd):
     if existing_user is not None:
         success = True
         user_id = existing_user[0]
-    db.close()
+    # db.close()
+    close_db()
     return success, user_id
