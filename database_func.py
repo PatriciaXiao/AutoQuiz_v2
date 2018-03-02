@@ -184,39 +184,53 @@ def calculate_layout(links, x_range=[300, 800], y_range=[100, 500]):
     # raw_input()
     return layout_dict
 
-
-
-def get_topic_info(username):
+def summarize_records(user_id, topics_data):
+    records = {}
     db = get_db()
     cursor = db.cursor()
-    if username is None:
-        # haven't logged in
-        sql = "select topic_id, topic_name from topics;"
+    for topic in topics_data:
+        topic_id = topic[0]
+        sql = "select id from questions where topic_id={0};".format(topic_id)
         cursor.execute(sql)
-        topics_data = cursor.fetchall()
-        sql = "select source, target from links;"
-        cursor.execute(sql)
-        links_data = cursor.fetchall()
-        all_topics = []
-        topic_links = []
-        for link in links_data:
-            topic_links.append([link[0], link[1]])
-        layout = calculate_layout(topic_links)
-        for topic in topics_data:
-            all_topics.append([topic[0] + 1, topic[1], 0, 0, layout[topic[0]]])
-    else:
-        all_topics = [
-                [1, 'Math Basis', 100, 0, [300, 300]],
-                [2, 'Programming', 50, 10, [550, 100]],
-                [3, 'Data Structure', 20, 5, [550, 500]],
-                [4, 'Algorithm', 5, 0, [800, 300]]
-            ]
-        topic_links = [
-                [0, 1], [0, 2], [1, 3], [2, 3]
-            ]
-    close_db()
-    print all_topics
-    print topic_links
+        included_questions = cursor.fetchall()
+        n_questions = len(included_questions)
+        n_correct = 0
+        n_wrong = 0
+        for question in included_questions:
+            sql = "select * from records where question_id={0} and user_id='{1}' and correct=1;".format(question_id, user_id)
+            cursor.execute(sql)
+            correct = cursor.fetchone() is not None
+            if correct:
+                n_correct += 1
+            else:
+                sql = "select * from records where question_id={0} and user_id='{1}' and correct=0;".format(question_id, user_id)
+                cursor.execute(sql)
+                wrong = cursor.fetchone() is not None
+                if wrong:
+                    n_wrong += 1
+        if n_questions > 0:
+            records[topic_id] = [float(n_correct) / float(n_questions), float(n_wrong) / float(n_questions)]
+        else:
+            records[topic_id] = [0, 0]
+    return records
+
+def get_topic_info(user_id):
+    db = get_db()
+    cursor = db.cursor()
+    sql = "select topic_id, topic_name from topics;"
+    cursor.execute(sql)
+    topics_data = cursor.fetchall()
+    sql = "select source, target from links;"
+    cursor.execute(sql)
+    links_data = cursor.fetchall()
+    all_topics = []
+    topic_links = []
+    for link in links_data:
+        topic_links.append([link[0], link[1]])
+    layout = calculate_layout(topic_links)
+    topic_records = summarize_records(user_id, topics_data)
+    for topic in topics_data:
+        all_topics.append([topic[0] + 1, topic[1], topic_records[topic[0]][0], topic_records[topic[0]][1], layout[topic[0]]])
     return all_topics, topic_links
     '''
     # positions of points are hard-coded for now, this part could also be customized from the backend

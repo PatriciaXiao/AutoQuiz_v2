@@ -171,7 +171,8 @@ def welcome():
             msg = []
 
     # fetch personal topic information from database
-    all_topics, topic_links = get_topic_info(username)
+    user_id = user_cache.get('user_id')
+    all_topics, topic_links = get_topic_info(user_id)
 
     return render_template('welcome.html', login=login, username=username, \
         all_topics=all_topics, topic_links=topic_links,\
