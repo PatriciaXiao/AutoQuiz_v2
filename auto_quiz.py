@@ -11,7 +11,7 @@ import time
 import datetime
 
 from fileio_func import read_xml
-from database_func import check_user, user_registration, user_login, log_exercise_db
+from database_func import check_user, user_registration, user_login, log_exercise_db, get_topic_info
 
 @app.route('/topic/<topic_id>')
 def topic_question_lst(topic_id):
@@ -169,18 +169,10 @@ def welcome():
             # no message
             show_msg = False
             msg = []
-    # positions of points are hard-coded for now, this part could also be customized from the backend
-    # topic id (starts from 1), topic name, correct percent, wrong percent, location in layout [x, y]
-    all_topics = [
-                [1, 'Math Basis', 100, 0, [300, 300]],
-                [2, 'Programming', 50, 10, [550, 100]],
-                [3, 'Data Structure', 20, 5, [550, 500]],
-                [4, 'Algorithm', 5, 0, [800, 300]]
-            ]
-    # topic links: [source, target] (id starts from 0)
-    topic_links = [
-                [0, 1], [0, 2], [1, 3], [2, 3]
-            ]
+
+    # fetch personal topic information from database
+    all_topics, topic_links = get_topic_info(username)
+
     return render_template('welcome.html', login=login, username=username, \
         all_topics=all_topics, topic_links=topic_links,\
         show_msg=show_msg, msg=msg)
