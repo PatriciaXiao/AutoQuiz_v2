@@ -169,7 +169,7 @@ def welcome():
             # no message
             show_msg = False
             msg = []
-    # hard-coded for now, this part could also be customized from the backend
+    # positions of points are hard-coded for now, this part could also be customized from the backend
     # topic id (starts from 1), topic name, correct percent, wrong percent, location in layout [x, y]
     all_topics = [
                 [1, 'Math Basis', 100, 0, [300, 300]],

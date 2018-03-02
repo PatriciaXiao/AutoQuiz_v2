@@ -327,7 +327,7 @@
           } else if (reg && password != confirm) {
             message.innerHTML = "please make sure that the password you entered matches the password confirmation before you submit this form";
             message.style.display=""; // display the message
-          } else {
+          } else if (reg) {
             // form.submit();
             var data = {
               data: JSON.stringify({
@@ -353,6 +353,8 @@
                   console.log("error", xhr, type)
                 }
             });
+          } else {
+            form.submit();
           }
         }
     </script>
