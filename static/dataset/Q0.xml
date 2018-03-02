@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <content>
-	<skill kind="detailed">
-		debug
-	</skill>
+	<skill kind="detailed">debug</skill>
 	<description>
 		A test used for the environment debugging
 	</description>

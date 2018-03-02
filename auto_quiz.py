@@ -16,7 +16,7 @@ from database_func import check_user, user_registration, user_login, log_exercis
 @app.route('/topic/<topic_id>')
 def topic_question_lst(topic_id):
     # print "topic id = {0}".format(topic_id)
-    t = [{
+    questions = [{
             "id": 1,
             "description": "Higher Order Functions",
             "timestring": "N/A",
@@ -41,11 +41,11 @@ def topic_question_lst(topic_id):
             "status": -1
         }
     ]
-    next_cache.set(1, 2)
-    next_cache.set(2, 3)
-    next_cache.set(3, 0)
-    next_cache.set(0, -1)
-    return json.dumps(t)
+    last_idx = len(questions) - 1
+    for i in range(last_idx):
+        next_cache.set(questions[i]["id"], questions[i + 1]["id"])
+    next_cache.set(questions[last_idx]["id"], -1)
+    return json.dumps(questions)
 
 @app.route('/exercise/', methods=['GET', 'POST'])
 def exercise_section():

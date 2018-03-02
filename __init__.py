@@ -3,7 +3,13 @@ from werkzeug.contrib.cache import SimpleCache
 from flask import Flask, request, session, g, redirect, url_for, abort, \
 	 render_template, flash
 
+from sqlite3 import dbapi2 as sqlite3
+import glob
+import xml.etree.ElementTree as ET
+
 OFFICIAL_MAILBOX = 'cs10.autoquiz@gmail.com'
+DATABASE = './auto_quiz.db'
+FILE_DIR = './static/dataset/'
 
 # create the application
 app = Flask(__name__)

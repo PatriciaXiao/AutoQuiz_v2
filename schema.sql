@@ -28,11 +28,13 @@ create table links (
   target integer not null
 );
 create table questions (
-  id integer primary key autoincrement,
+  question_id integer primary key,
   description string,
+  skill_id integer not null,
   topic_id integer not null
 );
 create table skill2topic (
-  skill_name string primary key not null,
+  skill_id integer primary key autoincrement,
+  skill_name string not null unique,
   topic_id integer not null
 );

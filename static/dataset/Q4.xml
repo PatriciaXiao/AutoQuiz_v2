@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <content>
+	<skill kind="detailed">debug</skill>
 	<question>
 		<p>
 			<line>Without trying this in Snap!,try to answer the following question:</line>

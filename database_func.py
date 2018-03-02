@@ -190,7 +190,7 @@ def summarize_records(user_id, topics_data):
     cursor = db.cursor()
     for topic in topics_data:
         topic_id = topic[0]
-        sql = "select id from questions where topic_id={0};".format(topic_id)
+        sql = "select question_id from questions where topic_id={0};".format(topic_id)
         cursor.execute(sql)
         included_questions = cursor.fetchall()
         n_questions = len(included_questions)
