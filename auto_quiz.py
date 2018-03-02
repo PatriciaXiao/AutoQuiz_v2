@@ -11,36 +11,13 @@ import time
 import datetime
 
 from fileio_func import read_xml
-from database_func import check_user, user_registration, user_login, log_exercise_db, get_topic_info
+from database_func import check_user, user_registration, user_login, log_exercise_db, get_topic_info, fetch_questions
 
 @app.route('/topic/<topic_id>')
 def topic_question_lst(topic_id):
     # print "topic id = {0}".format(topic_id)
-    questions = [{
-            "id": 1,
-            "description": "Higher Order Functions",
-            "timestring": "N/A",
-            "status": -1
-        },
-        {
-            "id": 2,
-            "description": "Python Syntax",
-            "timestring": "12/01/2018",
-            "status": 0
-        },
-        {
-            "id": 3,
-            "description": "Loop",
-            "timestring": "20/02/2018",
-            "status": 1
-        },
-        {
-            "id": 4,
-            "description": "Recursion",
-            "timestring": "N/A",
-            "status": -1
-        }
-    ]
+    user_id = user_cache.get('user_id')
+    questions = fetch_questions(topic_id, user_id)
     last_idx = len(questions) - 1
     for i in range(last_idx):
         next_cache.set(questions[i]["id"], questions[i + 1]["id"])

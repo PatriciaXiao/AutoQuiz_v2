@@ -188,6 +188,8 @@ def summarize_records(user_id, topics_data):
     records = {}
     db = get_db()
     cursor = db.cursor()
+    if user_id is None:
+        user_id = -1
     for topic in topics_data:
         topic_id = topic[0]
         sql = "select question_id from questions where topic_id={0};".format(topic_id)
@@ -197,6 +199,7 @@ def summarize_records(user_id, topics_data):
         n_correct = 0
         n_wrong = 0
         for question in included_questions:
+            question_id = question[0]
             sql = "select * from records where question_id={0} and user_id='{1}' and correct=1;".format(question_id, user_id)
             cursor.execute(sql)
             correct = cursor.fetchone() is not None
@@ -247,4 +250,31 @@ def get_topic_info(user_id):
             ]
     return all_topics, topic_links
     # '''
-    
+
+def fetch_questions(topic_id, user_id):
+    questions = [{
+            "id": 1,
+            "description": "Higher Order Functions",
+            "timestring": "N/A",
+            "status": -1
+        },
+        {
+            "id": 2,
+            "description": "Python Syntax",
+            "timestring": "12/01/2018",
+            "status": 0
+        },
+        {
+            "id": 3,
+            "description": "Loop",
+            "timestring": "20/02/2018",
+            "status": 1
+        },
+        {
+            "id": 4,
+            "description": "Recursion",
+            "timestring": "N/A",
+            "status": -1
+        }
+    ]
+    return questions
