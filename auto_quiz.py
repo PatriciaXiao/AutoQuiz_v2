@@ -13,15 +13,17 @@ import datetime
 from fileio_func import read_xml
 from database_func import check_user, user_registration, user_login, log_exercise_db, get_topic_info, fetch_questions
 
-@app.route('/topic/<topic_id>')
-def topic_question_lst(topic_id):
+@app.route('/topic/<topic_id_marked>')
+def topic_question_lst(topic_id_marked):
+    topic_id = int(topic_id_marked) - 1
     # print "topic id = {0}".format(topic_id)
     user_id = user_cache.get('user_id')
     questions = fetch_questions(topic_id, user_id)
     last_idx = len(questions) - 1
     for i in range(last_idx):
         next_cache.set(questions[i]["id"], questions[i + 1]["id"])
-    next_cache.set(questions[last_idx]["id"], -1)
+    if last_idx >= 0:
+        next_cache.set(questions[last_idx]["id"], -1)
     return json.dumps(questions)
 
 @app.route('/exercise/', methods=['GET', 'POST'])
@@ -107,7 +109,8 @@ def welcome():
             # try to login
             if to_register:
                 # print "register"
-                reg_success, user_id = user_registration(username, password)
+                log_time = datetime.datetime.now()
+                reg_success, user_id = user_registration(username, password, log_time)
                 if reg_success:
                     show_msg = True
                     msg = ['success', 'Welcome', 'You are registered in our system as {0}'.format(username)]

@@ -4,6 +4,9 @@ from contextlib import closing
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 
+import time
+import datetime
+
 @app.cli.command('initdb')
 def initdb_command():
     """Creates the database tables."""
@@ -55,7 +58,10 @@ def check_user(name):
     # close_db()
     return existing_user is not None
 
-def user_registration(name, pwd):
+def timestamp(datetime_dat):
+    return time.mktime(datetime_dat.timetuple())
+
+def user_registration(name, pwd, reg_time):
     success = False
     db = get_db()
     cursor = db.cursor()
@@ -69,7 +75,7 @@ def user_registration(name, pwd):
         success = True
     new_id=None
     if success:
-        sql = "insert into users (name, password) values ('{0}', '{1}');".format(name, pwd)
+        sql = "insert into users (name, password, reg_time) values ('{0}', '{1}', {2});".format(name, pwd, timestamp(reg_time))
         db.execute(sql)
         db.commit()
         flash('New user was successfully added')
@@ -102,14 +108,26 @@ def log_exercise_db(question_id, user_id, correctness, log_ip, log_time):
 
     db = get_db()
     cursor = db.cursor()
+    log_timestamp = timestamp(log_time)
     if user_id is None:
-        sql = "insert into records (log_ip, log_time, correct, question_id) values ('{0}', '{1}', {2}, {3});".format(\
-            log_ip, log_time, correctness, question_id)
+        sql = "insert into records (log_ip, log_time, correct, question_id) values ('{0}', {1}, {2}, {3});".format(\
+            log_ip, log_timestamp, correctness, question_id)
     else:
-        sql = "insert into records (log_ip, log_time, correct, question_id, user_id) values ('{0}', '{1}', {2}, {3}, {4});".format(\
-            log_ip, log_time, correctness, question_id, user_id)
+        sql = "insert into records (log_ip, log_time, correct, question_id, user_id) values ('{0}', {1}, {2}, {3}, {4});".format(\
+            log_ip, log_timestamp, correctness, question_id, user_id)
     cursor.execute(sql)
+    '''
+    if user_id is None:
+        sql = "insert into records (log_ip, log_time, correct, question_id) values (?, ?, ?, ?);"
+        args = (log_ip, log_time, correctness, question_id)
+    else:
+        sql = "insert into records (log_ip, log_time, correct, question_id, user_id) values (?, ?, ?, ?, ?);"
+        args = (log_ip, log_time, correctness, question_id, user_id)
+    cursor.execute(sql, args)
+    '''
+
     db.commit()
+    
     # close_db()
     return success
 
@@ -252,6 +270,42 @@ def get_topic_info(user_id):
     # '''
 
 def fetch_questions(topic_id, user_id):
+    # print topic_id
+    db = get_db()
+    cursor = db.cursor()
+    sql = "select question_id, description from questions where topic_id={0};".format(topic_id)
+    cursor.execute(sql)
+    questions_data = cursor.fetchall()
+    questions = []
+    for q in questions_data:
+        questions.append({
+                "id": q[0],
+                "description": q[1],
+                "timestring": "N/A",
+                "status": -1
+            })
+    if user_id is not None:
+        for i in range(len(questions)):
+            question_id = questions[i]["id"]
+            sql = "select log_time as 'ts [log_time]' from records where log_time = (select MAX(log_time) from records where user_id={0} and question_id={1});".format(user_id, question_id)
+            cursor.execute(sql)
+            log_timedata = cursor.fetchone()
+            if log_timedata is not None:
+                log_time_str = log_timedata[0]
+                # print type(log_timedata[0])
+                log_time = datetime.datetime.fromtimestamp(log_time_str)
+                questions[i]["timestring"] = "{0}/{1}/{2} {3}:{4}:{5}".format(\
+                    "%02d" % log_time.month, "%02d" % log_time.day, "%04d" % log_time.year, \
+                    "%02d" % log_time.hour, "%02d" % log_time.minute, "%02d" % log_time.second)
+                sql = "select * from records where question_id={0} and user_id='{1}' and correct=1;".format(question_id, user_id)
+                cursor.execute(sql)
+                correct = cursor.fetchone() is not None
+                if correct:
+                    questions[i]["status"] = 1
+                else:
+                    questions[i]["status"] = 0
+    print questions
+    '''
     questions = [{
             "id": 1,
             "description": "Higher Order Functions",
@@ -277,4 +331,5 @@ def fetch_questions(topic_id, user_id):
             "status": -1
         }
     ]
+    '''
     return questions

@@ -7,7 +7,8 @@ drop table if exists skill2topic;
 create table users (
   id integer primary key autoincrement,
   name string not null,
-  password string not null
+  password string not null,
+  reg_time timestamp not null
 );
 create table records (
   id integer primary key autoincrement,
