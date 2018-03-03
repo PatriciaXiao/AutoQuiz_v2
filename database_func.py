@@ -304,7 +304,6 @@ def fetch_questions(topic_id, user_id):
                     questions[i]["status"] = 1
                 else:
                     questions[i]["status"] = 0
-    print questions
     '''
     questions = [{
             "id": 1,

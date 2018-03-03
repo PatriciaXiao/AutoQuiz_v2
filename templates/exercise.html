@@ -128,6 +128,14 @@
                       <sub>
                     {% elif line == '</sub>' %}
                       </sub>
+                    {% elif line == '<em>' %}
+                      <em>
+                    {% elif line == '</em>' %}
+                      </em>
+                    {% elif line == '<b>' %}
+                      <b>
+                    {% elif line == '</b>' %}
+                      </b>
                     {% elif line == '<br>' %}
                       <br>
                     {% else %}
@@ -138,7 +146,11 @@
                 {% elif sentence[0] == 'img' %}
                   <p>
                   {% for line in sentence[1] %}
-                    <img src="{{ url_for('static', filename='img/')}}{{line}}" alt="">&nbsp;
+                    {% if line[1] != -1 %}
+                    <img src="{{ url_for('static', filename='img/')}}{{line[0]}}" alt="" height="{{line[1]}}px;">&nbsp;
+                    {% else %}
+                    <img src="{{ url_for('static', filename='img/')}}{{line[0]}}" alt="">&nbsp;
+                    {% endif %}
                   {% endfor %}
                   </p>
                 {% endif %}
@@ -172,6 +184,14 @@
                                   <sub>
                                 {% elif line == '</sub>' %}
                                   </sub>
+                                {% elif line == '<em>' %}
+                                  <em>
+                                {% elif line == '</em>' %}
+                                  </em>
+                                {% elif line == '<b>' %}
+                                  <b>
+                                {% elif line == '</b>' %}
+                                  </b>
                                 {% elif line == '<br>' %}
                                   <br>
                                 {% else %}

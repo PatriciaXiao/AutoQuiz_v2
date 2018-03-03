@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <content>
 	<skill kind="detailed">
-		debug
+		boolean
 	</skill>
+	<description>
+		boolean expression (2017 Fall, Midterm 2 Version B, Question 1)
+	</description>
 	<question>
 		<p>
-			<line>Without trying this in Snap!,try to answer the following question:</line>
-			<line>What does the following set of scripts do when the _CODES_Turn1_CODEE_ message is broadcast?</line>
+			<line>If the following expression evaluates to _BOLDS_true_BOLDE_, what can you say about _BOLDS_A_BOLDE_ and _BOLDS_B_BOLDE_?</line>
 		</p>
 		<img>
-			<name>receive-turn1-broadcast.png</name>
-			<name>receive-turn2-broadcast.png</name>
+			<name height="1">1.1.png</name>
 		</img>
 		<p>
 			<line>Choose one:</line>
@@ -20,31 +21,52 @@
 		<option id="c1">
 			<p>
 				<line>
-					The sprite says "Go!" and then "Team!" and then stops.
+					_BOLDS_A_BOLDE_ must be equal to _BOLDS_B_BOLDE_
 				</line>
 			</p>
 		</option>
-		<option id="c2" correct="true">
+		<option id="c2">
 			<p>
 				<line>
-					The sprite repeatedly says "Go!" and then "Team!" until you hit the red Stop button.
+					_BOLDS_A_BOLDE_ must be different from _BOLDS_B_BOLDE_
 				</line>
 			</p>
 		</option>
 		<option id="c3">
 			<p>
 				<line>
-					Nothing happens - the script does not work.
+					_BOLDS_A_BOLDE_ must be _BOLDS_false_BOLDE_
 				</line>
 			</p>
 		</option>
-		<option id="c4" correct="false">
+		<option id="c4">
 			<p>
 				<line>
-					The sprite says "Go!" and then "Team!", repeating a few times, and then stops by itself.
+					_BOLDS_A_BOLDE_ must be _BOLDS_true_BOLDE_
+				</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>
+					_BOLDS_B_BOLDE_ must be _BOLDS_false_BOLDE_
+				</line>
+			</p>
+		</option>
+		<option id="c6" correct="true">
+			<p>
+				<line>
+					_BOLDS_B_BOLDE_ must be _BOLDS_true_BOLDE_
+				</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>
+					none of these
 				</line>
 			</p>
 		</option>
 	</answers>
-	<hint>The two blocks take turns to call each other infinitely.</hint>
+	<hint>((not A) or A) is always true. true and B is just B. </hint>
 </content>

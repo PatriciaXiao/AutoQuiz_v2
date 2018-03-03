@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <content>
 	<skill kind="detailed">
-		debug
+		conversion
 	</skill>
+	<description>
+		conversion of number systems (2017 Fall, Midterm 1 Version A, Question 6)
+	</description>
 	<question>
 		<p>
-			<line>Without trying this in Snap!,try to answer the following question:</line>
-			<line>What does the following set of scripts do when the _CODES_Turn1_CODEE_ message is broadcast?</line>
+			<line>What number do I need to add to 9_SUBS_16_SUBE_ to get 10_SUBS_16_SUBE_</line>
 		</p>
-		<img>
-			<name>receive-turn1-broadcast.png</name>
-			<name>receive-turn2-broadcast.png</name>
-		</img>
 		<p>
 			<line>Choose one:</line>
 		</p>
@@ -20,31 +18,80 @@
 		<option id="c1">
 			<p>
 				<line>
-					The sprite says "Go!" and then "Team!" and then stops.
+					1_SUBS_2_SUBE_
 				</line>
 			</p>
 		</option>
-		<option id="c2" correct="true">
+		<option id="c2">
 			<p>
 				<line>
-					The sprite repeatedly says "Go!" and then "Team!" until you hit the red Stop button.
+					10_SUBS_2_SUBE_
 				</line>
 			</p>
 		</option>
 		<option id="c3">
 			<p>
 				<line>
-					Nothing happens - the script does not work.
+					11_SUBS_2_SUBE_
 				</line>
 			</p>
 		</option>
-		<option id="c4" correct="false">
+		<option id="c4">
 			<p>
 				<line>
-					The sprite says "Go!" and then "Team!", repeating a few times, and then stops by itself.
+					100_SUBS_2_SUBE_
+				</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>
+					100_SUBS_2_SUBE_
+				</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>
+					101_SUBS_2_SUBE_
+				</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>
+					110_SUBS_2_SUBE_
+				</line>
+			</p>
+		</option>
+		<option id="c8" correct="true">
+			<p>
+				<line>
+					111_SUBS_2_SUBE_
+				</line>
+			</p>
+		</option>
+		<option id="c9">
+			<p>
+				<line>
+					1000_SUBS_2_SUBE_
+				</line>
+			</p>
+		</option>
+		<option id="c10">
+			<p>
+				<line>
+					1001_SUBS_2_SUBE_
+				</line>
+			</p>
+		</option>
+		<option id="c11">
+			<p>
+				<line>
+					None of these
 				</line>
 			</p>
 		</option>
 	</answers>
-	<hint>The two blocks take turns to call each other infinitely.</hint>
+	<hint>Decimal 10 in Hexadecimal is A.</hint>
 </content>

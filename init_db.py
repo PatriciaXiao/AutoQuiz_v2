@@ -36,6 +36,8 @@ topic_link = [
 ]
 
 skill_map = {
+    'boolean': 'Math Basis',
+    'conversion': 'Math Basis',
     'debug': 'Programming',
     'condition': 'Programming'
 }
