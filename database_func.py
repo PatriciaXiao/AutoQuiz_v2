@@ -230,7 +230,7 @@ def summarize_records(user_id, topics_data):
                 if wrong:
                     n_wrong += 1
         if n_questions > 0:
-            records[topic_id] = [float(n_correct) / float(n_questions), float(n_wrong) / float(n_questions)]
+            records[topic_id] = [100. * float(n_correct) / float(n_questions), 100. * float(n_wrong) / float(n_questions)]
         else:
             records[topic_id] = [0, 0]
     return records
