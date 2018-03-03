@@ -40,7 +40,7 @@ def exercise_section():
         return redirect(url_for('welcome'))
     question_fname = "Q{0}.xml".format(question_id)
     # print "question file name {0}".format(question_fname)
-    question, answers, correct_ans_id, hint = read_xml(question_fname)
+    question, answers, correct_ans_id, hint = read_xml(question_fname, os.path.join(app.root_path, 'static', 'dataset'))
     # print "next question is {0}".format(next_id)
 
     return render_template('exercise.html', question=question, answers=answers, \

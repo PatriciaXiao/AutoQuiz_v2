@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 def clean_str(raw_str):
     return raw_str.strip("\t\n ") 
 
-def read_xml(fname):
+def read_xml(fname, fpath):
     def parse_line(str_content):
         content_list = str_content.split('_CODES_')
         str_content = "\n<code>\n".join(content_list)
@@ -28,7 +28,7 @@ def read_xml(fname):
         str_content = "\n</b>\n".join(content_list)
         return str_content.split('\n')
     # read xml
-    fpath = os.path.join('./static/dataset/', fname)
+    fpath = os.path.join(fpath, fname)
     tree = ET.parse(fpath)
     root = tree.getroot()
     question = []
