@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">coding</skill>
+	<description>
+		predicting possible results of code (2017 Fall, Midterm 2 Version A, Question 3)
+	</description>
+	<question>
+		<p>
+			<line>Which are the possible values of global variable N at the end of this program?</line>
+		</p>
+		<img>
+			<name height="3">5.1.png</name>
+			<name height="2">4.2.png</name>
+			<name height="2">4.3.png</name>
+		</img>
+		<img>
+			<name height="3">4.4.png</name>
+			<name height="3">4.5.png</name>
+		</img>
+		<p>
+			<line>Choose one:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					10, 100, 101, 110, 120
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					10, 90, 101, 110, 121
+				</line>
+			</p>
+		</option>
+		<option id="c3" correct="true">
+			<p>
+				<line>
+					11, 100, 101, 110, 121
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					11, 110, 101, 120, 121
+				</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>
+					11, 90, 101, 110, 120
+				</line>
+			</p>
+		</option>
+		<option id="c6" correct="false">
+			<p>
+				<line>
+					All of the above.
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>N+1, N*N, (N+1)*(N+1), N*N+1, N*(N+1) are all possible.</hint>
+</content>

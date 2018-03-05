@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">coding</skill>
+	<description>
+		Testing your ability to figure out what a piece of code does. (2017 Fall, Midterm 1 Version A, Question 7)
+	</description>
+	<question>
+		<p>
+			<line>Consider a block that draws a square and keeps the sprite in the same position at the end. E.g., if the sprite were at (0,0), facing to the right (as shown below on the left), after a call to function Draw Square with parameter 4:</line>
+		</p>
+		<img>
+			<name height="1">6.5.png</name>
+			<name height="4">6.7.png</name>
+			<name height="4">6.4.png</name>
+		</img>
+		<p>
+			<line>it would draw a square of size 4. If given input smaller than or equal to 1, it just fills in a single pixel.</line>
+			<line>What is its result if we call:</line>
+		</p>
+		<img>
+			<name height="1">6.6.png</name>
+			<name height="4">6.8.png</name>
+			<name height="4">6.3.png</name>
+		</img>
+	</question>
+	<answers>
+		<option id="c1" correct="true">
+			<img>
+				<name height="5">6.1.png</name>
+			</img>
+		</option>
+		<option id="c2">
+			<img>
+				<name height="5">6.2.png</name>
+			</img>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					None of them.
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>You can try running it in Snap! for better understanding.</hint>
+</content>

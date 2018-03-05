@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">design</skill>
+	<description>
+		Designing the structure of code, using HOF. (2017 Fall, Midterm 1 Version A, Question 8)
+	</description>
+	<question>
+		<p>
+			<line>Some data on students entering/exiting CS10 lab is stored in a central database called DB (a big, global Snap! list), which is initialized to be empty when the system is booted. The data is stored there to keep track of the room usage for security. The administrators boot the system in the middle of the night and nobody is in the lab. The goal is to use DB to determine who is in the lab at any given time. Here’s an example of DB: (by 9:00 only Alan is in the lab)</line>
+			<line>• Grace Murray Hopper, 12345678, 2017-10-25@08:00, enter</line>
+			<line>• Alan Turing, 87654321, 2017-10-25@08:30, enter</line>
+			<line>• Grace Murray Hopper, 12345678, 2017-10-25@09:00, exit</line>
+			<line>We record _BOLDS_The student’s name, unique SID, timestamp, and whether the student was entering or exiting the lab_BOLDE_ (which it knows based on which way the student was walking through the door).</line>
+			<line>To find out who is in the lab, assume we have no control structures other than higher-order functions _CODES_map_CODEE_ and _CODES_keep_CODEE_. I.e., no _CODES_repeat_CODEE_, no _CODES_repeat until_CODEE_, no _CODES_for_CODEE_, no _CODES_for each_CODEE_, no _CODES_combine_CODEE_, and no _CODES_recursion_CODEE_. Also assume there are no global variables, and we only have access to DB which can’t be edited, but would simply be fed into the map(s) and/or keep(s).</line>
+			<line>What “machinery” would we need to be able to report all the students who are in the lab, reported as a list of SIDs?</line>
+			<line>As an example, here is _BOLDS_“map’s output fed into keep”_BOLDE_, with appropriate functions passed into the grey rings:</line>
+		</p>
+		<img>
+			<name height="1">8.1.png</name>
+		</img>
+		<p>
+			<line>Choose one:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					_BOLDS_map_BOLDE_ only
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					_BOLDS_keep_BOLDE_ only
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					_BOLDS_map_BOLDE_'s output fed into _BOLDS_keep_BOLDE_
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					_BOLDS_keep_BOLDE_'s output fed into _BOLDS_map_BOLDE_
+				</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>
+					_BOLDS_map_BOLDE_'s output fed into another _BOLDS_map_BOLDE_
+				</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>
+					_BOLDS_keep_BOLDE_'s output fed into another _BOLDS_keep_BOLDE_
+				</line>
+			</p>
+		</option>
+		<option id="c7" correct="true">
+			<p>
+				<line>
+					None of the above.
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>None of the above. No amount of single maps or keeps fed into each other can create the list we need, if we can’t use a global variable; we’d need a combine or for each or for to do it to remember whether a particular student was in or out. The functions passed into maps and keeps only look at events and only transform these events or remove them. We intended to disallow the functions passed into map and keep not to have any control structures involved in the functions passed into them, but we didn’t say that explicitly. There was a particularly clever solution that involved mapping first to just pull out the SIDs. Given the list of SIDs, you could feed that into a keep that looked in the DB and returned whether that SID was in the DB an odd number of times, meaning they were still in the lab (that would have involved another keep). If so, it kept the SID, otherwise it wasn’t kept. What would come out of that would be a list of the SIDs who were in the lab, BUT there might be multiple entries for each SID, one for each time they went through the door. If we just ran that through a “remove duplicates” block, it would work. Quite clever, so we also awarded full marks to “map’s output fed into keep”.</hint>
+</content>

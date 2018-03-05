@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">recursion</skill>
+	<description>
+		Understanding and using recursion to solve problems. (2017 Fall, Midterm 2 Version B, Question 4)
+	</description>
+	<question>
+		<p>
+			<line>Recall _BOLDS_count change_BOLDE_, shown below:</line>
+		</p>
+		<img>
+			<name height="7">9.1.png</name>
+		</img>
+		<p>
+			<line>If we change the bottom-right expression coins to _BOLDS_all-but-first-of(coins)_BOLDE_, What would be computed?</line>
+			<line>Choose one:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					report the same value as before
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					report what'd happen if we never used the first coin
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					report what'd happen if we always used the first coin
+				</line>
+			</p>
+		</option>
+		<option id="c4" correct="true">
+			<p>
+				<line>
+					report what'd happen if each coin could only be used once
+				</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>
+					run forever
+				</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>
+					cause an error
+				</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>
+					None of the above
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>It would report what’d happen if each coin could only be used once, since on that recursive call you’re both using a coin (amount – item 1 of coin) and not using it again (coin becomes all but first of coin).</hint>
+</content>
