@@ -1,50 +1,37 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <content>
 	<skill kind="detailed">
-		debug
+		coding
 	</skill>
+	<description>
+		coding skill basis (2017 Fall, Midterm 2 Version B, Question 2)
+	</description>
 	<question>
 		<p>
-			<line>Without trying this in Snap!,try to answer the following question:</line>
-			<line>What does the following set of scripts do when the _CODES_Turn1_CODEE_ message is broadcast?</line>
-		</p>
-		<img>
-			<name>receive-turn1-broadcast.png</name>
-			<name>receive-turn2-broadcast.png</name>
-		</img>
-		<p>
-			<line>Choose one:</line>
+			<line>A code segment will be used to swap (i.e., exchange) the values of the variables _BOLDS_a_BOLDE_ and _BOLDS_b_BOLDE_ using the temporary variable _BOLDS_temp_BOLDE_. Which of the following code segments correctly swaps the values of _BOLDS_a_BOLDE_ and _BOLDS_b_BOLDE_? (select ONE)</line>
 		</p>
 	</question>
 	<answers>
 		<option id="c1">
-			<p>
-				<line>
-					The sprite says "Go!" and then "Team!" and then stops.
-				</line>
-			</p>
+			<img>
+				<name height="4">3.1.png</name>
+			</img>
 		</option>
 		<option id="c2" correct="true">
-			<p>
-				<line>
-					The sprite repeatedly says "Go!" and then "Team!" until you hit the red Stop button.
-				</line>
-			</p>
+			<img>
+				<name height="4">3.2.png</name>
+			</img>
 		</option>
 		<option id="c3">
-			<p>
-				<line>
-					Nothing happens - the script does not work.
-				</line>
-			</p>
+			<img>
+				<name height="4">3.3.png</name>
+			</img>
 		</option>
-		<option id="c4" correct="false">
-			<p>
-				<line>
-					The sprite says "Go!" and then "Team!", repeating a few times, and then stops by itself.
-				</line>
-			</p>
+		<option id="c4">
+			<img>
+				<name height="4">3.4.png</name>
+			</img>
 		</option>
 	</answers>
-	<hint>The two blocks take turns to call each other infinitely.</hint>
+	<hint>You can try it out in Snap!</hint>
 </content>

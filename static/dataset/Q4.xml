@@ -1,48 +1,69 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <content>
-	<skill kind="detailed">debug</skill>
+	<skill kind="detailed">coding</skill>
+	<description>
+		predicting possible results of code (2017 Fall, Midterm 2 Version B, Question 3)
+	</description>
 	<question>
 		<p>
-			<line>Without trying this in Snap!,try to answer the following question:</line>
-			<line>What does the following set of scripts do when the _CODES_Turn1_CODEE_ message is broadcast?</line>
+			<line>Which are the possible values of global variable N at the end of this program?</line>
 		</p>
 		<img>
-			<name>receive-turn1-broadcast.png</name>
-			<name>receive-turn2-broadcast.png</name>
+			<name height="3">4.1.png</name>
+			<name height="2">4.2.png</name>
+			<name height="2">4.3.png</name>
+		</img>
+		<img>
+			<name height="3">4.4.png</name>
+			<name height="3">4.5.png</name>
 		</img>
 		<p>
 			<line>Choose one:</line>
 		</p>
 	</question>
 	<answers>
-		<option id="c1">
+		<option id="c1" correct="true">
 			<p>
 				<line>
-					The sprite says "Go!" and then "Team!" and then stops.
+					6, 25, 36, 30, 26
 				</line>
 			</p>
 		</option>
-		<option id="c2" correct="true">
+		<option id="c2">
 			<p>
 				<line>
-					The sprite repeatedly says "Go!" and then "Team!" until you hit the red Stop button.
+					6, 25, 26, 30, 16
 				</line>
 			</p>
 		</option>
 		<option id="c3">
 			<p>
 				<line>
-					Nothing happens - the script does not work.
+					16, 37, 35, 30, 26
 				</line>
 			</p>
 		</option>
-		<option id="c4" correct="false">
+		<option id="c4">
 			<p>
 				<line>
-					The sprite says "Go!" and then "Team!", repeating a few times, and then stops by itself.
+					6, 25, 37, 30, 26
+				</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>
+					16, 35, 36, 20, 26
+				</line>
+			</p>
+		</option>
+		<option id="c6" correct="false">
+			<p>
+				<line>
+					All of the above.
 				</line>
 			</p>
 		</option>
 	</answers>
-	<hint>The two blocks take turns to call each other infinitely.</hint>
+	<hint>N+1, N*N, (N+1)*(N+1), N*N+1, N*(N+1) are all possible.</hint>
 </content>

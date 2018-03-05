@@ -202,7 +202,11 @@
                             {% elif sentence[0] == 'img' %}
                               <p>
                               {% for line in sentence[1] %}
-                                <img src="{{ url_for('static', filename='img/')}}{{line}}" alt="">&nbsp;
+                                {% if line[1] != -1 %}
+                                <img src="{{ url_for('static', filename='img/')}}{{line[0]}}" alt="" height="{{line[1]}}px;">&nbsp;
+                                {% else %}
+                                <img src="{{ url_for('static', filename='img/')}}{{line[0]}}" alt="">&nbsp;
+                                {% endif %}
                               {% endfor %}
                               </p>
                             {% endif %}

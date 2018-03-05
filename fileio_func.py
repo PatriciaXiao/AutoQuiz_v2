@@ -66,7 +66,13 @@ def read_xml(fname, fpath):
                 opt_data.append(['p', data])
             elif elem.tag == 'img':
                 for name in elem:
-                    data.append(clean_str(name.text))
+                    height_opt = name.get('height')
+                    if height_opt is not None:
+                        height = int(height_opt) * 40
+                    else:
+                        height = -1
+                    data.append([clean_str(name.text), height])
+                    # data.append(clean_str(name.text))
                 opt_data.append(['img', data])
         answers.append([tmp_id, opt_data])
         if option.get('correct') == "true":
