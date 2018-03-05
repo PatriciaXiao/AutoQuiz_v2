@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">boolean</skill>
+	<description>
+		using boolean expressions to express conditions (2017 Spring, Midterm 1, Question 5)
+	</description>
+	<question>
+		<p>
+			<line>You’re comfy in bed. You get up if you’re thirsty. You also get up if you’re hungry. Which expression(s) captures when you stay in bed?</line>
+		</p>
+		<img>
+			<name height="1">10.1.png</name>
+			<name height="1">10.2.png</name>
+			<name height="1">10.3.png</name>
+			<name height="1">10.4.png</name>
+		</img>
+		<p>
+			<line>Let's name them expression A, B, C, and D, respectively. Please choose the correct answers:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					expression A and B
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					expression C and D
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					expression A and C
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					expression B and D
+				</line>
+			</p>
+		</option>
+		<option id="c5" correct="true">
+			<p>
+				<line>
+					expression B and C
+				</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>
+					expression A and D
+				</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>
+					only expression A is correct
+				</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>
+					only expression B is correct
+				</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>
+					only expression C is correct
+				</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>
+					only expression D is correct
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>(not (A and B)) == (not (A) or not (B)); (not (A or B)) == (not (A) and not (B));</hint>
+</content>

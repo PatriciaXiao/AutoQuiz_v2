@@ -59,8 +59,19 @@ def close_db(db):
 def init_topics_and_links():
     db = get_db()
     cursor = db.cursor()
-    topic_id = 0
+    # begin initializing it
+    # topic_id = 0
+    sql = "select count(topic_id) from topics;"
+    cursor.execute(sql)
+    topic_id = cursor.fetchone()[0]
     for topic in topic_list:
+        # make sure the topic is new
+        sql = "select * from topics where topic_name='{0}';".format(topic['name'])
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        if result is not None: # already exists
+            continue
+        # insert new topic
         sql = "insert into topics (topic_id, topic_name, description) values ({0}, '{1}', '{2}');".format(\
             topic_id, topic['name'], topic['description'])
         cursor.execute(sql)
@@ -88,6 +99,13 @@ def init_skills_and_questions():
     db = get_db()
     cursor = db.cursor()
     for skill in skill_map.keys():
+        # make sure it is the first time appears
+        sql = "select * from skill2topic where skill_name='{0}';".format(skill)
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        if result is not None:
+            continue
+        # insert the new skill
         sql = "select topic_id from topics where topic_name='{0}';".format(skill_map[skill])
         cursor.execute(sql)
         topic_id = cursor.fetchone()[0]
@@ -99,9 +117,23 @@ def init_skills_and_questions():
     # candidate_Qfiles = os.listdir(FILE_DIR)
     # http://www.cnblogs.com/zxin/archive/2013/01/26/2877765.html
     question_file_lst = glob.glob(os.path.join(FILE_DIR, 'Q[0-9]*.xml'))
-    # print question_file_lst
+    question_file_sorted = []
     for filepath in question_file_lst:
-        question_id = filepath.split('/')[-1][1:-4]
+        question_id = int(filepath.split('/')[-1][1:-4])
+        question_file_sorted.append([question_id, filepath])
+    question_file_sorted.sort(key=lambda x:x[0])
+    # print question_file_lst
+    # for filepath in question_file_lst:
+    #     question_id = filepath.split('/')[-1][1:-4]
+    for fileinfo in question_file_sorted:
+        question_id = fileinfo[0]
+        filepath = fileinfo[1]
+        # make sure that this question is not duplicated
+        sql = "select * from questions where question_id='{0}';".format(question_id)
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        if result is not None:
+            continue
         # print question_id
         tree = ET.parse(filepath)
         root = tree.getroot()
