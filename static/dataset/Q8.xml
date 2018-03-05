@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <content>
-	<skill kind="detailed">design</skill>
+	<skill kind="detailed">list</skill>
 	<description>
-		Designing the structure of code, using HOF. (2017 Fall, Midterm 1 Version A, Question 8)
+		Playing with data structure list, using HOF. (2017 Fall, Midterm 1 Version A, Question 8)
 	</description>
 	<question>
 		<p>
@@ -13,7 +13,7 @@
 			<line>We record _BOLDS_The student’s name, unique SID, timestamp, and whether the student was entering or exiting the lab_BOLDE_ (which it knows based on which way the student was walking through the door).</line>
 			<line>To find out who is in the lab, assume we have no control structures other than higher-order functions _CODES_map_CODEE_ and _CODES_keep_CODEE_. I.e., no _CODES_repeat_CODEE_, no _CODES_repeat until_CODEE_, no _CODES_for_CODEE_, no _CODES_for each_CODEE_, no _CODES_combine_CODEE_, and no _CODES_recursion_CODEE_. Also assume there are no global variables, and we only have access to DB which can’t be edited, but would simply be fed into the map(s) and/or keep(s).</line>
 			<line>What “machinery” would we need to be able to report all the students who are in the lab, reported as a list of SIDs?</line>
-			<line>As an example, here is _BOLDS_“map’s output fed into keep”_BOLDE_, with appropriate functions passed into the grey rings:</line>
+			<line>As an example, here is _BOLDS_"map's output fed into keep"_BOLDE_, with appropriate functions passed into the grey rings:</line>
 		</p>
 		<img>
 			<name height="1">8.1.png</name>

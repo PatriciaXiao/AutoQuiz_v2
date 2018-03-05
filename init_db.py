@@ -39,7 +39,7 @@ skill_map = {
     'boolean': 'Math Basis',
     'conversion': 'Math Basis',
     'coding': 'Programming',
-    'debug': 'Programming',
+    'list': 'Data Structure',
     'design': 'Algorithm',
     'logic': 'Algorithm',
     'recursion': 'Algorithm'
