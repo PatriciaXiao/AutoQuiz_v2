@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">list</skill>
+	<description>
+		list and HOF (2017 Spring, Midterm 1, Question 7 part a)
+	</description>
+	<question>
+		<p>
+			<line>For each of the following questions, indicate which of _BOLDS_(M)ap_BOLDE_, _BOLDS_(K)eep_BOLDE_, and _BOLDS_(C)ombine_BOLDE_ would be used to solve it, and if more than one are used, in what order they are evaluated (count any helpers too). For example, given:</line>
+		</p>
+		<img>
+			<name height="1">12.1.jpg</name>
+		</img>
+		<p>
+			<line>You could express it as _BOLDS_M_LARR_K_BOLDE_: the result of Keep is sent to Map. Note that you could use other converters such as _CODES_list_RARR_word_CODEE_ or _CODES_word_RARR_list_CODEE_(but so not use Map, Keep or Combine in your helper blocks).</line>
+			<line>If more than one solution works, please pick the simpler one.(e.g., K vs C_LARR_K or C_LARR_K_LARR_M).</line>
+			<line>How to reverse the letters of a word?</line>
+		</p>
+		<img>
+			<name height="1">12.2.png</name>
+		</img>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					either M or K
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					either K or C
+				</line>
+			</p>
+		</option>
+		<option id="c3" correct="true">
+			<p>
+				<line>
+					either M or C
+				</line>
+			</p>
+		</option>
+		<option id="c4" correct="false">
+			<p>
+				<line>
+					only M
+				</line>
+			</p>
+		</option>
+		<option id="c5" correct="false">
+			<p>
+				<line>
+					only K
+				</line>
+			</p>
+		</option>
+		<option id="c6" correct="false">
+			<p>
+				<line>
+					only C
+				</line>
+			</p>
+		</option>
+		<option id="c7" correct="false">
+			<p>
+				<line>
+					K_LARR_M
+				</line>
+			</p>
+		</option>
+		<option id="c8" correct="false">
+			<p>
+				<line>
+					C_LARR_M
+				</line>
+			</p>
+		</option>
+		<option id="c9" correct="false">
+			<p>
+				<line>
+					M_LARR_K
+				</line>
+			</p>
+		</option>
+		<option id="c10" correct="false">
+			<p>
+				<line>
+					C_LARR_K
+				</line>
+			</p>
+		</option>
+		<option id="c11" correct="false">
+			<p>
+				<line>
+					M_LARR_C
+				</line>
+			</p>
+		</option>
+		<option id="c12" correct="false">
+			<p>
+				<line>
+					K_LARR_C
+				</line>
+			</p>
+		</option>
+		<option id="c13" correct="false">
+			<p>
+				<line>
+					C_LARR_K_LARR_M
+				</line>
+			</p>
+		</option>
+		<option id="c14" correct="false">
+			<p>
+				<line>
+					C_LARR_M_LARR_K
+				</line>
+			</p>
+		</option>
+		<option id="c15" correct="false">
+			<p>
+				<line>
+					None of these
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>Consider the input and output of M, K, C - what operations does each of them do to a list? Think of it abstractively.</hint>
+</content>

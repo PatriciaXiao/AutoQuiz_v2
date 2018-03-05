@@ -138,6 +138,10 @@
                       </b>
                     {% elif line == '<br>' %}
                       <br>
+                    {% elif line == '&larr;' %}
+                      &larr;
+                    {% elif line == '&rarr;' %}
+                      &rarr;
                     {% else %}
                       {{line}}
                     {% endif %}
@@ -194,6 +198,10 @@
                                   </b>
                                 {% elif line == '<br>' %}
                                   <br>
+                                {% elif line == '&larr;' %}
+                                  &larr;
+                                {% elif line == '&rarr;' %}
+                                  &rarr;
                                 {% else %}
                                   {{line}}
                                 {% endif %}

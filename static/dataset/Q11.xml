@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">
+		conversion
+	</skill>
+	<description>
+		conversion of number systems (2017 Spring, Midterm 1, Question 6)
+	</description>
+	<question>
+		<p>
+			<line>Which numbers are equal to the Ternary (base 3) number 120_SUBS_3_SUBE_?</line>
+		</p>
+		<p>
+			<line>Choose one:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c0">
+			<p>
+				<line>
+					C_SUBS_16_SUBE_ or 1010_SUBS_2_SUBE_
+				</line>
+			</p>
+		</option>
+		<option id="c1">
+			<p>
+				<line>
+					E_SUBS_16_SUBE_ or 1110_SUBS_2_SUBE_
+				</line>
+			</p>
+		</option>
+		<option id="c2" correct="true">
+			<p>
+				<line>
+					F_SUBS_16_SUBE_ or 1111_SUBS_2_SUBE_
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					G_SUBS_16_SUBE_ or 10000_SUBS_2_SUBE_
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					120_SUBS_10_SUBE_
+				</line>
+			</p>
+		</option>
+		<option id="c11">
+			<p>
+				<line>
+					None of these
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>Decimal 10 in Hexadecimal is A.</hint>
+</content>

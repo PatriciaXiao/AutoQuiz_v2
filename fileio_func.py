@@ -26,6 +26,10 @@ def read_xml(fname, fpath):
         str_content = "\n<b>\n".join(content_list)
         content_list = str_content.split('_BOLDE_')
         str_content = "\n</b>\n".join(content_list)
+        content_list = str_content.split('_LARR_')
+        str_content = "\n&larr;\n".join(content_list)
+        content_list = str_content.split('_RARR_')
+        str_content = "\n&rarr;\n".join(content_list)
         return str_content.split('\n')
     # read xml
     fpath = os.path.join(fpath, fname)

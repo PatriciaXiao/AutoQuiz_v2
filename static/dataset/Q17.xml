@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">function_as_variable</skill>
+	<description>
+		advanced usage of blocks: function as variable (2017 Spring, Midterm 2, Question 2)
+	</description>
+	<question>
+		<p>
+			<line>There are times you want to compute _BOLDS_f(arg)_BOLDE_, or you want _BOLDS_f(f(arg))_BOLDE_, or even _BOLDS_f(f(f(f(arg))))_BOLDE_. Snap! provides the _CODES_cascade_CODEE_ block that takes a number _BOLDS_n_BOLDE_, a function _BOLDS_f_BOLDE_, and an argument _BOLDS_arg_BOLDE_, and applies _BOLDS_f_BOLDE_ to the _BOLDS_arg_BOLDE_ over and over, _BOLDS_n_BOLDE_ times. E.g.,</line>
+		</p>
+		<img>
+			<name height="1">17.1.png</name>
+		</img>
+		<p>We’d like to use it as inspiration for a block that takes a function f, an argument arg, and a predicate pred, and returns the number of times f must be called on arg until it satisfies pred. E.g.,</p>
+		<img>
+			<name height="6">17.2.png</name>
+			<name height="6">17.3.png</name>
+		</img>
+		<p>
+			<line>How to fill in the blanks?</line>
+			<line>Choose from the below:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					G, A, K, E, I, G, B, G;
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					G, A, J, E, I, G, B, G;
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					G, A, K, E, H, G, B, G;
+				</line>
+			</p>
+		</option>
+		<option id="c4" correct="true">
+			<p>
+				<line>
+					None of the above
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>the correct answer is G, A, J, E, H, G, B, G; try it in Snap! for better understanding.</hint>
+</content>

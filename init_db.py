@@ -39,10 +39,13 @@ skill_map = {
     'boolean': 'Math Basis',
     'conversion': 'Math Basis',
     'coding': 'Programming',
+    'debug': 'Programming',
+    'function_as_variable': 'Programming',
     'list': 'Data Structure',
     'design': 'Algorithm',
     'logic': 'Algorithm',
-    'recursion': 'Algorithm'
+    'recursion': 'Algorithm',
+    'complexity': 'Algorithm'
 }
 
 
@@ -86,6 +89,13 @@ def init_topics_and_links():
         sql = "select topic_id from topics where topic_name='{0}';".format(dst)
         cursor.execute(sql)
         dst_id = cursor.fetchone()[0]
+        # make sure the link is new
+        sql = "select * from links where source={0} and target={1};".format(src_id, dst_id)
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        if result is not None: # already exists
+            continue
+        # insert new links
         sql = "insert into links (source, target) values ({0}, {1});".format(\
             src_id, dst_id)
         cursor.execute(sql)

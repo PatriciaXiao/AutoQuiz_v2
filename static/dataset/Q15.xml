@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">recursion</skill>
+	<description>
+		understanding recursion (2017 Spring, Midterm 1, Question 8)
+	</description>
+	<question>
+		<p>
+			<line>You decide to write _CODES_love( )_CODEE_, a reporter to chart how affectionate you are (i.e., what you do) with your sweetie over the course of a given day (day 1 is your first day together, day 2 is your second, etc.). It returns a (possibly long) word whose letters are only: hugs (o), kisses (x), and just hanging out (-). The reporter _CODES_reverse_CODEE_ is provided, it'll reverse the input syting as its output.</line>
+		</p>
+		<img>
+			<name>15.1.png</name>
+		</img>
+		<p>
+			<line>Among the following behaviors, according to the definition of _CODES_love_CODEE_, how many of them are _BOLDS_impossible_BOLDE_?</line>
+			<line>1. Hang out four times in a row (i.e., "----")</line>
+			<line>2. Hug immediately followed by a kiss (i.e., "ox")</line>
+			<line>3. Hug twice in a row (i.e., "oo")</line>
+			<line>Choose one:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					0
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					1
+				</line>
+			</p>
+		</option>
+		<option id="c3" correct="true">
+			<p>
+				<line>
+					2
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					3
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>(1) The ends of a love sequence for day larger than or equal to 3 are x and o respectively. So the middle "-" will always be buffeted by an x or o and at most three "-" in a row; (2) right to letters of love output is always "xo" after 5 days, so after 7 days, reverse( love (day - 2)) will be called and "ox" will appear; (3) "o"s only appear on the right, and next to a reversed recursive call, next to the o are always "x" / "-", so no way to get "oo".</hint>
+</content>
