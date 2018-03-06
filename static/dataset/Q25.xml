@@ -9,69 +9,71 @@
 			<line>How many different possible values of NAME are there at the end?</line>
 		</p>
 		<img>
-			<name height="1">24.1.png</name>
+			<name height="6">25.1.png</name>
+			<name height="3">25.2.png</name>
+			<name height="6">25.3.png</name>
 		</img>
 		<p>
 			<line>Choose one:</line>
 		</p>
 	</question>
 	<answers>
-		<option id="c1" correct="true">
+		<option id="c1">
 			<p>
 				<line>
-					A is false
+					1
 				</line>
 			</p>
 		</option>
 		<option id="c2">
 			<p>
 				<line>
-					A is true
+					2
 				</line>
 			</p>
 		</option>
 		<option id="c3">
 			<p>
 				<line>
-					B is false
+					3
 				</line>
 			</p>
 		</option>
-		<option id="c4">
+		<option id="c4" correct="true">
 			<p>
 				<line>
-					B is true
+					4
 				</line>
 			</p>
 		</option>
 		<option id="c5">
 			<p>
 				<line>
-					Both A and B are false
+					5
 				</line>
 			</p>
 		</option>
 		<option id="c6">
 			<p>
 				<line>
-					Both A and B are true
+					6
 				</line>
 			</p>
 		</option>
 		<option id="c7">
 			<p>
 				<line>
-					A and B are different
+					7
 				</line>
 			</p>
 		</option>
 		<option id="c8">
 			<p>
 				<line>
-					A and B are the same
+					8
 				</line>
 			</p>
 		</option>
 	</answers>
-	<hint>When A is true the value of the expression is true, when A is false the outer OR would just be the value of the inner AND which would already be false if A is false, so B could be anything.</hint>
+	<hint>This "forced non-determinism" yields four different answers – (1) if the left one finished completely (both random numbers 0.1) before the right one started (first random number 0.9): copy would be CALIFORNIA, which is what NAME would be, then the right would join BEARS and it’d be "CALIFORNIA BEARS". (2) If the opposite happened, it would be "CAL BEARSIFORNIA". (3, 4) If neither block can finish completely before the other sets "my copy", then each will grab an independent copy, and set NAME accordingly to "CAL BEARS" or "CALIFORNIA" but the one that finishes last will overwrite the earlier one.</hint>
 </content>

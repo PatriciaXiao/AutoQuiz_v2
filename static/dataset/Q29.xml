@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">list</skill>
+	<description>
+		use higher order function and list to design function (2016 Fall, Midterm 2, Question 8 part d)
+	</description>
+	<question>
+		<p>
+			<line>Consider the problem of wanting to determine if the numbers of a list (of at least two items) are all increasing (i.e., every element after the first one is larger than the one before). Note: the input will always have at least 2 items. Here's some of the example calls:</line>
+		</p>
+		<img>
+			<name height="1">26.1.png</name>
+		</img>
+		<img>
+			<name height="1">26.2.png</name>
+		</img>
+		<img>
+			<name height="1">26.3.png</name>
+		</img>
+		<p>
+			<line>How to fill in the blanks of the following expression so that _CODES_increasing_CODEE_ could work as expected? (described in the order of left to right, up to down)</line>
+		</p>
+		<img>
+			<name height="4">29.4.png</name>
+		</img>
+	</question>
+	<answers>
+		<option id="c1" correct="true">
+			<p>
+				<line>
+					and, _LT_
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					and, =
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					and, _GT_
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					or, _LT_
+				</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>
+					or, =
+				</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>
+					or, _GT_
+				</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>
+					not, _LT_
+				</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>
+					not, =
+				</line>
+			</p>
+		</option>
+		<option id="c9">
+			<p>
+				<line>
+					not, _GT_
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>If each element is smaller than the next one, the whole list is increasing.</hint>
+</content>

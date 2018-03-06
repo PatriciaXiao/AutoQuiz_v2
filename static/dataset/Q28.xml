@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">debug</skill>
+	<description>
+		reading code and find bug (2016 Fall, Midterm 2, Question 8 part c)
+	</description>
+	<question>
+		<p>
+			<line>Consider the problem of wanting to determine if the numbers of a list (of at least two items) are all increasing (i.e., every element after the first one is larger than the one before). Note: the input will always have at least 2 items. Here's some of the example calls:</line>
+		</p>
+		<img>
+			<name height="1">26.1.png</name>
+		</img>
+		<img>
+			<name height="1">26.2.png</name>
+		</img>
+		<img>
+			<name height="1">26.3.png</name>
+		</img>
+		<p>
+			<line>What's wrong (if anything) with the following attempt?</line>
+		</p>
+		<img>
+			<name height="2">28.4.png</name>
+		</img>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					it works fine.
+				</line>
+			</p>
+		</option>
+		<option id="c2" correct="true">
+			<p>
+				<line>
+					It will cause an error / severe logical problem.
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					It always returns _EMPHS_true_EMPHE_.
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					It always returns _EMPHS_false_EMPHE_.
+				</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>
+					It only returns the test of the _EMPHS_first_EMPHE_ two elements.
+				</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>
+					It only returns the test of the _EMPHS_last_EMPHE_ two elements.
+				</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>
+					It only returns whether the first element is smallest.
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>It is an error, since on the first example, you shouldn’t be able to compare 99 and TRUE. Turns out Snap! doesn’t actually cause an error here (it treats TRUE as 1, and FALSE as 0), but in any case that’s a logical problem.</hint>
+</content>
