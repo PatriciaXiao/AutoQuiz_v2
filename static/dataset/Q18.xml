@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <content>
-	<skill kind="detailed">function_as_variable</skill>
+	<skill kind="detailed">coding</skill>
 	<description>
-		advanced usage of blocks: function as variable (2017 Spring, Midterm 2, Question 2, part a)
+		filling blanks to complete a piece of code (2017 Spring, Midterm 2, Question 2, part b)
 	</description>
 	<question>
 		<p>
@@ -11,39 +11,45 @@
 		<img>
 			<name height="1">17.1.png</name>
 		</img>
-		<p>We’d like to use it as inspiration for a block that takes a function f, an argument arg, and a predicate pred, and returns the number of times f must be called on arg until it satisfies pred. E.g.,</p>
+		<p>Using cascade, write that reports a list from 1 to n. (Select ONE from each)</p>
 		<img>
-			<name height="6">17.2.png</name>
-			<name height="6">17.3.png</name>
+			<name height="5">18.2.png</name>
+			<name height="5">18.3.png</name>
 		</img>
 		<p>
-			<line>How to fill in the blanks?</line>
-			<line>Choose from the below:</line>
+			<line>Which one is correct? (from left to right)</line>
 		</p>
 	</question>
 	<answers>
 		<option id="c1">
 			<p>
 				<line>
-					G, A, K, E, I, G, B, G;
+					(n - 1), last, -1, n;
 				</line>
 			</p>
 		</option>
 		<option id="c2">
 			<p>
 				<line>
-					G, A, J, E, I, G, B, G;
+					n, 1, -1, 1;
 				</line>
 			</p>
 		</option>
 		<option id="c3">
 			<p>
 				<line>
-					G, A, K, E, H, G, B, G;
+					(n - 1), last, 1, 1;
 				</line>
 			</p>
 		</option>
 		<option id="c4" correct="true">
+			<p>
+				<line>
+					(n - 1), 1, -1, n;
+				</line>
+			</p>
+		</option>
+		<option id="c5">
 			<p>
 				<line>
 					None of the above
@@ -51,5 +57,5 @@
 			</p>
 		</option>
 	</answers>
-	<hint>the correct answer is G, A, J, E, H, G, B, G; try it in Snap! for better understanding.</hint>
+	<hint>try it in Snap! for better understanding.</hint>
 </content>

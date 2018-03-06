@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">calculation</skill>
+	<description>
+		simple math calculation based on some basic concepts (parallel) (2016 Fall, Midterm 2, Question 1)
+	</description>
+	<question>
+		<p>
+			<line>If 75% of a program's code is parallel, what is the maximum speedup with infinite helpers?</line>
+			<line>Choose one:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					25x
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					75x
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					1.33333x
+				</line>
+			</p>
+		</option>
+		<option id="c4" correct="true">
+			<p>
+				<line>
+					4x
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>1 / (1 - 75 %)</hint>
+</content>

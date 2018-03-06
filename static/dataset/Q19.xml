@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">reasoning</skill>
+	<description>
+		a math trick (2017 Spring, Midterm 2, Question 3)
+	</description>
+	<question>
+		<p>
+			<line>Assume that we have two blocks: _CODES_reverse_CODEE_, which reverses the numbers (leading zeros go away), and _CODES_plus2_CODEE_, who adds 2 to the number. </line>
+		</p>
+		<img>
+			<name height="1">19.1.jpg</name>
+			<name height="1">19.2.jpg</name>
+		</img>
+		<p>
+			<line>Imagine a single, compound expression made up of both of these blocks intermingled and composed together (none, some, or possibly very many of each), like the example above: "reverse(reverse(plus2(reverse())))". If the output of this (possibly large) expression were 7, which could have been the input?</line>
+			<line>Select the best answer.</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					68 6 9
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					6 9 1111
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					68 9 1111
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					68 6 1111
+				</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>
+					None of the above
+				</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>
+					Any integer could be the input, because 7 is a special number
+				</line>
+			</p>
+		</option>
+		<option id="c7" correct="true">
+			<p>
+				<line>
+					The compound expression could convert any integer to any positive integer
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>They are all possible. The secret to this question is that you can drop a zero by reversing a multiple of 10 (as in the example, 1230 becomes 321). That’s easy for even numbers, since you can just get to a multiple of 10, then reverse it twice to drop the 0. For odd numbers it seems impossible, but all you need to do is add 2 until your most significant digit is even, then reverse it, and you’re all set (just add 2 until you get to 700 or 7000 etc and reverse it).</hint>
+</content>

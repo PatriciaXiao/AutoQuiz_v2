@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">conversion</skill>
+	<description>
+		Number base conversion (2016 Fall, Midterm 1, Question 6)
+	</description>
+	<question>
+		<p>
+			<line>Octal (base 8) is another base that computer professionals sometime use to represent numbers. How many different things can be represented by two octal characters, with each character 0-7?</line>
+			<line>Select one:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					8
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					16
+				</line>
+			</p>
+		</option>
+		<option id="c3" correct="true">
+			<p>
+				<line>
+					64
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					88
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>Each digit is independent, so it's 8*8=64</hint>
+</content>

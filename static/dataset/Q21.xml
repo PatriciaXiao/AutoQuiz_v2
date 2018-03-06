@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">coding</skill>
+	<description>
+		predicting the outcome of a piece of code (2016 Fall, Midterm 1, Question 7)
+	</description>
+	<question>
+		<p>
+			<line>There are some helper blocks for control and sensing of a robot, starting in the bottom center of the grid, facing up.</line>
+			<line>When calling _CODES_move forward (INPUT)_CODEE_, the robote moves _EMPHS_INPUT_EMPHE_ squares forward in the direction it is facing.</line>
+			<line>When calling _CODES_rotate left_CODEE_ or _CODES_rotate right_CODEE_, the robote turns 90 degrees counterclockwise and clockwise respectively. _CODES_turn around_CODEE_ would result in a u-turn.</line>
+			<line>_CODES_can move {left, forward, right}_CODEE_ would check if there is a free square to the robot's {left, forward, right} to move onto, if yes, return _EMPHS_true_EMPHE_, else return _EMPHS_false_EMPHE_.</line>
+		</p>
+		<img>
+			<name height="7">21.1.png</name>
+			<name height="11">21.2.png</name>
+		</img>
+		<p>
+			<line>Among A, B, C, D, E and F, how many letters would be reached if we run the script?</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					0
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					1
+				</line>
+			</p>
+		</option>
+		<option id="c3" correct="true">
+			<p>
+				<line>
+					2
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					3
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					4
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					5
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					6
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>A, C. go straight, turn left, turn left, and cycle on A and C forever.</hint>
+</content>

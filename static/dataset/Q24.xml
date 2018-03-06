@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">boolean</skill>
+	<description>
+		understanding boolean expression (2016 Fall, Midterm 2, Question 6)
+	</description>
+	<question>
+		<p>
+			<line>If the following expression is false, which can you say for sure?</line>
+			<line>Choose one:</line>
+		</p>
+		<img>
+			<name height="1">24.1.png</name>
+		</img>
+	</question>
+	<answers>
+		<option id="c1" correct="true">
+			<p>
+				<line>
+					A is false
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					A is true
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					B is false
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					B is true
+				</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>
+					Both A and B are false
+				</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>
+					Both A and B are true
+				</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>
+					A and B are different
+				</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>
+					A and B are the same
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>When A is true the value of the expression is true, when A is false the outer OR would just be the value of the inner AND which would already be false if A is false, so B could be anything.</hint>
+</content>

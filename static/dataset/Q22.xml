@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">reasoning</skill>
+	<description>
+		math trick, requires logic reasoning (2016 Fall, Midterm 1, Question 10)
+	</description>
+	<question>
+		<p>
+			<line>Consider the following blocks that operate on lowercase words, with example calls shown:</line>
+			<line>The first block, _CODES_spin1st_CODEE_, spins the first character forward one letter, stopping at "z". For example, "a" to "b", "b" to "c", ... and "y" to "z", "z" to "z".</line>
+		</p>
+		<img>
+			<name height="1">22.1.png</name>
+			<name height="1">22.2.png</name>
+			<name height="1">22.3.png</name>
+		</img>
+		<p>
+			<line>The second block, _CODES_spin1st of right_CODEE_, removes the last letter and puts it at the front, so it looks like we've "rotated" the letters to the right THEN spins the first letter one letter, the spinning also stopping at "z".</line>
+		</p>
+		<img>
+			<name height="1">22.4.png</name>
+			<name height="1">22.5.png</name>
+		</img>
+		<p>
+			<line>Imagine a series of these blocks (possibly very many) composed together. If the output of this composed expression were _BOLDS_"treat"_BOLDE_, _BOLDS_how many_BOLDE_ of the following could have been the input?</line>
+			<line>Four candidate inputs: _BOLDS_beats, reatt, aaaaa, ataaa._BOLDE_</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					0
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					1
+				</line>
+			</p>
+		</option>
+		<option id="c3" correct="true">
+			<p>
+				<line>
+					2
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					3
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					4
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>beats and ataaa could make it, reatt and aaaaa could not: letters are only increasing and there's no way "decreasing"; and a letter couldn't be rotated directely to the front because it'll be spinned at the same time.</hint>
+</content>

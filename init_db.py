@@ -38,9 +38,12 @@ topic_link = [
 skill_map = {
     'boolean': 'Math Basis',
     'conversion': 'Math Basis',
+    'reasoning': 'Math Basis',
+    'calculation': 'Math Basis',
     'coding': 'Programming',
     'debug': 'Programming',
     'function_as_variable': 'Programming',
+    'parallel': 'Programming',
     'list': 'Data Structure',
     'design': 'Algorithm',
     'logic': 'Algorithm',
