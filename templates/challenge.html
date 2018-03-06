@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Welcome to AutoQuiz: Exercise!</title>
+    <title>Welcome to AutoQuiz: Challenge!</title>
 
     <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
-    <!--script src="../static/jquery.min.js" type="text/javascript"></script>
-    <script src="../static/bootstrap.min.js" type="text/javascript"></script>
-    <script src="../static/analytics.js" type="text/javascript"></script>
-    <link href="../static/bootstrap.min.css" type="text/css" rel="stylesheet">
-    <link href="../static/bootstrap-theme.min.css" type="text/css" rel="stylesheet">
-    <link href="../static/default.css" type="text/css" rel="stylesheet"-->
     <script src="{{ url_for('static', filename='jquery.min.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='bootstrap.min.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='analytics.js') }}" type="text/javascript"></script>
@@ -23,7 +17,6 @@
       <div class="nav navbar-nav navbar-left navbar-title">CS10 AutoQuiz | Fall 2017 | UC Berkeley</div>
       <div class="nav navbar-nav navbar-right">
         <ul class="nav-btns btn-group">
-          <!--a class="btn btn-default" id="return" href="#">logout</a-->
           <a class="btn btn-default" id="return" href="{{url_for('welcome')}}">return</a>
         </ul>
       </div>
@@ -245,81 +238,26 @@
                 </table>
               {% endfor %}
             </div>
-            <div class="feedbackdiv">
-            </div>
           </div>
         </div>
-        <div class="interactionBox">
-          <div class="statusMessages">
-            <!--div class="numberAttemptsDiv">This is your 0st attempt.</div-->
-            <div class="scoreDiv" id="correctness"></div> <!--correct / not yet correct-->
-            <div class="resultMessageDiv" id="show_hint"></div>
-          </div> 
-          <div class="buttonDiv">
-            <table class="buttonTable">
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="buttonDiv">
-                      <button class="btn btn-primary" onclick="check_answer()" id="check_answer_button">Check Answer</button>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="buttonDiv">
-                      <button class="btn btn-primary" onclick="try_again()" id="try_again_button" disabled>Try Again</button>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="buttonDiv">
-                      {% if next_id == -1 or next_id == '-1' %}
-                        <button class="btn btn-primary" disabled>Next Question</button>
-                      {% else %}
-                        <button class="btn btn-primary" onclick="request_exercise({{next_id}})">Next Question</button>
-                      {% endif %}
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <!--div  align="center">
-          <div class="progress">
-              <div class="progress-bar progress-bar-success" role="progressbar"
-                   aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                   style="width: 60%;">
-                  <span class="sr-only">60% completed</span>
-              </div>
-              <div class="progress-bar progress-bar-warning" role="progressbar"
-                 aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
-                 style="width: 10%;">
-                <span class="sr-only">10% half-way done</span>
-              </div>
-          </div>
-          </div-->
-
-        </div>
       </div>
-      <div class="topic_container">
-          <!--h5><b>Guess You'll need:</b></h5-->
-          <!--hr>
-          <a class="disabled" style="color: gray; pointer-events: none;">Guess You'll need:</a><br>
-          <a href="#">Question 1: Number System Conversion</a><br>
-          <a href="#">Question 2: Boolean Expression</a><br>
-          <a href="#">Question 3: Binary Search</a><br-->
-          <hr>
-          <a class="disabled" style="color: gray; pointer-events: none;">Guess You'll need:</a><br>
-          <a href="#" id="recommend_1"></a><br>
-          <a href="#" id="recommend_2"></a><br>
-          <a href="#" id="recommend_3"></a><br>
-      </div>
-
+      <table class="buttonTable">
+        <tbody>
+          <tr>
+            <td>
+              <div class="buttonDiv">
+                <button class="btn btn-primary" onclick="check_answer()" id="check_answer_button">Submit</button>
+              </div>
+            </td>
+            <td>
+              <div class="buttonDiv">
+                <button class="btn btn-primary" onclick="try_again()" id="try_again_button" disabled>Try Again</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <!--div class="page-feedback">
-      <button class="btn btn-primary btn-xs feedback-button" type="button" data-toggle="collapse" data-target="#fdbk">
-        Feedback
-      </button>
-      <div id="fdbk" class="collapse feedback-panel panel panel-primary"></div>
-    </div-->
   </body>
 
 </html>

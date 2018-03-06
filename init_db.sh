@@ -7,7 +7,7 @@ else
         echo "Initializing the database...."
         sqlite3 auto_quiz.db < schema.sql
         echo "Finished initializing"
-fi
+    fi
     sqlite3 auto_quiz.db < schema.sql
 fi
 

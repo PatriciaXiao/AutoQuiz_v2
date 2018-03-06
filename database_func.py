@@ -15,6 +15,7 @@ def initdb_command():
 @app.teardown_appcontext
 def close_db(error=None):
     """Closes the database again at the end of the request."""
+    print "tear down?"
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
 

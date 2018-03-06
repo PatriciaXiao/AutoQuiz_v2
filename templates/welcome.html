@@ -98,6 +98,8 @@
           <input type=hidden name=question_id value=10 id="question_id"/>
           <input type=hidden name=next_id value=10 id="next_id"/>
         </form>
+        <form action="{{ url_for('challenge_section') }}" method=post id="challenge_entrance_form">
+        </form>
       </div>
       <div style="display:none;">
         <form action="{{ url_for('welcome') }}" method=post id="logout_form">
@@ -183,7 +185,9 @@
 
       <script>
         function request_exercise_random() {
-          return request_exercise(1);
+          // return request_exercise(1);
+          var form = document.getElementById("challenge_entrance_form");
+          form.submit();
         }
         function request_exercise(question_id){
           var form = document.getElementById("selection_form");
