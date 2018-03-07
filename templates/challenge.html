@@ -35,7 +35,7 @@
           {% for question_elem in questions_lst %}
           if (document.querySelector('input[name="radiobutton_{{question_elem[0]}}"]:checked') == null) return;
           var id_selected = document.querySelector('input[name="radiobutton_{{question_elem[0]}}"]:checked').value;
-          var id_correct = "{{question_elem[3][0]}}";
+          var id_correct = "{{question_elem[0]}}_{{question_elem[3][0]}}";
           var report_div_id = "feedback_{{question_elem[0]}}_" + id_selected;
           console.log(report_div_id)
           var hint_div_id = "hint_{{question_elem[0]}}"
@@ -61,7 +61,7 @@
           var data = {
             data: JSON.stringify({
               "correctness": correct,
-              "question_id": parseInt("question_elem[0]}}")
+              "question_id": parseInt("{{question_elem[0]}}")
             })
           };
           $.ajax({
@@ -79,7 +79,7 @@
           //////
           {% endfor %}
           // write feedback
-          document.getElementById("feedback_bar").innerHTML="Hello<br>World<br>";
+          document.getElementById("feedback_bar").innerHTML="<font size='30px;'>Hello<br>World<br></font>";
           // disable check answer
           document.getElementById("check_answer_button").disabled=true;
           // enable try again
