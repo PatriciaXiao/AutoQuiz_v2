@@ -7,6 +7,8 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 import time
 import datetime
 
+from fileio_func import IO
+
 @app.cli.command('initdb')
 def initdb_command():
     """Creates the database tables."""
