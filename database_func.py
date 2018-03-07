@@ -341,4 +341,15 @@ def get_challenge_questions(user_id):
         print "not logged in"
     else:
         print "logged in"
+    question_id = sess_cache.get("question_id")
+    correctness = sess_cache.get("correctness")
+    if question_id is None and correctness is None:
+        print "not yet challenged"
+    elif question_id is None or correctness is None:
+        print "challenged but data not finished logging"
+        while question_id is None or correctness is None:
+            question_id = sess_cache.get("question_id")
+            correctness = sess_cache.get("correctness")
+    else:
+        print "has log of last session"
     return [1, 2, 3, 4, 5]
