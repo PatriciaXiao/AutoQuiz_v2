@@ -28,7 +28,7 @@
         </ul>
       </div>
     </nav>
-    <div class="title-small-screen">CS10 AutoQuiz | Fall 2017 | UC Berkeley</div>
+    <div class="title-small-screen">CS10 AutoQuiz | Spring 2018 | UC Berkeley</div>
     <div style="display:none;">
         <form action="{{ url_for('exercise_section') }}" method=post id="selection_form">
           <input type=hidden name=question_id value=10 id="question_id"/>
@@ -48,7 +48,7 @@
           // console.log(id_selected, id_correct)
           if (correct) {
             // correctly answered
-            document.getElementById("correctness").innerHTML="Correct! Congratulations!";
+            document.getElementById("correctness").innerHTML="<font color='green'>Correct! Congratulations!</font>";
             // show explain
             document.getElementById("show_hint").innerHTML="Explain: {{hint}}";
           } else {

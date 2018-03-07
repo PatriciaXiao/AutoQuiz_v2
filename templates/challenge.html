@@ -21,37 +21,39 @@
         </ul>
       </div>
     </nav>
-    <div class="title-small-screen">CS10 AutoQuiz | Fall 2017 | UC Berkeley</div>
+    <div class="title-small-screen">CS10 AutoQuiz | Spring 2018 | UC Berkeley</div>
     <div style="display:none;">
-        <form action="{{ url_for('exercise_section') }}" method=post id="selection_form">
-          <input type=hidden name=question_id value=10 id="question_id"/>
+        <form action="{{ url_for('challenge_section') }}" method=post id="next_go">
+          <!--input type=hidden name=question_id value=10 id="question_id"/-->
         </form>
     </div>
     <div class="llab-full">
       <script type="text/javascript">
-        function check_answer() {
+        function submit() {
           // get the selected answer
           // console.log("radio button selected", document.querySelector('input[name="radiobutton"]:checked').value)
-          if (document.querySelector('input[name="radiobutton"]:checked') == null) return;
-          var id_selected = document.querySelector('input[name="radiobutton"]:checked').value;
-          var id_correct = "{{correct_ans_id[0]}}";
+          if (document.querySelector('input[name="radiobutton_{{questions_lst[0][0]}}"]:checked') == null) return;
+          var id_selected = document.querySelector('input[name="radiobutton_{{questions_lst[0][0]}}"]:checked').value;
+          var id_correct = "{{questions_lst[0][3][0]}}";
+          var report_div_id = "feedback_{{questions_lst[0][0]}}_" + id_selected
+          var hint_div_id = "hint_{{questions_lst[0][0]}}"
           var correct = 0;
           if (id_selected == id_correct)
             correct = 1;
           // console.log(id_selected, id_correct)
           if (correct) {
             // correctly answered
-            document.getElementById("correctness").innerHTML="Correct! Congratulations!";
+            document.getElementById(report_div_id).innerHTML="<font color='green'>Correct! Congratulations!</font>";
             // show explain
-            document.getElementById("show_hint").innerHTML="Explain: {{hint}}";
+            document.getElementById(hint_div_id).innerHTML="Explain: {{questions_lst[0][4]}}";
           } else {
             // wrong
-            document.getElementById("correctness").innerHTML="Haven't get it correct yet, please think twice.";
+            document.getElementById(report_div_id).innerHTML="Haven't get it correct yet, please think twice.";
             // show hint
-            document.getElementById("show_hint").innerHTML="HINT: {{hint}}";
+            document.getElementById(hint_div_id).innerHTML="HINT: {{questions_lst[0][4]}}";
           }
           // disable all the candidates
-          {% for candidate in answers %}
+          {% for candidate in questions_lst[0][2] %}
             document.getElementById("{{candidate[0]}}").disabled=true;
           {% endfor %}
           // disable check answer
@@ -62,7 +64,7 @@
           var data = {
             data: JSON.stringify({
               "correctness": correct,
-              "question_id": parseInt("{{question_id}}")
+              "question_id": parseInt("{{questions_lst[0][0]}}")
             })
           };
           $.ajax({
@@ -79,33 +81,19 @@
           });
           //////
         }
-        function try_again() {
-          // enable all the candidates
-          {% for candidate in answers %}
-            document.getElementById("{{candidate[0]}}").disabled=false;
-            document.getElementById("{{candidate[0]}}").checked=false;
-          {% endfor %}
-          // hide correctness information
-          document.getElementById("correctness").innerHTML="";
-          // hide hint
-          document.getElementById("show_hint").innerHTML="";
-          // enable check answer
-          document.getElementById("check_answer_button").disabled=false;
-          // disable try again button
-          document.getElementById("try_again_button").disabled=true;
-        }
-        function request_exercise(question_id){
-          var form = document.getElementById("selection_form");
-          form.question_id.value = question_id;
+        function next_go(){
+          var form = document.getElementById("next_go");
+          // form.question_id.value = question_id;
           form.submit();
         }
       </script>
+      {% for question_elem in questions_lst %}
       <div class="panel panel-primary MultipleChoice Question">
-        <div class="panel-heading questionType">Question {{question_id}}</div>
+        <div class="panel-heading questionType">Question {{questions_lst[0][0]}}</div>
         <div class="panel-body currentQuestionBox">
           <div class="leftColumn">
             <div class="promptDiv">
-              {% for sentence in question %}
+              {% for sentence in questions_lst[0][1] %}
                 {% if sentence[0] == 'p' %}
                   <p>
                   {% for line in sentence[1] %}
@@ -163,12 +151,12 @@
               
             </div>
             <div class="radiobuttondiv">
-              {% for candidate in answers %}
+              {% for candidate in questions_lst[0][2] %}
                 <table>
                   <tbody>
                     <tr class="table-middle">
                       <td class="table-middle">
-                        <input type="radio" name="radiobutton" id="{{candidate[0]}}" value="{{candidate[0]}}" class="radio">
+                        <input type="radio" name="radiobutton_{{questions_lst[0][0]}}" id="{{candidate[0]}}" value="{{candidate[0]}}" class="radio">
                       </td>
                       <td class="table-middle">
                         <div id="choicetext:{{candidate[0]}}">
@@ -231,27 +219,30 @@
                         </div>
                       </td>
                       <td class="table-middle">
-                        <div id="feedback_{{candidate[0]}}" name="feedbacks"></div>
+                        <div id="feedback_{{questions_lst[0][0]}}_{{candidate[0]}}" name="feedbacks"></div>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               {% endfor %}
             </div>
+            <div class="feedbackdiv" id="hint_{{questions_lst[0][0]}}">
+            </div>
           </div>
         </div>
       </div>
+      {% endfor %}
       <table class="buttonTable">
         <tbody>
           <tr>
             <td>
               <div class="buttonDiv">
-                <button class="btn btn-primary" onclick="check_answer()" id="check_answer_button">Submit</button>
+                <button class="btn btn-primary" onclick="submit()" id="check_answer_button">Submit</button>
               </div>
             </td>
             <td>
               <div class="buttonDiv">
-                <button class="btn btn-primary" onclick="try_again()" id="try_again_button" disabled>Try Again</button>
+                <button class="btn btn-primary" onclick="next_go()" id="try_again_button" disabled>Next Challenge</button>
               </div>
             </td>
           </tr>
