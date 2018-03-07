@@ -52,7 +52,7 @@ def exercise_section():
 @app.route('/challenge/', methods=['GET', 'POST'])
 def challenge_section():
     questions_lst = []
-    question_id_lst = [1, 1]
+    question_id_lst = [1, 2]
     for question_id in question_id_lst:
         question_fname = "Q{0}.xml".format(question_id)
         # print "question file name {0}".format(question_fname)

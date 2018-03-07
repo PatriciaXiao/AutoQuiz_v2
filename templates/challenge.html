@@ -32,11 +32,13 @@
         function submit() {
           // get the selected answer
           // console.log("radio button selected", document.querySelector('input[name="radiobutton"]:checked').value)
-          if (document.querySelector('input[name="radiobutton_{{questions_lst[0][0]}}"]:checked') == null) return;
-          var id_selected = document.querySelector('input[name="radiobutton_{{questions_lst[0][0]}}"]:checked').value;
-          var id_correct = "{{questions_lst[0][3][0]}}";
-          var report_div_id = "feedback_{{questions_lst[0][0]}}_" + id_selected
-          var hint_div_id = "hint_{{questions_lst[0][0]}}"
+          {% for question_elem in questions_lst %}
+          if (document.querySelector('input[name="radiobutton_{{question_elem[0]}}"]:checked') == null) return;
+          var id_selected = document.querySelector('input[name="radiobutton_{{question_elem[0]}}"]:checked').value;
+          var id_correct = "{{question_elem[3][0]}}";
+          var report_div_id = "feedback_{{question_elem[0]}}_" + id_selected;
+          console.log(report_div_id)
+          var hint_div_id = "hint_{{question_elem[0]}}"
           var correct = 0;
           if (id_selected == id_correct)
             correct = 1;
@@ -45,26 +47,21 @@
             // correctly answered
             document.getElementById(report_div_id).innerHTML="<font color='green'>Correct! Congratulations!</font>";
             // show explain
-            document.getElementById(hint_div_id).innerHTML="Explain: {{questions_lst[0][4]}}";
+            document.getElementById(hint_div_id).innerHTML="Explain: {{question_elem[4]}}";
           } else {
             // wrong
             document.getElementById(report_div_id).innerHTML="Haven't get it correct yet, please think twice.";
             // show hint
-            document.getElementById(hint_div_id).innerHTML="HINT: {{questions_lst[0][4]}}";
+            document.getElementById(hint_div_id).innerHTML="HINT: {{question_elem[4]}}";
           }
           // disable all the candidates
-          {% for candidate in questions_lst[0][2] %}
-            document.getElementById("{{candidate[0]}}").disabled=true;
+          {% for candidate in question_elem[2] %}
+            document.getElementById("{{question_elem[0]}}_{{candidate[0]}}").disabled=true;
           {% endfor %}
-          // disable check answer
-          document.getElementById("check_answer_button").disabled=true;
-          // enable try again
-          document.getElementById("try_again_button").disabled=false;
-          //////
           var data = {
             data: JSON.stringify({
               "correctness": correct,
-              "question_id": parseInt("{{questions_lst[0][0]}}")
+              "question_id": parseInt("question_elem[0]}}")
             })
           };
           $.ajax({
@@ -80,6 +77,14 @@
               }
           });
           //////
+          {% endfor %}
+          // write feedback
+          document.getElementById("feedback_bar").innerHTML="Hello<br>World<br>";
+          // disable check answer
+          document.getElementById("check_answer_button").disabled=true;
+          // enable try again
+          document.getElementById("try_again_button").disabled=false;
+          //////
         }
         function next_go(){
           var form = document.getElementById("next_go");
@@ -89,11 +94,11 @@
       </script>
       {% for question_elem in questions_lst %}
       <div class="panel panel-primary MultipleChoice Question">
-        <div class="panel-heading questionType">Question {{questions_lst[0][0]}}</div>
+        <div class="panel-heading questionType">Question {{question_elem[0]}}</div>
         <div class="panel-body currentQuestionBox">
           <div class="leftColumn">
             <div class="promptDiv">
-              {% for sentence in questions_lst[0][1] %}
+              {% for sentence in question_elem[1] %}
                 {% if sentence[0] == 'p' %}
                   <p>
                   {% for line in sentence[1] %}
@@ -151,15 +156,15 @@
               
             </div>
             <div class="radiobuttondiv">
-              {% for candidate in questions_lst[0][2] %}
+              {% for candidate in question_elem[2] %}
                 <table>
                   <tbody>
                     <tr class="table-middle">
                       <td class="table-middle">
-                        <input type="radio" name="radiobutton_{{questions_lst[0][0]}}" id="{{candidate[0]}}" value="{{candidate[0]}}" class="radio">
+                        <input type="radio" name="radiobutton_{{question_elem[0]}}" id="{{question_elem[0]}}_{{candidate[0]}}" value="{{question_elem[0]}}_{{candidate[0]}}" class="radio">
                       </td>
                       <td class="table-middle">
-                        <div id="choicetext:{{candidate[0]}}">
+                        <div id="choicetext:{{question_elem[0]}}_{{candidate[0]}}">
                           <!--{{candidate[1]}}-->
                           {% for sentence in candidate[1] %}
                             {% if sentence[0] == 'p' %}
@@ -219,19 +224,21 @@
                         </div>
                       </td>
                       <td class="table-middle">
-                        <div id="feedback_{{questions_lst[0][0]}}_{{candidate[0]}}" name="feedbacks"></div>
+                        <div id="feedback_{{question_elem[0]}}_{{question_elem[0]}}_{{candidate[0]}}" name="feedbacks"></div>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               {% endfor %}
             </div>
-            <div class="feedbackdiv" id="hint_{{questions_lst[0][0]}}">
+            <div class="resultMessageDiv" id="hint_{{question_elem[0]}}" align="center">
             </div>
           </div>
         </div>
       </div>
       {% endfor %}
+      <div class="feedbackdiv" align="center" id="feedback_bar">
+      </div>
       <table class="buttonTable">
         <tbody>
           <tr>
