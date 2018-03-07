@@ -11,7 +11,7 @@ import time
 import datetime
 
 from fileio_func import read_xml
-from database_func import check_user, user_registration, user_login, log_exercise_db, get_topic_info, fetch_questions
+from database_func import check_user, user_registration, user_login, log_exercise_db, get_topic_info, fetch_questions, get_challenge_questions
 
 @app.route('/topic/<topic_id_marked>')
 def topic_question_lst(topic_id_marked):
@@ -52,14 +52,15 @@ def exercise_section():
 @app.route('/challenge/', methods=['GET', 'POST'])
 def challenge_section():
     questions_lst = []
-    question_id_lst = [1, 2]
+    # question_id_lst = [1, 2]
+    user_id = user_cache.get('user_id')
+    question_id_lst = get_challenge_questions(user_id)
     for question_id in question_id_lst:
         question_fname = "Q{0}.xml".format(question_id)
         # print "question file name {0}".format(question_fname)
         question, answers, correct_ans_id, hint = read_xml(question_fname, os.path.join(app.root_path, 'static', 'dataset'))
         # print "next question is {0}".format(next_id)
         questions_lst.append([question_id, question, answers, correct_ans_id, hint])
-
     return render_template('challenge.html', questions_lst=questions_lst)
 
 # https://segmentfault.com/a/1190000007605055
@@ -85,6 +86,45 @@ def log_exercise_result():
         }
     ]
     return json.dumps(info)
+
+@app.route('/log_session', methods=['GET', 'POST'])
+def log_challenge_session():
+    jsondata = request.form.get('data')
+    data = json.loads(jsondata)
+    question_id = data["question_id"]
+    correctness = data["correctness"]
+    # print question_id
+    # print correctness
+    '''
+    # timestamp = time.time()
+    # timestring = datetime.datetime.fromtimestamp(timestamp).strftime('%Y/%m/%d %H:%M:%S')
+    user_id = user_cache.get('user_id')
+    log_ip = request.remote_addr
+    log_time = datetime.datetime.now()
+    # print "user {0} do exe {1} at time {2}, correctness: {3}".format(user_id, question_id, timestring, correctness)
+    result = log_exercise_db(question_id, user_id, correctness, log_ip, log_time)
+    if result:
+        success = 1
+    else:
+        success = 0
+    info = [{
+            "success": success
+        }
+    ]
+    '''
+
+    sess_cache.set("question_id", question_id)
+    sess_cache.set("correctness", correctness)
+
+    info = [{
+            "Math Basis": 1,
+            "Programming": 0.5,
+            "Data Structure": 0.4,
+            "Algorithm": 0.3
+        }
+    ]
+    return json.dumps(info)
+
 
 @app.route('/check_user', methods=['GET', 'POST'])
 def check_user_exists():

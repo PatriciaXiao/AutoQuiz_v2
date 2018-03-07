@@ -15,7 +15,7 @@ def initdb_command():
 @app.teardown_appcontext
 def close_db(error=None):
     """Closes the database again at the end of the request."""
-    print "tear down?"
+    # print "tear down?"
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
 
@@ -333,3 +333,10 @@ def fetch_questions(topic_id, user_id):
     ]
     '''
     return questions
+
+def get_challenge_questions(user_id):
+    if user_id is None:
+        print "not logged in"
+    else:
+        print "logged in"
+    return [1, 2, 3, 4, 5]

@@ -32,27 +32,37 @@
         function submit() {
           // get the selected answer
           // console.log("radio button selected", document.querySelector('input[name="radiobutton"]:checked').value)
+          var session = {
+            "correctness": [],
+            "question_id": []
+          };
           {% for question_elem in questions_lst %}
-          if (document.querySelector('input[name="radiobutton_{{question_elem[0]}}"]:checked') == null) return;
-          var id_selected = document.querySelector('input[name="radiobutton_{{question_elem[0]}}"]:checked').value;
-          var id_correct = "{{question_elem[0]}}_{{question_elem[3][0]}}";
-          var report_div_id = "feedback_{{question_elem[0]}}_" + id_selected;
-          console.log(report_div_id)
-          var hint_div_id = "hint_{{question_elem[0]}}"
-          var correct = 0;
-          if (id_selected == id_correct)
-            correct = 1;
-          // console.log(id_selected, id_correct)
-          if (correct) {
-            // correctly answered
-            document.getElementById(report_div_id).innerHTML="<font color='green'>Correct! Congratulations!</font>";
-            // show explain
-            document.getElementById(hint_div_id).innerHTML="Explain: {{question_elem[4]}}";
+          var question_id = parseInt("{{question_elem[0]}}");
+          var hint_div_id = "hint_{{question_elem[0]}}";
+          // not answered, or answered
+          if (document.querySelector('input[name="radiobutton_{{question_elem[0]}}"]:checked') == null) {
+            var correct = 0;
+            document.getElementById(hint_div_id).innerHTML="You didn't answer this question, here's our hint:<br> {{question_elem[4]}}";
           } else {
-            // wrong
-            document.getElementById(report_div_id).innerHTML="Haven't get it correct yet, please think twice.";
-            // show hint
-            document.getElementById(hint_div_id).innerHTML="HINT: {{question_elem[4]}}";
+            var id_selected = document.querySelector('input[name="radiobutton_{{question_elem[0]}}"]:checked').value;
+            var id_correct = "{{question_elem[0]}}_{{question_elem[3][0]}}";
+            var report_div_id = "feedback_{{question_elem[0]}}_" + id_selected;
+            // console.log(report_div_id)
+            var correct = 0;
+            if (id_selected == id_correct)
+              correct = 1;
+            // console.log(id_selected, id_correct)
+            if (correct) {
+              // correctly answered
+              document.getElementById(report_div_id).innerHTML="<font color='green'>Correct! Congratulations!</font>";
+              // show explain
+              document.getElementById(hint_div_id).innerHTML="Explain: {{question_elem[4]}}";
+            } else {
+              // wrong
+              document.getElementById(report_div_id).innerHTML="Haven't get it correct yet, please think twice.";
+              // show hint
+              document.getElementById(hint_div_id).innerHTML="HINT: {{question_elem[4]}}";
+            }
           }
           // disable all the candidates
           {% for candidate in question_elem[2] %}
@@ -61,9 +71,11 @@
           var data = {
             data: JSON.stringify({
               "correctness": correct,
-              "question_id": parseInt("{{question_elem[0]}}")
+              "question_id": question_id
             })
           };
+          session["correctness"].push(correct);
+          session["question_id"].push(question_id);
           $.ajax({
               url: "/log_exercise",
               type: "POST",
@@ -78,13 +90,53 @@
           });
           //////
           {% endfor %}
+          // console.log(session);
           // write feedback
-          document.getElementById("feedback_bar").innerHTML="<font size='30px;'>Hello<br>World<br></font>";
+          // document.getElementById("feedback_bar").innerHTML="<font size='30px;'>Hello<br>World<br></font>";
           // disable check answer
-          document.getElementById("check_answer_button").disabled=true;
+          // document.getElementById("check_answer_button").disabled=true;
           // enable try again
-          document.getElementById("try_again_button").disabled=false;
+          // document.getElementById("try_again_button").disabled=false;
           //////
+          $.ajax({
+              url: "/log_session",
+              type: "POST",
+              data: {data: JSON.stringify(session)},
+              dataType: 'json',
+              success: function(data) {
+                // console.log("success")
+                // console.log(data[0]["Math Basis"])
+                // console.log(Object.keys(data[0]))
+                var topics_data = data[0];
+                var topic_names = Object.keys(topics_data);
+                var report_msg = "";
+                for(var i = 0; i < topic_names.length; i++) {
+                  // console.log(topics_data[topic_names[i]])
+                  var tmp_topic = topic_names[i];
+                  var tmp_value = topics_data[tmp_topic];
+                  if (tmp_value > 0.8) {
+                    // report_msg += "<font size='20px;' color='green'>Your mastery level of " + tmp_topic + " is very high!</font><br>";
+                    report_msg += "<font style='color:green;font-size:30px;'>Your mastery level of " + tmp_topic + " is very high!</font><br>";
+                  } else if (tmp_value > 0.6) {
+                    report_msg += "<font style='color:blue;font-size:30px;'>Your mastery level of " + tmp_topic + " is above average.</font><br>"; // so-called average = 0.5
+                  } else if (tmp_value > 0.4) {
+                    report_msg += "<font style='color:black;font-size:30px;'>You can definitely do better on " + tmp_topic + "~</font><br>";
+                  } else {
+                    report_msg += "<font style='color:orange;font-size:30px;'>You might need more practice on " + tmp_topic + "~</font><br>";
+                  }
+                }
+                // write feedback
+                // document.getElementById("feedback_bar").innerHTML="<font size='20px;'>Hello<br>World<br></font>";
+                document.getElementById("feedback_bar").innerHTML=report_msg;
+                // disable check answer
+                document.getElementById("check_answer_button").disabled=true;
+                // enable try again
+                document.getElementById("try_again_button").disabled=false;
+              },
+              error: function(xhr, type) {
+                console.log(" logging error", xhr, type)
+              }
+          });
         }
         function next_go(){
           var form = document.getElementById("next_go");

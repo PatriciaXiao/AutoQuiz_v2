@@ -19,6 +19,7 @@ app = Flask(__name__)
 # cache
 next_cache = SimpleCache()
 user_cache = SimpleCache()
+sess_cache = SimpleCache() # session cache
 # my_cache = SimpleCache()
 
 # Load default config and override config from an environment variable
