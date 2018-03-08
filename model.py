@@ -306,6 +306,8 @@ def run(session,
                         auc = calc_score(m)
                         print('AUC score: {0}'.format(auc))   
                         save_path = m.saver.save(session, model_saved_path)
+                        # https://www.tensorflow.org/programmers_guide/saved_model
+                        saver.restore(session, model_saved_path) # test
                         print('Model saved in {0}'.format(save_path))
                 print ('End epoch (%d/%d)' % (epoch, n_epoch))
                 auc = calc_score(m)
