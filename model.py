@@ -205,10 +205,10 @@ class BatchGenerator:
 
 def run(session, 
         train_batchgen, test_batchgen, 
-        option="step", n_epoch=0, n_step=5001,
+        option="epoch", n_epoch=1, n_step=5001,
         keep_prob = 0.5,
         report_loss_interval=100, report_score_interval=500,
-        model_saved_path='model.ckpt',
+        model_saved_path='./model.ckpt',
         random_embedding=False,
         embedding_size=200,
         multi_granined=True,
@@ -293,9 +293,11 @@ def run(session,
                 print ('Start epoch (%d/%d)' % (epoch, n_epoch))
                 sum_loss = 0
                 for step in range(steps_per_epoch):
-                    batch_Xs, batch_Ys, batch_labels, batch_sequence_lengths = train_batchgen.next_batch()
+                    batch_Xs, batch_Ys, batch_labels, batch_sequence_lengths, batch_caegories = train_batchgen.next_batch()
                     feed_dict = {m.Xs : batch_Xs, m.Ys : batch_Ys, 
-                            m.seq_len : batch_sequence_lengths, m.targets : batch_labels}
+                            m.seq_len : batch_sequence_lengths, 
+                            m.targets : batch_labels,
+                            m.categories : batch_caegories}
                     _, batch_loss = session.run([m.train_op,m.loss], feed_dict=feed_dict)
                     sum_loss += batch_loss
                     if step % report_loss_interval == 0:
@@ -304,10 +306,11 @@ def run(session,
                         sum_loss = 0
                     if step % report_score_interval == 0:
                         auc = calc_score(m)
-                        print('AUC score: {0}'.format(auc))   
+                        print('AUC score: {0}'.format(auc))
+                        print model_saved_path 
                         save_path = m.saver.save(session, model_saved_path)
                         # https://www.tensorflow.org/programmers_guide/saved_model
-                        saver.restore(session, model_saved_path) # test
+                        m.saver.restore(session, model_saved_path) # test
                         print('Model saved in {0}'.format(save_path))
                 print ('End epoch (%d/%d)' % (epoch, n_epoch))
                 auc = calc_score(m)
@@ -318,3 +321,113 @@ def run(session,
                     out_file_csv.write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}\n".format( \
                         n_hidden_units, '', epoch + 1, test_batchgen.batch_size, embedding_size, keep_prob, random_embedding, multi_granined, multi_granined_out, initial_learning_rate, final_learning_rate, auc))
     pass
+
+def run_epoch(session, 
+        train_batchgen,
+        n_epoch=1,
+        keep_prob = 0.5,
+        report_loss_interval=100,
+        model_saved_path='./model.ckpt',
+        random_embedding=False,
+        embedding_size=200,
+        multi_granined=True,
+        n_categories=0,
+        n_hidden_units = 200,
+        record_performance=True,
+        initial_learning_rate=0.001,
+        final_learning_rate=0.00001,
+        multi_granined_out=True):
+
+    if multi_granined_out:
+        vec_length_out = train_batchgen.vec_length_out + n_categories
+    else:
+        vec_length_out = train_batchgen.vec_length_out
+    m = grainedDKTModel(train_batchgen.batch_size, train_batchgen.vec_length_in, vec_length_out, \
+                        random_embedding=random_embedding, multi_granined=multi_granined, n_categories=n_categories, \
+                        keep_prob=keep_prob, n_hidden=n_hidden_units, embedding_size=embedding_size, \
+                        initial_learning_rate=initial_learning_rate, final_learning_rate=final_learning_rate,
+                        multi_granined_out = multi_granined_out)
+    with session.as_default():
+        tf.global_variables_initializer().run()
+        steps_per_epoch = train_batchgen.data_size // train_batchgen.batch_size
+        for epoch in range(n_epoch):
+            train_batchgen.reset()
+            print ('Start epoch (%d/%d)' % (epoch, n_epoch))
+            sum_loss = 0
+            for step in range(steps_per_epoch):
+                batch_Xs, batch_Ys, batch_labels, batch_sequence_lengths, batch_caegories = train_batchgen.next_batch()
+                feed_dict = {m.Xs : batch_Xs, m.Ys : batch_Ys, 
+                            m.seq_len : batch_sequence_lengths, 
+                            m.targets : batch_labels,
+                            m.categories : batch_caegories}
+                _, batch_loss = session.run([m.train_op,m.loss], feed_dict=feed_dict)
+                sum_loss += batch_loss
+                if step % report_loss_interval == 0:
+                    average_loss = sum_loss / min(report_loss_interval, step+1)
+                    print ('Average loss at step (%d/%d): %f' % (step, steps_per_epoch, average_loss))
+                    sum_loss = 0
+            print ('End epoch (%d/%d)' % (epoch, n_epoch))
+            save_path = m.saver.save(session, model_saved_path)
+            print('Model saved in {0}'.format(save_path))
+    # tf.reset_default_graph()
+    pass
+
+def run_predict(session, 
+        test_batchgen,
+        steps_to_test=0,
+        n_epoch=1,
+        keep_prob = 0.5,
+        report_loss_interval=100,
+        model_saved_path='./model.ckpt',
+        checkpoint_dir = "./",
+        random_embedding=False,
+        embedding_size=200,
+        multi_granined=True,
+        n_categories=0,
+        n_hidden_units = 200,
+        record_performance=True,
+        initial_learning_rate=0.001,
+        final_learning_rate=0.00001,
+        multi_granined_out=True):
+    if steps_to_test == 0:
+        steps_to_test = test_batchgen.data_size//test_batchgen.batch_size
+        if steps_to_test == 0:
+            steps_to_test = 1
+    print steps_to_test
+    if multi_granined_out:
+        vec_length_out = test_batchgen.vec_length_out + n_categories
+    else:
+        vec_length_out = test_batchgen.vec_length_out
+
+    def calc_score(graph):
+        auc_sum = 0.
+        test_batchgen.reset()
+        Xs = graph.get_tensor_by_name("Xs_input:0")
+        Ys = graph.get_tensor_by_name("Ys_input:0")
+        seq_len = graph.get_tensor_by_name("sequence_length_input:0")
+        targets = graph.get_tensor_by_name("targets_input:0")
+        categories = graph.get_tensor_by_name("input_categories:0")
+        predict_tensor = graph.get_tensor_by_name("test_predict:0")
+        for i in range(steps_to_test):
+            test_batch_Xs, test_batch_Ys, test_batch_labels, test_batch_sequence_lengths, test_batch_categories = test_batchgen.next_batch()
+            test_feed_dict= {Xs : test_batch_Xs, Ys : test_batch_Ys, 
+                        seq_len : test_batch_sequence_lengths,
+                        targets : test_batch_labels,
+                        categories : test_batch_categories}
+            pred = session.run([predict_tensor], feed_dict=test_feed_dict)
+            label_list = test_batch_labels.reshape(-1)
+            pred_list = np.array(pred).reshape(-1)
+            # print [abs(d) for d in np.array(label_list) - np.array(pred_list)]
+            # accuracy = sum([abs(d) for d in np.array(label_list) - np.array(pred_list)]) / len(pred_list)
+            # print accuracy
+            auc_sum += roc_auc_score(label_list,pred_list)
+        auc = auc_sum / steps_to_test
+        return auc, pred_list
+
+    with session.as_default():
+        saver = tf.train.import_meta_graph('{0}.meta'.format(model_saved_path))
+        saver.restore(session, tf.train.latest_checkpoint(checkpoint_dir))
+        graph = tf.get_default_graph()
+        auc, pred_list = calc_score(graph)
+        print('AUC score: {0}'.format(auc))
+    return auc, pred_list

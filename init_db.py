@@ -1,7 +1,7 @@
 from __init__ import *
 import tensorflow as tf
 from fileio_func import IO
-from model import grainedDKTModel, BatchGenerator, run
+from model import grainedDKTModel, BatchGenerator, run_epoch, run_predict
 
 DATABASE = './auto_quiz.db'
 FILE_DIR = './static/dataset/'
@@ -201,12 +201,15 @@ if __name__ == '__main__':
         skill2category_map = PrepData.skill_idx_2_category_idx(category_map_dict, category_encoding)
         n_id = len(id_encoding)
         batch_size = BATCH_SIZE
+        n_epoch=1
         n_categories = len(category_encoding)
         train_batches = BatchGenerator(response_list, batch_size, id_encoding, n_id, n_id, n_categories, skill_to_category_dict=skill2category_map)
         ###
-        test_batches = BatchGenerator(response_list, batch_size, id_encoding, n_id, n_id, n_categories, skill_to_category_dict=skill2category_map)
         sess = tf.Session()
-        run(sess, train_batches, test_batches, n_categories=n_categories)
+        run_epoch(sess, train_batches, n_categories=n_categories, n_epoch=1)
+
+        test_batches = BatchGenerator(response_list, batch_size, id_encoding, n_id, n_id, n_categories, skill_to_category_dict=skill2category_map)
+        auc, tst = run_predict(sess, test_batches, n_categories=n_categories)
         # tensorboard --logdir logs
         writer = tf.summary.FileWriter(MODEL_LOG_FOLDER, sess.graph) # http://localhost:6006/#graphs on mac
         sess.close()
