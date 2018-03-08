@@ -10,6 +10,11 @@ import xml.etree.ElementTree as ET
 OFFICIAL_MAILBOX = 'cs10.autoquiz@gmail.com'
 DATABASE = './auto_quiz.db'
 FILE_DIR = './static/dataset/'
+DKT_SESS_DAT = "dkt_sessions.csv"
+BATCH_SIZE = 16
+MAX_SESS = 10
+DKT_MODEL = "model.ckpt"
+MODEL_LOG_FOLDER = "./log/"
 
 # create the application
 app = Flask(__name__)

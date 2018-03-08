@@ -1,0 +1,1 @@
+n_hidden_units,step,epoch,batch_size,embedding_size,keep_prob,random_embedding,multi_granined,multi_granined_out,initial_learning_rate,final_learning_rate,AUC

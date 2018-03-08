@@ -68,26 +68,8 @@
           {% for candidate in question_elem[2] %}
             document.getElementById("{{question_elem[0]}}_{{candidate[0]}}").disabled=true;
           {% endfor %}
-          var data = {
-            data: JSON.stringify({
-              "correctness": correct,
-              "question_id": question_id
-            })
-          };
           session["correctness"].push(correct);
           session["question_id"].push(question_id);
-          $.ajax({
-              url: "/log_exercise",
-              type: "POST",
-              data: data,
-              dataType: 'json',
-              success: function(data) {
-                // console.log("success")
-              },
-              error: function(xhr, type) {
-                console.log(" logging error", xhr, type)
-              }
-          });
           //////
           {% endfor %}
           // console.log(session);

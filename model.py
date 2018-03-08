@@ -6,9 +6,9 @@ import os
 class grainedDKTModel:
     def __init__(
             self, 
-            batch_size, 
-            vec_length_in,                  # number of questions in dataset
-            vec_length_out,                 # output size
+            batch_size=16, 
+            vec_length_in=0,                  # number of questions in dataset
+            vec_length_out=0,                 # output size
             initial_learning_rate=0.001,
             final_learning_rate=0.00001,
             n_hidden=200,                   # number of hidden units in the hidden layer
@@ -138,7 +138,7 @@ class grainedDKTModel:
         return self._pred
 
 class BatchGenerator:
-    def __init__(self, data, batch_size, id_encoding, vec_length_in, vec_length_out, n_categories, random_embedding=True, skill_to_category_dict=None, multi_granined_out=True):
+    def __init__(self, data, batch_size, id_encoding, vec_length_in, vec_length_out, n_categories, random_embedding=False, skill_to_category_dict=None, multi_granined_out=True):
         self.data = sorted(data, key = lambda x: x[0])
         self.batch_size = batch_size
         self.id_encoding = id_encoding
@@ -198,11 +198,14 @@ class BatchGenerator:
                 (0, padding_length), 'constant', constant_values=0)
             categories[i] = np.pad([self.skill_to_category_dict[s[0]] for s in sequence[:-1]],
                 (1, padding_length), 'constant', constant_values=(1,0))
+        # print self.multi_granined_out
+        # print Xs.shape
+        # print Ys.shape
         return Xs, Ys, targets, len_sequences, categories
 
 def run(session, 
         train_batchgen, test_batchgen, 
-        option, n_epoch=0, n_step=0,
+        option="step", n_epoch=0, n_step=5001,
         keep_prob = 0.5,
         report_loss_interval=100, report_score_interval=500,
         model_saved_path='model.ckpt',
@@ -221,7 +224,7 @@ def run(session,
     assert option in ['step', 'epoch'], "Run with either epochs or steps"
     if steps_to_test == 0:
         steps_to_test = test_batchgen.data_size//test_batchgen.batch_size
-    assert steps_to_test > 0, "Test set too small"
+    # assert steps_to_test > 0, "Test set too small"
     performance_table_path = os.path.join(out_folder, out_file)
     out_file_csv = open(performance_table_path, 'a')
     out_file_csv.close()

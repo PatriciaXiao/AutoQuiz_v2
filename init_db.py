@@ -1,4 +1,7 @@
 from __init__ import *
+import tensorflow as tf
+from fileio_func import IO
+from model import grainedDKTModel, BatchGenerator, run
 
 DATABASE = './auto_quiz.db'
 FILE_DIR = './static/dataset/'
@@ -52,8 +55,6 @@ skill_map = {
 }
 
 
-
-
 def get_db():
     rv = sqlite3.connect(DATABASE)
     rv.row_factory = sqlite3.Row
@@ -63,6 +64,7 @@ def close_db(db):
 
 
 def init_topics_and_links():
+    updated = False
     db = get_db()
     cursor = db.cursor()
     # begin initializing it
@@ -77,6 +79,8 @@ def init_topics_and_links():
         result = cursor.fetchone()
         if result is not None: # already exists
             continue
+        else:
+            updated = True
         # insert new topic
         sql = "insert into topics (topic_id, topic_name, description) values ({0}, '{1}', '{2}');".format(\
             topic_id, topic['name'], topic['description'])
@@ -98,17 +102,21 @@ def init_topics_and_links():
         result = cursor.fetchone()
         if result is not None: # already exists
             continue
+        else:
+            updated = True
         # insert new links
         sql = "insert into links (source, target) values ({0}, {1});".format(\
             src_id, dst_id)
         cursor.execute(sql)
         db.commit()
     # db.close()
+    return updated
 
 def clean_str(raw_str):
     return raw_str.strip("\t\n ") 
 
 def init_skills_and_questions():
+    updated = False
     db = get_db()
     cursor = db.cursor()
     for skill in skill_map.keys():
@@ -118,6 +126,8 @@ def init_skills_and_questions():
         result = cursor.fetchone()
         if result is not None:
             continue
+        else:
+            updated = True
         # insert the new skill
         sql = "select topic_id from topics where topic_name='{0}';".format(skill_map[skill])
         cursor.execute(sql)
@@ -147,6 +157,8 @@ def init_skills_and_questions():
         result = cursor.fetchone()
         if result is not None:
             continue
+        else:
+            updated = True
         # print question_id
         tree = ET.parse(filepath)
         root = tree.getroot()
@@ -163,7 +175,42 @@ def init_skills_and_questions():
             question_id, skill_id, topic_id, description)
         cursor.execute(sql)
         db.commit()
+    return updated
 
 if __name__ == '__main__':
-    init_topics_and_links()
-    init_skills_and_questions()
+    updated = False
+    updated = init_topics_and_links() or updated 
+    updated = init_skills_and_questions() or updated
+    if updated:
+        print "database updated, run dkt model with data from {0}".format(DKT_SESS_DAT)
+
+        PrepData = IO()
+        response_list, question_list = PrepData.load_model_input(DKT_SESS_DAT, sep=',')
+        db = get_db()
+        cursor = db.cursor()
+        sql = "select distinct question_id, topic_id from questions;"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        all_questions = sorted([elem[0] for elem in result])
+        category_map_dict = {elem[0]:elem[1] for elem in result}
+        # n_questions = len(result)
+        id_encoding = PrepData.question_id_1hotencoding(all_questions)
+        # print id_encoding
+        # print category_map_dict
+        category_encoding = PrepData.category_id_1hotencoding(category_map_dict)
+        skill2category_map = PrepData.skill_idx_2_category_idx(category_map_dict, category_encoding)
+        n_id = len(id_encoding)
+        batch_size = BATCH_SIZE
+        n_categories = len(category_encoding)
+        train_batches = BatchGenerator(response_list, batch_size, id_encoding, n_id, n_id, n_categories, skill_to_category_dict=skill2category_map)
+        ###
+        test_batches = BatchGenerator(response_list, batch_size, id_encoding, n_id, n_id, n_categories, skill_to_category_dict=skill2category_map)
+        sess = tf.Session()
+        run(sess, train_batches, test_batches, n_categories=n_categories)
+        # tensorboard --logdir logs
+        writer = tf.summary.FileWriter(MODEL_LOG_FOLDER, sess.graph) # http://localhost:6006/#graphs on mac
+        sess.close()
+        ###
+        print "finished running dkt model, model saved at {0}".format(DKT_MODEL)
+    else:
+        print "no update in database"

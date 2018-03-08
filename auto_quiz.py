@@ -10,8 +10,9 @@ from werkzeug.contrib.cache import SimpleCache
 import time
 import datetime
 
-from fileio_func import read_xml
+from fileio_func import read_xml, save_session_data
 from database_func import check_user, user_registration, user_login, log_exercise_db, get_topic_info, fetch_questions, get_challenge_questions
+
 
 @app.route('/topic/<topic_id_marked>')
 def topic_question_lst(topic_id_marked):
@@ -85,6 +86,16 @@ def log_exercise_result():
             "success": success
         }
     ]
+    question_id_lst = sess_cache.get("question_id")
+    correctness_lst = sess_cache.get("correctness")
+    if question_id_lst is not None and correctness_lst is not None:
+        question_id_lst.append(question_id)
+        correctness_lst.append(correctness)
+    else:
+        question_id_lst= [question_id]
+        correctness_lst= [correctness]
+    sess_cache.set("question_id", question_id_lst)
+    sess_cache.set("correctness", correctness_lst)
     return json.dumps(info)
 
 @app.route('/log_session', methods=['GET', 'POST'])
@@ -95,24 +106,17 @@ def log_challenge_session():
     correctness = data["correctness"]
     # print question_id
     # print correctness
-    '''
-    # timestamp = time.time()
-    # timestring = datetime.datetime.fromtimestamp(timestamp).strftime('%Y/%m/%d %H:%M:%S')
+    # log the data
+    assert len(question_id) == len(correctness), "log error: questions and answers number not match"
+    len_session = len(question_id)
     user_id = user_cache.get('user_id')
     log_ip = request.remote_addr
-    log_time = datetime.datetime.now()
-    # print "user {0} do exe {1} at time {2}, correctness: {3}".format(user_id, question_id, timestring, correctness)
-    result = log_exercise_db(question_id, user_id, correctness, log_ip, log_time)
-    if result:
-        success = 1
-    else:
-        success = 0
-    info = [{
-            "success": success
-        }
-    ]
-    '''
-
+    for i in range(len_session):
+        log_time = datetime.datetime.now()
+        log_exercise_db(question_id[i], user_id, correctness[i], log_ip, log_time)
+    # save the session
+    save_session_data(data, file_name = os.path.join(app.root_path, DKT_SESS_DAT))
+    sess_cache.clear()
     sess_cache.set("question_id", question_id)
     sess_cache.set("correctness", correctness)
 

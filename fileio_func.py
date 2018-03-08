@@ -98,6 +98,15 @@ def read_xml(fname, fpath):
     
     return question, answers, correct_ans_id, hint
 
+def save_session_data(data, file_name):
+    question_id = data["question_id"]
+    correctness = data["correctness"]
+    assert len(question_id) == len(correctness), "log error: questions and answers number not match"
+    len_session = len(question_id)
+    str_questions = ",".join([str(item) for item in question_id])
+    str_correctness = ",".join([str(item) for item in correctness])
+    with open(file_name, 'a') as f:
+        f.write("{0}\n{1}\n{2}\n".format(len_session, str_questions, str_correctness))
 
 class IO:
     class CSVReader:
@@ -148,7 +157,7 @@ class IO:
             category_map_dict[skill_id] = category_id
         return category_map_dict
     def category_id_1hotencoding(self, skill_to_category_dict):
-        categories_list = set(skill_to_category_dict.values())
+        categories_list = sorted(list(set(skill_to_category_dict.values())))
         category_encoding = { int(j): int(i) for i, j in enumerate(categories_list)}
         return category_encoding
     def skill_idx_2_category_idx(self, category_map_dict, category_encoding):
