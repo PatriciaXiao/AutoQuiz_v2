@@ -312,7 +312,6 @@ def run(session,
                     if step % report_score_interval == 0:
                         auc = calc_score(m)
                         print('AUC score: {0}'.format(auc))
-                        print model_saved_path 
                         save_path = m.saver.save(session, model_saved_path)
                         # https://www.tensorflow.org/programmers_guide/saved_model
                         m.saver.restore(session, model_saved_path) # test
@@ -438,7 +437,7 @@ def run_predict(session,
                 auc_sum += roc_auc_score(label_list,pred_list)
                 n_valid_auc += 1
             except:
-                print "no valid auc available in this case"
+                print ("no valid auc available in this case")
         auc = auc_sum / max(n_valid_auc, 1)
         accuracy = accuracy_sum / max(n_valid_cnt, 1)
         if update:
@@ -453,7 +452,7 @@ def run_predict(session,
         return accuracy, auc, pred_each_part
 
     with session.as_default():
-        tf.global_variables_initializer().run()
+        # tf.global_variables_initializer().run()
         saver = tf.train.import_meta_graph('{0}.meta'.format(model_saved_path))
         saver.restore(session, tf.train.latest_checkpoint(checkpoint_dir))
         graph = tf.get_default_graph()

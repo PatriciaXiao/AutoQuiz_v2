@@ -1,6 +1,6 @@
 if [ "$1" == "" ]; then
     echo "Updating database (not initializing) by default"
-    python init_db.py
+    python3 init_db.py
     echo "Finished Updating"
 else
     if [ "$1" != "-init" ]; then
@@ -9,7 +9,7 @@ else
         echo "Initializing the database...."
         sqlite3 auto_quiz.db < schema.sql
         echo "Finished initializing"
-        python init_db.py
+        python3 init_db.py
         echo "Finished loading content"
     fi
 fi

@@ -12,29 +12,6 @@ import tensorflow as tf
 from fileio_func import save_session_data, IO
 from model import BatchGenerator, run_predict
 
-@app.cli.command('initdb')
-def initdb_command():
-    """Creates the database tables."""
-    init_db()
-    print('Initialized the database.')
-@app.teardown_appcontext
-def close_db(error=None):
-    """Closes the database again at the end of the request."""
-    # print "tear down?"
-    question_id_lst = sess_cache.get("question_id")
-    correctness_lst = sess_cache.get("correctness")
-    # print question_id_lst
-    # print correctness_lst
-    if question_id_lst is not None and len(question_id_lst) >= MAX_SESS:
-        session_data = {
-            "correctness": correctness_lst,
-            "question_id": question_id_lst
-        }
-        save_session_data(session_data, os.path.join(app.root_path, DKT_SESS_DAT))
-        sess_cache.clear()
-    if hasattr(g, 'sqlite_db'):
-        g.sqlite_db.close()
-
 # the way of creating database:
 # http://flask.pocoo.org/docs/0.12/tutorial/dbinit/#tutorial-dbinit
 # using sqlite

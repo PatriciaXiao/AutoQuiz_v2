@@ -182,7 +182,7 @@ if __name__ == '__main__':
     updated = init_topics_and_links() or updated 
     updated = init_skills_and_questions() or updated
     if updated:
-        print "database updated, run dkt model with data from {0}".format(DKT_SESS_DAT)
+        print ("database updated, run dkt model with data from {0}".format(DKT_SESS_DAT))
 
         PrepData = IO()
         response_list = PrepData.load_model_input(DKT_SESS_DAT, sep=',')
@@ -216,6 +216,6 @@ if __name__ == '__main__':
         writer = tf.summary.FileWriter(MODEL_LOG_FOLDER, sess.graph) # http://localhost:6006/#graphs on mac
         sess.close()
         ###
-        print "finished running dkt model, model saved at {0}".format(DKT_MODEL)
+        print ("finished running dkt model, model saved at {0}".format(DKT_MODEL))
     else:
-        print "no update in database"
+        print ("no update in database")
