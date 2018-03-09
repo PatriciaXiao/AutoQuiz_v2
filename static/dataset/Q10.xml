@@ -6,12 +6,18 @@
 	</description>
 	<question>
 		<p>
-			<line>You’re comfy in bed. You get up if you’re thirsty. You also get up if you’re hungry. Which expression(s) captures when you stay in bed?</line>
+			<line>You're comfy in bed. You get up if you're thirsty. You also get up if you're hungry. Which expression(s) captures when you stay in bed?</line>
 		</p>
 		<img>
 			<name height="1">10.1.png</name>
+		</img>
+		<img>
 			<name height="1">10.2.png</name>
+		</img>
+		<img>
 			<name height="1">10.3.png</name>
+		</img>
+		<img>
 			<name height="1">10.4.png</name>
 		</img>
 		<p>
