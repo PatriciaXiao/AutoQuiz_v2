@@ -32,23 +32,22 @@
         function submit() {
           // get the selected answer
           // console.log("radio button selected", document.querySelector('input[name="radiobutton"]:checked').value)
-          var log_session = {
-            "correctness": [],
-            "question_id": []
-          };
+          log_session_correctness = [];
+          log_session_question_id = [];
+
           {% for question_elem in questions_lst %}
           var question_id = parseInt("{{question_elem[0]}}");
           var hint_div_id = "hint_{{question_elem[0]}}";
+          var correct = 0;
           // not answered, or answered
           if (document.querySelector('input[name="radiobutton_{{question_elem[0]}}"]:checked') == null) {
-            var correct = 0;
             document.getElementById(hint_div_id).innerHTML="You didn't answer this question, here's our hint:<br> {{question_elem[4]}}";
           } else {
             var id_selected = document.querySelector('input[name="radiobutton_{{question_elem[0]}}"]:checked').value;
             var id_correct = "{{question_elem[0]}}_{{question_elem[3][0]}}";
             var report_div_id = "feedback_{{question_elem[0]}}_" + id_selected;
             // console.log(report_div_id)
-            var correct = 0;
+            // var correct = 0;
             if (id_selected == id_correct)
               correct = 1;
             // console.log(id_selected, id_correct)
@@ -68,8 +67,8 @@
           {% for candidate in question_elem[2] %}
             document.getElementById("{{question_elem[0]}}_{{candidate[0]}}").disabled=true;
           {% endfor %}
-          log_session["correctness"].push(correct);
-          log_session["question_id"].push(question_id);
+          log_session_correctness.push(correct);
+          log_session_question_id.push(question_id);
           //////
           {% endfor %}
           // write feedback
@@ -86,12 +85,10 @@
           //////
           var session_data = {
             data: JSON.stringify({
-              "correctness": log_session["correctness"],
-              "question_id": log_session["question_id"]
+              "correctness": log_session_correctness,
+              "question_id": log_session_question_id
             })
           };
-          
-            data: JSON.stringify(session)
           $.ajax({
               url: "/log_session",
               type: "POST",
