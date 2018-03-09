@@ -12,9 +12,12 @@ DATABASE = './auto_quiz.db'
 FILE_DIR = './static/dataset/'
 DKT_SESS_DAT = "dkt_sessions.csv"
 BATCH_SIZE = 16
-MAX_SESS = 10
+MAX_SESS = 16
+N_EPOCH = 16
 DKT_MODEL = "model.ckpt"
 MODEL_LOG_FOLDER = "./log/"
+THRESHOLD_ACC = 0.6
+THRESHOLD_AUC = 0.5
 
 # create the application
 app = Flask(__name__)

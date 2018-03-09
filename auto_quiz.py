@@ -11,7 +11,7 @@ import time
 import datetime
 
 from fileio_func import read_xml, save_session_data
-from database_func import check_user, user_registration, user_login, log_exercise_db, get_topic_info, fetch_questions, get_challenge_questions
+from database_func import check_user, user_registration, user_login, log_exercise_db, get_topic_info, fetch_questions, get_challenge_questions, get_topic_correctness
 
 
 @app.route('/topic/<topic_id_marked>')
@@ -55,7 +55,7 @@ def challenge_section():
     questions_lst = []
     # question_id_lst = [1, 2]
     user_id = user_cache.get('user_id')
-    question_id_lst = get_challenge_questions(user_id)
+    question_id_lst = get_challenge_questions(user_id, model_dir=app.root_path, prev_load=sess_cache.get('next_session'))
     for question_id in question_id_lst:
         question_fname = "Q{0}.xml".format(question_id)
         # print "question file name {0}".format(question_fname)
@@ -116,10 +116,15 @@ def log_challenge_session():
         log_exercise_db(question_id[i], user_id, correctness[i], log_ip, log_time)
     # save the session
     save_session_data(data, file_name = os.path.join(app.root_path, DKT_SESS_DAT))
+    category_correctness, next_session = get_topic_correctness(question_id, correctness, model_dir=app.root_path, update=True)
     sess_cache.clear()
     sess_cache.set("question_id", question_id)
     sess_cache.set("correctness", correctness)
-
+    sess_cache.set("next_session", next_session)
+    # delete(key)
+    # print pred_each_part
+    # print category_encoding
+    '''
     info = [{
             "Math Basis": 1,
             "Programming": 0.5,
@@ -127,6 +132,8 @@ def log_challenge_session():
             "Algorithm": 0.3
         }
     ]
+    '''
+    info = [category_correctness]
     return json.dumps(info)
 
 

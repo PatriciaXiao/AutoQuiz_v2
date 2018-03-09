@@ -137,13 +137,29 @@ class IO:
                 assert len(seq_length_line) == 1 and seq_length == len(seq_questionsID) and seq_length == len(seq_correctness), \
                     "Unexpected format of input CSV file in {0}\n:{1}\n{2}\n{3}".format(filename, seq_length_line, seq_questionsID, seq_correctness)
                 if seq_length > 1: # only when there are at least two questions together is the sequence meaningful
-                    question_list += [question for question in set(seq_questionsID) if question not in question_list]
+                    # question_list += [question for question in set(seq_questionsID) if question not in question_list]
                     response_list.append((seq_length, list(zip(map(int, seq_questionsID), map(int, seq_correctness)))))
             except StopIteration:
                 print ("reached the end of the file {0}".format(filename))
                 break
         del csvreader
-        return response_list, question_list
+        # return response_list, question_list
+        return response_list
+    def format_input(self, seq_questionsID_seq, seq_correctness_seq):
+        # question_list = []
+        response_list = []
+        assert len(seq_questionsID_seq) == len(seq_correctness_seq), \
+                "Unexpected input of sequence of questions and correctness"
+        for i in range(len(seq_questionsID_seq)):
+            seq_questionsID = seq_questionsID_seq[i]
+            seq_correctness = seq_correctness_seq[i]
+            assert len(seq_questionsID) == len(seq_correctness), \
+                    "Unexpected input of sequence of questions and correctness"
+            seq_length = len(seq_questionsID)
+            if seq_length > 1: # only when there are at least two questions together is the sequence meaningful
+                response_list.append((seq_length, list(zip(map(int, seq_questionsID), map(int, seq_correctness)))))
+        return response_list
+
     def question_id_1hotencoding(self, question_list):
         id_encoding = { int(j): int(i) for i, j in enumerate(question_list)}
         return id_encoding

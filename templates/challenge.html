@@ -72,6 +72,10 @@
           session["question_id"].push(question_id);
           //////
           {% endfor %}
+          // write feedback
+          document.getElementById("feedback_bar").innerHTML="<font style='color:blue;font-size:20px;'>Feedback calculating based on your answers<br>Please wait for a few seconds...<br></font>";
+          // disable check answer
+          document.getElementById("check_answer_button").disabled=true;
           // console.log(session);
           // write feedback
           // document.getElementById("feedback_bar").innerHTML="<font size='30px;'>Hello<br>World<br></font>";
@@ -92,6 +96,7 @@
                 var topics_data = data[0];
                 var topic_names = Object.keys(topics_data);
                 var report_msg = "";
+                report_msg += "<font style='color:blue;font-size:18px;'>Thank you for your patience, here are some of our suggestions:<br></font>"
                 for(var i = 0; i < topic_names.length; i++) {
                   // console.log(topics_data[topic_names[i]])
                   var tmp_topic = topic_names[i];
@@ -110,8 +115,6 @@
                 // write feedback
                 // document.getElementById("feedback_bar").innerHTML="<font size='20px;'>Hello<br>World<br></font>";
                 document.getElementById("feedback_bar").innerHTML=report_msg;
-                // disable check answer
-                document.getElementById("check_answer_button").disabled=true;
                 // enable try again
                 document.getElementById("try_again_button").disabled=false;
               },

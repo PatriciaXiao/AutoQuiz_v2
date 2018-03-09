@@ -85,7 +85,7 @@ class grainedDKTModel:
         # Optimizer defined
         optimizer = tf.train.AdamOptimizer(
             learning_rate=learning_rate, \
-            epsilon=epsilon) \
+            epsilon=epsilon, name='train_op') \
             .minimize(mean_loss,global_step=global_step)
         
         # Saver defined
@@ -96,6 +96,7 @@ class grainedDKTModel:
         test_outputs_flat = tf.reshape(test_outputs, shape=[-1,n_hidden], name='test_output')
         test_logits = tf.reshape(tf.nn.xw_plus_b(test_outputs_flat,w,b),shape=[batch_size,-1,vec_length_out], name='test_logits')
         test_pred = tf.sigmoid(tf.reduce_max(test_logits*Ys, axis=2), name='test_predict')
+        test_predall = tf.nn.softmax(test_logits, name='test_predall')
 
         # assigning the attributes
         self._isTraining = is_training
@@ -107,6 +108,7 @@ class grainedDKTModel:
         self._train = optimizer
         self._saver = saver
         self._pred = test_pred
+        self._predall = test_predall
         self._categories = categories
 
     @property
@@ -136,6 +138,9 @@ class grainedDKTModel:
     @property
     def predict(self):
         return self._pred
+    @property
+    def predall(self):
+        return self._predall
 
 class BatchGenerator:
     def __init__(self, data, batch_size, id_encoding, vec_length_in, vec_length_out, n_categories, random_embedding=False, skill_to_category_dict=None, multi_granined_out=True):
@@ -374,6 +379,7 @@ def run_epoch(session,
 
 def run_predict(session, 
         test_batchgen,
+        update=True,
         steps_to_test=0,
         n_epoch=1,
         keep_prob = 0.5,
@@ -393,7 +399,7 @@ def run_predict(session,
         steps_to_test = test_batchgen.data_size//test_batchgen.batch_size
         if steps_to_test == 0:
             steps_to_test = 1
-    print steps_to_test
+    # print steps_to_test
     if multi_granined_out:
         vec_length_out = test_batchgen.vec_length_out + n_categories
     else:
@@ -408,26 +414,52 @@ def run_predict(session,
         targets = graph.get_tensor_by_name("targets_input:0")
         categories = graph.get_tensor_by_name("input_categories:0")
         predict_tensor = graph.get_tensor_by_name("test_predict:0")
+        predall_tensor = graph.get_tensor_by_name("test_predall:0")
+        train_op = graph.get_tensor_by_name("train_op:0")
+        loss = graph.get_tensor_by_name("mean_loss:0")
+        n_valid_auc = 0
+        accuracy_sum = 0.
+        n_valid_cnt = 0
         for i in range(steps_to_test):
             test_batch_Xs, test_batch_Ys, test_batch_labels, test_batch_sequence_lengths, test_batch_categories = test_batchgen.next_batch()
             test_feed_dict= {Xs : test_batch_Xs, Ys : test_batch_Ys, 
                         seq_len : test_batch_sequence_lengths,
                         targets : test_batch_labels,
                         categories : test_batch_categories}
-            pred = session.run([predict_tensor], feed_dict=test_feed_dict)
+            pred, pred_all = session.run([predict_tensor, predall_tensor], feed_dict=test_feed_dict)
             label_list = test_batch_labels.reshape(-1)
             pred_list = np.array(pred).reshape(-1)
+            pred_each_part = pred_all[-1][-1]
             # print [abs(d) for d in np.array(label_list) - np.array(pred_list)]
-            # accuracy = sum([abs(d) for d in np.array(label_list) - np.array(pred_list)]) / len(pred_list)
+            accuracy_sum += sum([abs(d) for d in np.array(label_list) - np.array(pred_list)])
+            n_valid_cnt += len(pred_list)
             # print accuracy
-            auc_sum += roc_auc_score(label_list,pred_list)
-        auc = auc_sum / steps_to_test
-        return auc, pred_list
+            try:
+                auc_sum += roc_auc_score(label_list,pred_list)
+                n_valid_auc += 1
+            except:
+                print "no valid auc available in this case"
+        auc = auc_sum / max(n_valid_auc, 1)
+        accuracy = accuracy_sum / max(n_valid_cnt, 1)
+        if update:
+            # update the model
+            for i in range(steps_to_test):
+                test_batch_Xs, test_batch_Ys, test_batch_labels, test_batch_sequence_lengths, test_batch_categories = test_batchgen.next_batch()
+                feed_dict= {Xs : test_batch_Xs, Ys : test_batch_Ys, 
+                            seq_len : test_batch_sequence_lengths,
+                            targets : test_batch_labels,
+                            categories : test_batch_categories}
+                _, batch_loss = session.run([train_op,loss], feed_dict=feed_dict)
+        return accuracy, auc, pred_each_part
 
     with session.as_default():
+        tf.global_variables_initializer().run()
         saver = tf.train.import_meta_graph('{0}.meta'.format(model_saved_path))
         saver.restore(session, tf.train.latest_checkpoint(checkpoint_dir))
         graph = tf.get_default_graph()
-        auc, pred_list = calc_score(graph)
+        accuracy, auc, pred_each_part = calc_score(graph)
+        if update:
+            saver.save(session, model_saved_path)
+        print('accuracy: {0}'.format(accuracy))
         print('AUC score: {0}'.format(auc))
-    return auc, pred_list
+    return accuracy, auc, pred_each_part

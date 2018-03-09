@@ -6,8 +6,11 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 
 import time
 import datetime
+from random import shuffle
+import tensorflow as tf
 
-from fileio_func import IO, save_session_data
+from fileio_func import save_session_data, IO
+from model import BatchGenerator, run_predict
 
 @app.cli.command('initdb')
 def initdb_command():
@@ -347,15 +350,32 @@ def fetch_questions(topic_id, user_id):
     '''
     return questions
 
-def get_challenge_questions(user_id):
-    if user_id is None:
-        print "not logged in"
-    else:
-        print "logged in"
+def get_challenge_questions(user_id, challenge_size=5, model_dir="./", model_name="model.ckpt", prev_load=None):
+    if prev_load and len(prev_load) == challenge_size:
+        return prev_load
+    db = get_db()
+    cursor = db.cursor()
     question_id = sess_cache.get("question_id")
     correctness = sess_cache.get("correctness")
+    # sess = tf.Session()
+    # test_batches = BatchGenerator(response_list, BATCH_SIZE, id_encoding, n_id, n_id, n_categories, skill_to_category_dict=skill2category_map)
+    # auc, pred_each_part = run_predict(sess, test_batches, n_categories=n_categories, steps_to_test=1)
     if question_id is None and correctness is None:
         print "not yet challenged"
+        if user_id is not None:
+            sql = "select question_id, correct from records where user_id={0} order by log_time ASC;".format(user_id)
+            cursor.execute(sql)
+            # questions_data = cursor.fetchall()[:challenge_size]
+            questions_data = cursor.fetchall()
+            if len(questions_data) >= 2:
+                question_id = []
+                correctness = []
+                for q in questions_data[:challenge_size*5]:
+                    question_id.append(q[0])
+                    correctness.append(q[1])
+        else:
+            return random_questions(challenge_size)
+            # return sorted(question_summarize, key=question_summarize.get, reverse=True)[:challenge_size]
     elif question_id is None or correctness is None:
         print "challenged but data not finished logging"
         while question_id is None or correctness is None:
@@ -363,4 +383,84 @@ def get_challenge_questions(user_id):
             correctness = sess_cache.get("correctness")
     else:
         print "has log of last session"
-    return [1, 2, 3, 4, 5]
+    # run the model
+    accuracy, auc, pred_each_part, (n_categories, _, id_encoding) = run_model([question_id], [correctness], model_name=model_name, model_dir=model_dir, update=True)
+    # [(idx, accuracy)]
+    # pred_questions = [(i, item) for i, item in enumerate(pred_each_part[n_categories:])] 
+    # questions_idx2id = {id_encoding[key]: key for key in id_encoding.keys()}
+    # shuffle(pred_questions)
+    # return [q_info[0] for q_info in sorted(pred_questions, key=lambda x:x[1], reverse=False)[:challenge_size]]
+    if accuracy > THRESHOLD_ACC or auc > THRESHOLD_AUC:
+        #
+        # print pred_each_part
+        # return [1, 2, 3, 4, 5]
+        pred_questions = [(i, item) for i, item in enumerate(pred_each_part[n_categories:])] 
+        questions_idx2id = {id_encoding[key]: key for key in id_encoding.keys()}
+        shuffle(pred_questions)
+        return [q_info[0] for q_info in sorted(pred_questions, key=lambda x:x[1], reverse=False)[:challenge_size]]
+
+    else:
+        return random_questions(challenge_size)
+
+def random_questions(challenge_size):
+    db = get_db()
+    cursor = db.cursor()
+    sql="select distinct question_id from questions;"
+    cursor.execute(sql)
+    data = cursor.fetchall()
+    question_summarize = {x[0]:0 for x in data}
+    sql="select question_id, count(question_id) from records where correct=1 group by question_id;"
+    cursor.execute(sql)
+    data = cursor.fetchall()
+    for q in data:
+        question_summarize[q[0]] = q[1]
+    question_summarize_lst = [(key, question_summarize[key]) for key in question_summarize.keys()]
+    shuffle(question_summarize_lst)
+    return map(lambda x: x[0], sorted(question_summarize_lst, key=lambda x:x[1], reverse=False)[:challenge_size])
+
+def run_model(question_id_lst, correctness_lst, model_dir="./", model_name="model.ckpt", update=False):
+    db = get_db()
+    cursor = db.cursor()
+    PrepData = IO()
+    sql = "select distinct question_id, topic_id from questions;"
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    all_questions = sorted([elem[0] for elem in result])
+    category_map_dict = {elem[0]:elem[1] for elem in result}
+    id_encoding = PrepData.question_id_1hotencoding(all_questions)
+    category_encoding = PrepData.category_id_1hotencoding(category_map_dict)
+    skill2category_map = PrepData.skill_idx_2_category_idx(category_map_dict, category_encoding)
+    n_id = len(id_encoding)
+    n_categories = len(category_encoding)
+    response_list = PrepData.format_input(question_id_lst, correctness_lst)
+    test_batches = BatchGenerator(response_list, BATCH_SIZE, id_encoding, n_id, n_id, n_categories, skill_to_category_dict=skill2category_map)
+    sess = tf.Session()
+    accuracy, auc, pred_each_part = run_predict(sess, test_batches, n_categories=n_categories, steps_to_test=1, \
+            model_saved_path=os.path.join(model_dir, model_name),
+            checkpoint_dir = model_dir, update=update)
+    sess.close()
+    return accuracy, auc, pred_each_part, (n_categories, category_encoding, id_encoding)
+
+def get_topic_correctness(question_id, correctness, model_dir="./", model_name="model.ckpt", update=False, challenge_size=5):
+    accuracy, auc, pred_each_part, (n_categories, category_encoding, id_encoding) = run_model([question_id], [correctness], model_name=model_name, model_dir=model_dir, update=False)
+    category_idx2id = {category_encoding[key]: key for key in category_encoding.keys()}
+    pred_category = pred_each_part[:n_categories]
+    db = get_db()
+    cursor = db.cursor()
+    sql = "select topic_id, topic_name from topics;"
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    category_correctness = {}
+    for line in result:
+        category_correctness[str(line[1])] = float(pred_category[int(line[0])])
+    if update:
+        if accuracy > THRESHOLD_ACC or auc > THRESHOLD_AUC:
+            pred_questions = [(i, item) for i, item in enumerate(pred_each_part[n_categories:])] 
+            questions_idx2id = {id_encoding[key]: key for key in id_encoding.keys()}
+            shuffle(pred_questions)
+            next_session = [q_info[0] for q_info in sorted(pred_questions, key=lambda x:x[1], reverse=False)[:challenge_size]]
+        else:
+            next_session = random_questions(challenge_size)
+        return category_correctness, next_session
+    else:
+        return category_correctness
