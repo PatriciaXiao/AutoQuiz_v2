@@ -32,7 +32,7 @@
         function submit() {
           // get the selected answer
           // console.log("radio button selected", document.querySelector('input[name="radiobutton"]:checked').value)
-          var session = {
+          var log_session = {
             "correctness": [],
             "question_id": []
           };
@@ -68,8 +68,8 @@
           {% for candidate in question_elem[2] %}
             document.getElementById("{{question_elem[0]}}_{{candidate[0]}}").disabled=true;
           {% endfor %}
-          session["correctness"].push(correct);
-          session["question_id"].push(question_id);
+          log_session["correctness"].push(correct);
+          log_session["question_id"].push(question_id);
           //////
           {% endfor %}
           // write feedback
@@ -84,10 +84,18 @@
           // enable try again
           // document.getElementById("try_again_button").disabled=false;
           //////
+          var session_data = {
+            data: JSON.stringify({
+              "correctness": log_session["correctness"],
+              "question_id": log_session["question_id"]
+            })
+          };
+          
+            data: JSON.stringify(session)
           $.ajax({
               url: "/log_session",
               type: "POST",
-              data: {data: JSON.stringify(session)},
+              data: session_data,
               dataType: 'json',
               success: function(data) {
                 // console.log("success")
