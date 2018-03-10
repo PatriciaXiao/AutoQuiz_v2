@@ -33,7 +33,7 @@ def close_db(error=None):
             "question_id": question_id_lst
         }
         save_session_data(session_data, os.path.join(app.root_path, DKT_SESS_DAT))
-        executor.submit(set_topic_correctness, question_id_lst, correctness_lst, model_dir=app.root_path, update=True)
+        executor.submit(set_topic_correctness, session_data, model_dir=app.root_path, update=True)
         sess_cache.delete("correctness")
         sess_cache.delete("question_id")
     if hasattr(g, 'sqlite_db'):
@@ -246,7 +246,7 @@ def welcome():
                     login = True
                     user_cache.set('user_name', username)
                     user_cache.set('user_id', user_id)
-                else:   
+                else:
                     login = False
                     show_msg = True
                     msg = ['danger', 'ERROR', 'Incorrect Password or User Name; Please try again, or contact us at {0} if you need help.'.format(OFFICIAL_MAILBOX)]
