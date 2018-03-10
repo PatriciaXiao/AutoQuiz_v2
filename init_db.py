@@ -117,7 +117,7 @@ def init_topics_and_links():
     return updated
 
 def clean_str(raw_str):
-    return raw_str.strip("\t\n ") 
+    return raw_str.strip("\t\n ")
 
 def init_skills_and_questions():
     updated = False
@@ -183,9 +183,9 @@ def init_skills_and_questions():
 
 if __name__ == '__main__':
     updated = False
-    updated = init_topics_and_links() or updated 
+    updated = init_topics_and_links() or updated
     updated = init_skills_and_questions() or updated
-    if updated or not updated:
+    if updated:
         print ("database updated, run dkt model with data from {0}".format(DKT_SESS_DAT))
         PrepData = IO()
         response_list = PrepData.load_model_input(DKT_SESS_DAT, sep=',')
