@@ -126,7 +126,7 @@
                 for(var i = 0; i < topic_names_session.length; i++) {
                   // console.log(topics_data[topic_names[i]])
                   var tmp_topic = topic_names_session[i];
-                  var tmp_value = topics_data[tmp_topic];
+                  var tmp_value = session_data[tmp_topic];
                   if (tmp_value > 0.8) {
                     // report_msg += "<font size='20px;' color='green'>Your mastery level of " + tmp_topic + " is very high!</font><br>";
                     report_msg += "<font style='color:green;font-size:24px;'>Your mastery level of " + tmp_topic + " is very high!</font><br>";
