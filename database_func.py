@@ -8,6 +8,7 @@ import time
 import datetime
 from random import shuffle
 import tensorflow as tf
+import pandas as pd
 
 from fileio_func import save_session_data, IO
 from model import BatchGenerator, run_predict
@@ -327,7 +328,8 @@ def fetch_questions(topic_id, user_id):
     '''
     return questions
 
-def get_challenge_questions(user_id, challenge_size=5, model_dir="./", model_name="model.ckpt", prev_load=None):
+'''
+def get_challenge_questions(user_id, question_id, correctness, challenge_size=5, model_dir="./", model_name="model.ckpt", prev_load=None):
     if prev_load and len(prev_load) == challenge_size:
         return prev_load
     db = get_db()
@@ -378,15 +380,23 @@ def get_challenge_questions(user_id, challenge_size=5, model_dir="./", model_nam
 
     else:
         return random_questions(challenge_size)
+'''
+def get_challenge_questions(user_id, challenge_size=5, model_dir="./", model_name="model.ckpt", prev_load=None):
+    if prev_load and len(prev_load) == challenge_size:
+        return prev_load
+    return random_questions(challenge_size, user_id)
 
-def random_questions(challenge_size):
+def random_questions(challenge_size, user_id):
     db = get_db()
     cursor = db.cursor()
     sql="select distinct question_id from questions;"
     cursor.execute(sql)
     data = cursor.fetchall()
     question_summarize = {x[0]:0 for x in data}
-    sql="select question_id, count(question_id) from records where correct=1 group by question_id;"
+    if user_id is None:
+        sql="select question_id, count(question_id) from records where correct=1 group by question_id;"
+    else:
+        sql="select question_id, count(question_id) from records where correct=1 and user_id={0} group by question_id;".format(user_id)
     cursor.execute(sql)
     data = cursor.fetchall()
     for q in data:
@@ -395,41 +405,44 @@ def random_questions(challenge_size):
     shuffle(question_summarize_lst)
     return map(lambda x: x[0], sorted(question_summarize_lst, key=lambda x:x[1], reverse=False)[:challenge_size])
 
+
 def run_model(question_id_lst, correctness_lst, model_dir="./", model_name="model.ckpt", update=False):
-    db = get_db()
-    cursor = db.cursor()
+    df_id_encoding = pd.read_csv(os.path.join(model_dir, ID_ENCODING_FILE), sep=',')
+    df_id_category = pd.read_csv(os.path.join(model_dir, ID_CATEGORY_FILE), sep=',')
+    df_en_category = pd.read_csv(os.path.join(model_dir, EN_CATEGORY_FILE), sep=',')
+    n_id = len(df_id_encoding)
+    n_categories = len(df_en_category) # len(set(df_id_category['category_idx']))
+    id_encoding = {df_id_encoding['question_id'][i]: df_id_encoding['question_idx'][i] for i in range(n_id)}
+    category_encoding = {df_en_category['topic_id'][i]: df_en_category['category_idx'][i] for i in range(n_categories)}
+    skill2category_map = {df_id_category['question_id'][i]: df_id_category['category_idx'][i] for i in range(n_id)}
+
     PrepData = IO()
-    sql = "select distinct question_id, topic_id from questions;"
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    all_questions = sorted([elem[0] for elem in result])
-    category_map_dict = {elem[0]:elem[1] for elem in result}
-    id_encoding = PrepData.question_id_1hotencoding(all_questions)
-    category_encoding = PrepData.category_id_1hotencoding(category_map_dict)
-    skill2category_map = PrepData.skill_idx_2_category_idx(category_map_dict, category_encoding)
-    n_id = len(id_encoding)
-    n_categories = len(category_encoding)
     response_list = PrepData.format_input(question_id_lst, correctness_lst)
     test_batches = BatchGenerator(response_list, BATCH_SIZE, id_encoding, n_id, n_id, n_categories, skill_to_category_dict=skill2category_map)
     sess = tf.Session()
+    # print ("start running prediction")
     accuracy, auc, pred_each_part = run_predict(sess, test_batches, n_categories=n_categories, steps_to_test=1, \
             model_saved_path=os.path.join(model_dir, model_name),
             checkpoint_dir = model_dir, update=update)
+    # print ("end with prediction")
     sess.close()
     return accuracy, auc, pred_each_part, (n_categories, category_encoding, id_encoding)
 
-def get_topic_correctness(question_id, correctness, model_dir="./", model_name="model.ckpt", update=False, challenge_size=5):
-    accuracy, auc, pred_each_part, (n_categories, category_encoding, id_encoding) = run_model([question_id], [correctness], model_name=model_name, model_dir=model_dir, update=False)
+def get_topic_correctness_DKT(question_id, correctness, model_dir="./", model_name="model.ckpt", update=False, challenge_size=5):
+    print ("loading and running model DKT")
+    # print ([question_id], [correctness], model_name, model_dir, update)
+    accuracy, auc, pred_each_part, (n_categories, category_encoding, id_encoding) = run_model([question_id], [correctness], model_name=model_name, model_dir=model_dir, update=update)
+    print ("finished with DKT model running")
     category_idx2id = {category_encoding[key]: key for key in category_encoding.keys()}
     pred_category = pred_each_part[:n_categories]
-    db = get_db()
-    cursor = db.cursor()
-    sql = "select topic_id, topic_name from topics;"
-    cursor.execute(sql)
-    result = cursor.fetchall()
+
+    df_topic_names = pd.read_csv(os.path.join(model_dir, TOPIC_NAMES_FILE), sep=',')
+    
     category_correctness = {}
-    for line in result:
-        category_correctness[str(line[1])] = float(pred_category[int(line[0])])
+    for i in len(df_topic_names):
+        category_correctness[str(df_topic_names['topic_name'][i])] = float(pred_category[int(df_topic_names['topic_id'][i])])
+    print "hello here"
+    print category_correctness
     if update:
         if accuracy > THRESHOLD_ACC or auc > THRESHOLD_AUC:
             pred_questions = [(i, item) for i, item in enumerate(pred_each_part[n_categories:])] 

@@ -1,10 +1,14 @@
+#!/usr/bin/python2.7
 from __init__ import *
+import os
 import tensorflow as tf
 from fileio_func import IO
 from model import grainedDKTModel, BatchGenerator, run_epoch, run_predict
+import pandas as pd
 
 DATABASE = './auto_quiz.db'
 FILE_DIR = './static/dataset/'
+ROOT_DIR = './'
 
 topic_list = [
     {
@@ -181,9 +185,8 @@ if __name__ == '__main__':
     updated = False
     updated = init_topics_and_links() or updated 
     updated = init_skills_and_questions() or updated
-    if updated:
+    if updated or not updated:
         print ("database updated, run dkt model with data from {0}".format(DKT_SESS_DAT))
-
         PrepData = IO()
         response_list = PrepData.load_model_input(DKT_SESS_DAT, sep=',')
         # [(6, [(1, 0), (1, 0), (1, 1), (1, 0), (1, 0), (1, 0)]), (6, [(1, 0), (1, 1), (1, 0), (1, 1), (1, 0), (1, 0)])]
@@ -217,5 +220,19 @@ if __name__ == '__main__':
         sess.close()
         ###
         print ("finished running dkt model, model saved at {0}".format(DKT_MODEL))
+        # save models
+        df_id_encoding = pd.DataFrame(data={'question_id': id_encoding.keys(), 'question_idx': id_encoding.values()})
+        df_id_encoding.to_csv(os.path.join(ROOT_DIR, ID_ENCODING_FILE), sep=',', encoding='utf-8', index=False)
+        df_en_category = pd.DataFrame(data={'topic_id': category_encoding.keys(), 'category_idx': category_encoding.values()})
+        df_en_category.to_csv(os.path.join(ROOT_DIR, EN_CATEGORY_FILE), sep=',', encoding='utf-8', index=False)
+        df_id_category = pd.DataFrame(data={'question_id': skill2category_map.keys(), 'category_idx': skill2category_map.values()})
+        df_id_category.to_csv(os.path.join(ROOT_DIR, ID_CATEGORY_FILE), sep=',', encoding='utf-8', index=False)
+        # more initializing needs
+        sql = "select topic_id, topic_name from topics;"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        df_topic_names = pd.DataFrame(data={'topic_id': [topic_info[0] for topic_info in result], 'topic_name': [topic_info[1] for topic_info in result]})
+        df_topic_names.to_csv(os.path.join(ROOT_DIR, TOPIC_NAMES_FILE), sep=',', encoding='utf-8', index=False)
+
     else:
         print ("no update in database")

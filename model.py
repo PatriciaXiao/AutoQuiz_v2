@@ -1,3 +1,4 @@
+#!/usr/bin/python3.5
 import tensorflow as tf
 import numpy as np
 from sklearn.metrics import roc_auc_score
@@ -16,7 +17,7 @@ class grainedDKTModel:
             keep_prob=0.5,
             epsilon=0.001,
             is_training=True,
-            random_embedding=True,
+            random_embedding=False,
             multi_granined = True,
             multi_granined_out = True,
             n_categories=0):
@@ -91,6 +92,7 @@ class grainedDKTModel:
         # Saver defined
         saver = tf.train.Saver()
 
+        # test inputsX, test batch_size, test sequence_length, test initial state, etc. could be different
         # LSTM Validation options
         test_outputs, test_state = tf.nn.dynamic_rnn(cell,inputsX,sequence_length,initial_state)
         test_outputs_flat = tf.reshape(test_outputs, shape=[-1,n_hidden], name='test_output')

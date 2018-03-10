@@ -99,22 +99,45 @@
                 // console.log(data[0]["Math Basis"])
                 // console.log(Object.keys(data[0]))
                 var topics_data = data[0];
+                var session_data = data[1];
                 var topic_names = Object.keys(topics_data);
+                var topic_names_session = Object.keys(session_data)
                 var report_msg = "";
                 report_msg += "<font style='color:blue;font-size:18px;'>Thank you for your patience, here are some of our suggestions:<br></font>"
+                report_msg += "<font style='color:gray;font-size:20px;'>Suggestions according to your history records:</font><br>";
                 for(var i = 0; i < topic_names.length; i++) {
                   // console.log(topics_data[topic_names[i]])
                   var tmp_topic = topic_names[i];
                   var tmp_value = topics_data[tmp_topic];
                   if (tmp_value > 0.8) {
                     // report_msg += "<font size='20px;' color='green'>Your mastery level of " + tmp_topic + " is very high!</font><br>";
-                    report_msg += "<font style='color:green;font-size:30px;'>Your mastery level of " + tmp_topic + " is very high!</font><br>";
+                    report_msg += "<font style='color:green;font-size:24px;'>Your mastery level of " + tmp_topic + " is very high!</font><br>";
                   } else if (tmp_value > 0.6) {
-                    report_msg += "<font style='color:blue;font-size:30px;'>Your mastery level of " + tmp_topic + " is above average.</font><br>"; // so-called average = 0.5
+                    report_msg += "<font style='color:blue;font-size:24px;'>Your mastery level of " + tmp_topic + " is above average.</font><br>"; // so-called average = 0.5
                   } else if (tmp_value > 0.4) {
-                    report_msg += "<font style='color:black;font-size:30px;'>You can definitely do better on " + tmp_topic + "~</font><br>";
+                    report_msg += "<font style='color:black;font-size:24px;'>You can definitely do better on " + tmp_topic + "~</font><br>";
+                  } else if (tmp_value > 0) {
+                    report_msg += "<font style='color:orange;font-size:24px;'>You might need more practice on " + tmp_topic + "~</font><br>";
                   } else {
-                    report_msg += "<font style='color:orange;font-size:30px;'>You might need more practice on " + tmp_topic + "~</font><br>";
+                    report_msg += "<font style='color:gray;font-size:24px;'>We need more data on " + tmp_topic + "to estimate your performance.</font><br>";
+                  }
+                }
+                report_msg += "<font style='color:gray;font-size:20px;'>Suggestions according to your recent records:</font><br>";
+                for(var i = 0; i < topic_names_session.length; i++) {
+                  // console.log(topics_data[topic_names[i]])
+                  var tmp_topic = topic_names_session[i];
+                  var tmp_value = topics_data[tmp_topic];
+                  if (tmp_value > 0.8) {
+                    // report_msg += "<font size='20px;' color='green'>Your mastery level of " + tmp_topic + " is very high!</font><br>";
+                    report_msg += "<font style='color:green;font-size:24px;'>Your mastery level of " + tmp_topic + " is very high!</font><br>";
+                  } else if (tmp_value > 0.6) {
+                    report_msg += "<font style='color:blue;font-size:24px;'>Your mastery level of " + tmp_topic + " is above average.</font><br>"; // so-called average = 0.5
+                  } else if (tmp_value > 0.4) {
+                    report_msg += "<font style='color:black;font-size:24px;'>You can definitely do better on " + tmp_topic + "~</font><br>";
+                  } else if (tmp_value > 0) {
+                    report_msg += "<font style='color:orange;font-size:24px;'>You might need more practice on " + tmp_topic + "~</font><br>";
+                  } else {
+                    report_msg += "<font style='color:gray;font-size:24px;'>We need more data on " + tmp_topic + "to estimate your performance.</font><br>";
                   }
                 }
                 // write feedback

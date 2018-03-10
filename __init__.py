@@ -7,6 +7,10 @@ from sqlite3 import dbapi2 as sqlite3
 import glob
 import xml.etree.ElementTree as ET
 
+# http://blog.csdn.net/yatere/article/details/78860852
+# from time import sleep  
+from concurrent.futures import ThreadPoolExecutor, as_completed 
+
 OFFICIAL_MAILBOX = 'cs10.autoquiz@gmail.com'
 DATABASE = './auto_quiz.db'
 FILE_DIR = './static/dataset/'
@@ -19,6 +23,11 @@ MODEL_LOG_FOLDER = "./log/"
 THRESHOLD_ACC = 0.6
 THRESHOLD_AUC = 0.5
 
+ID_ENCODING_FILE = 'id_encoding.csv'
+ID_CATEGORY_FILE = 'id_category.csv'
+EN_CATEGORY_FILE = 'en_category.csv'
+TOPIC_NAMES_FILE = 'topic_names.csv'
+
 # create the application
 app = Flask(__name__)
 
@@ -29,6 +38,8 @@ next_cache = SimpleCache()
 user_cache = SimpleCache()
 sess_cache = SimpleCache() # session cache
 # my_cache = SimpleCache()
+
+executor = ThreadPoolExecutor(2)
 
 # Load default config and override config from an environment variable
 app.config.update(dict(

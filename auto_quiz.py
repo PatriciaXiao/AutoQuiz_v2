@@ -1,3 +1,4 @@
+#!/usr/bin/python2.7
 from __init__ import *
 import os
 from sqlite3 import dbapi2 as sqlite3
@@ -11,7 +12,7 @@ import time
 import datetime
 
 from fileio_func import read_xml, save_session_data
-from database_func import check_user, user_registration, user_login, log_exercise_db, get_topic_info, fetch_questions, get_challenge_questions, get_topic_correctness
+from database_func import check_user, user_registration, user_login, log_exercise_db, get_topic_info, fetch_questions, get_challenge_questions, get_topic_correctness_DKT
 
 @app.cli.command('initdb')
 def initdb_command():
@@ -32,7 +33,9 @@ def close_db(error=None):
             "question_id": question_id_lst
         }
         save_session_data(session_data, os.path.join(app.root_path, DKT_SESS_DAT))
-        sess_cache.clear()
+        executor.submit(set_topic_correctness, question_id_lst, correctness_lst, model_dir=app.root_path, update=True)
+        sess_cache.delete("correctness")
+        sess_cache.delete("question_id")
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
 
@@ -77,6 +80,8 @@ def challenge_section():
     questions_lst = []
     # question_id_lst = [1, 2]
     user_id = user_cache.get('user_id')
+    question_id = sess_cache.get("question_id")
+    correctness = sess_cache.get("correctness")
     question_id_lst = get_challenge_questions(user_id, model_dir=app.root_path, prev_load=sess_cache.get('next_session'))
     for question_id in question_id_lst:
         question_fname = "Q{0}.xml".format(question_id)
@@ -120,6 +125,19 @@ def log_exercise_result():
     sess_cache.set("correctness", correctness_lst)
     return json.dumps(info)
 
+# http://blog.csdn.net/yatere/article/details/78860852
+def set_topic_correctness(data, model_dir=app.root_path, update=True):
+    # print "update DKT model"
+    question_id = data["question_id"]
+    correctness = data["correctness"]
+    # save the session
+    save_session_data(data, file_name = os.path.join(app.root_path, DKT_SESS_DAT))
+    # print "finished saving DKT session data of {0}, {1}".format(question_id, correctness)
+    category_correctness, next_session = get_topic_correctness_DKT(question_id, correctness, model_dir=model_dir, update=update)
+    sess_cache.set("next_session", next_session)
+    sess_cache.set("category_correctness", category_correctness)
+    print "finished updating DKT model"
+
 @app.route('/log_session', methods=['GET', 'POST'])
 def log_challenge_session():
     jsondata = request.form.get('data')
@@ -136,26 +154,34 @@ def log_challenge_session():
     for i in range(len_session):
         log_time = datetime.datetime.now()
         log_exercise_db(question_id[i], user_id, correctness[i], log_ip, log_time)
-    # save the session
+    # save the session and set the value
+    executor.submit(set_topic_correctness, data, model_dir=app.root_path, update=True)
+    '''
     save_session_data(data, file_name = os.path.join(app.root_path, DKT_SESS_DAT))
-    category_correctness, next_session = get_topic_correctness(question_id, correctness, model_dir=app.root_path, update=True)
+    category_correctness, next_session = get_topic_correctness_DKT(question_id, correctness, model_dir=app.root_path, update=True)
     sess_cache.clear()
     sess_cache.set("question_id", question_id)
     sess_cache.set("correctness", correctness)
     sess_cache.set("next_session", next_session)
+    '''
     # delete(key)
     # print pred_each_part
     # print category_encoding
+    topic_info, _ = get_topic_info(user_id)
+    category_correctness = {str(t[1]): float(t[2] / (t[2] + t[3])) if (t[2] + t[3]) > 0 else 0 for t in topic_info}
+    session_topic_info = sess_cache.get('category_correctness')
+    if session_topic_info is None:
+        session_topic_info = {'your recent bahaviors': 0}
+    # print category_correctness
     '''
-    info = [{
+    category_correctness = {
             "Math Basis": 1,
             "Programming": 0.5,
             "Data Structure": 0.4,
             "Algorithm": 0.3
         }
-    ]
     '''
-    info = [category_correctness]
+    info = [category_correctness, session_topic_info]
     return json.dumps(info)
 
 
@@ -241,6 +267,7 @@ def welcome():
     # fetch personal topic information from database
     user_id = user_cache.get('user_id')
     all_topics, topic_links = get_topic_info(user_id)
+    # user_cache.set('topic_info', all_topics)
 
     return render_template('welcome.html', login=login, username=username, \
         all_topics=all_topics, topic_links=topic_links,\
