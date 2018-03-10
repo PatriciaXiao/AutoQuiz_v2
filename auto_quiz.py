@@ -133,10 +133,11 @@ def set_topic_correctness(data, model_dir=app.root_path, update=True):
     # save the session
     save_session_data(data, file_name = os.path.join(app.root_path, DKT_SESS_DAT))
     # print "finished saving DKT session data of {0}, {1}".format(question_id, correctness)
-    category_correctness, next_session = get_topic_correctness_DKT(question_id, correctness, model_dir=model_dir, update=update)
+    category_correctness, next_session, accuracy, auc = get_topic_correctness_DKT(question_id, correctness, model_dir=model_dir, update=update)
+    # print category_correctness, next_session
     sess_cache.set("next_session", next_session)
     sess_cache.set("category_correctness", category_correctness)
-    print "finished updating DKT model"
+    # print "finished updating DKT model"
 
 @app.route('/log_session', methods=['GET', 'POST'])
 def log_challenge_session():
