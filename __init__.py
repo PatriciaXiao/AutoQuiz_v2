@@ -8,8 +8,8 @@ import glob
 import xml.etree.ElementTree as ET
 
 # http://blog.csdn.net/yatere/article/details/78860852
-# from time import sleep  
-from concurrent.futures import ThreadPoolExecutor, as_completed 
+# from time import sleep
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 OFFICIAL_MAILBOX = 'cs10.autoquiz@gmail.com'
 DATABASE = './auto_quiz.db'
@@ -50,3 +50,12 @@ app.config.update(dict(
     PASSWORD='default'
 ))
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
+
+
+DEBUG_FILE = 'debug_info.txt'
+def debug_output(output_string):
+    # debug print into file
+    file_path = os.path.join(app.root_path, DEBUG_FILE)
+    with open(file_path, 'a') as f:
+        f.write("{0}\n".format(output_string))
+    return True

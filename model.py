@@ -6,8 +6,8 @@ import os
 
 class grainedDKTModel:
     def __init__(
-            self, 
-            batch_size=16, 
+            self,
+            batch_size=16,
             vec_length_in=0,                  # number of questions in dataset
             vec_length_out=0,                 # output size
             initial_learning_rate=0.001,
@@ -88,7 +88,7 @@ class grainedDKTModel:
             learning_rate=learning_rate, \
             epsilon=epsilon, name='train_op') \
             .minimize(mean_loss,global_step=global_step)
-        
+
         # Saver defined
         saver = tf.train.Saver()
 
@@ -196,10 +196,10 @@ class BatchGenerator:
             Xs[i] = np.pad([2 + self.id_encoding[s[0]] + s[1] * self.vec_length_in for s in sequence[:-1]],
                 (1, padding_length), 'constant', constant_values=(1,0))
             if self.multi_granined_out:
-                Ys[i] = np.pad([self.combined_one_hot(self.skill_to_category_dict[s[0]], self.n_categories, self.id_encoding[s[0]]%self.vec_length_out, self.vec_length_out) for s in sequence], 
+                Ys[i] = np.pad([self.combined_one_hot(self.skill_to_category_dict[s[0]], self.n_categories, self.id_encoding[s[0]]%self.vec_length_out, self.vec_length_out) for s in sequence],
                     ((0, padding_length), (0, 0)), 'constant', constant_values=0)
             else:
-                Ys[i] = np.pad([self.one_hot(self.id_encoding[s[0]]%self.vec_length_out, self.vec_length_out) for s in sequence], 
+                Ys[i] = np.pad([self.one_hot(self.id_encoding[s[0]]%self.vec_length_out, self.vec_length_out) for s in sequence],
                     ((0, padding_length), (0, 0)), 'constant', constant_values=0)
             targets[i] = np.pad([s[1] for s in sequence],
                 (0, padding_length), 'constant', constant_values=0)
@@ -210,8 +210,8 @@ class BatchGenerator:
         # print Ys.shape
         return Xs, Ys, targets, len_sequences, categories
 
-def run(session, 
-        train_batchgen, test_batchgen, 
+def run(session,
+        train_batchgen, test_batchgen,
         option="epoch", n_epoch=1, n_step=5001,
         keep_prob = 0.5,
         report_loss_interval=100, report_score_interval=500,
@@ -247,7 +247,7 @@ def run(session,
         test_batchgen.reset()
         for i in range(steps_to_test):
             test_batch_Xs, test_batch_Ys, test_batch_labels, test_batch_sequence_lengths, test_batch_caegories = test_batchgen.next_batch()
-            test_feed_dict= {m.Xs : test_batch_Xs, m.Ys : test_batch_Ys, 
+            test_feed_dict= {m.Xs : test_batch_Xs, m.Ys : test_batch_Ys,
                         m.seq_len : test_batch_sequence_lengths,
                         m.targets : test_batch_labels,
                         m.categories : test_batch_caegories}
@@ -275,8 +275,8 @@ def run(session,
             sum_loss = 0
             for step in range(n_step):
                 batch_Xs, batch_Ys, batch_labels, batch_sequence_lengths, batch_caegories = train_batchgen.next_batch()
-                feed_dict = {m.Xs : batch_Xs, m.Ys : batch_Ys, 
-                        m.seq_len : batch_sequence_lengths, 
+                feed_dict = {m.Xs : batch_Xs, m.Ys : batch_Ys,
+                        m.seq_len : batch_sequence_lengths,
                         m.targets : batch_labels,
                         m.categories : batch_caegories}
                 _, batch_loss = session.run([m.train_op,m.loss], feed_dict=feed_dict)
@@ -287,7 +287,7 @@ def run(session,
                     sum_loss = 0
                 if step and step % report_score_interval == 0:
                     auc = calc_score(m)
-                    print('AUC score: {0}'.format(auc))   
+                    print('AUC score: {0}'.format(auc))
                     save_path = m.saver.save(session, model_saved_path)
                     print('Model saved in {0}'.format(save_path))
                     with open(performance_table_path, 'a') as out_file_csv:
@@ -301,8 +301,8 @@ def run(session,
                 sum_loss = 0
                 for step in range(steps_per_epoch):
                     batch_Xs, batch_Ys, batch_labels, batch_sequence_lengths, batch_caegories = train_batchgen.next_batch()
-                    feed_dict = {m.Xs : batch_Xs, m.Ys : batch_Ys, 
-                            m.seq_len : batch_sequence_lengths, 
+                    feed_dict = {m.Xs : batch_Xs, m.Ys : batch_Ys,
+                            m.seq_len : batch_sequence_lengths,
                             m.targets : batch_labels,
                             m.categories : batch_caegories}
                     _, batch_loss = session.run([m.train_op,m.loss], feed_dict=feed_dict)
@@ -320,7 +320,7 @@ def run(session,
                         print('Model saved in {0}'.format(save_path))
                 print ('End epoch (%d/%d)' % (epoch, n_epoch))
                 auc = calc_score(m)
-                print('AUC score: {0}'.format(auc))   
+                print('AUC score: {0}'.format(auc))
                 save_path = m.saver.save(session, model_saved_path)
                 print('Model saved in {0}'.format(save_path))
                 with open(performance_table_path, 'a') as out_file_csv:
@@ -328,7 +328,7 @@ def run(session,
                         n_hidden_units, '', epoch + 1, test_batchgen.batch_size, embedding_size, keep_prob, random_embedding, multi_granined, multi_granined_out, initial_learning_rate, final_learning_rate, auc))
     pass
 
-def run_epoch(session, 
+def run_epoch(session,
         train_batchgen,
         n_epoch=1,
         keep_prob = 0.5,
@@ -362,8 +362,8 @@ def run_epoch(session,
             sum_loss = 0
             for step in range(steps_per_epoch):
                 batch_Xs, batch_Ys, batch_labels, batch_sequence_lengths, batch_caegories = train_batchgen.next_batch()
-                feed_dict = {m.Xs : batch_Xs, m.Ys : batch_Ys, 
-                            m.seq_len : batch_sequence_lengths, 
+                feed_dict = {m.Xs : batch_Xs, m.Ys : batch_Ys,
+                            m.seq_len : batch_sequence_lengths,
                             m.targets : batch_labels,
                             m.categories : batch_caegories}
                 _, batch_loss = session.run([m.train_op,m.loss], feed_dict=feed_dict)
@@ -378,7 +378,7 @@ def run_epoch(session,
     # tf.reset_default_graph()
     pass
 
-def run_predict(session, 
+def run_predict(session,
         test_batchgen,
         update=True,
         steps_to_test=0,
@@ -396,6 +396,7 @@ def run_predict(session,
         initial_learning_rate=0.001,
         final_learning_rate=0.00001,
         multi_granined_out=True):
+
     if steps_to_test == 0:
         steps_to_test = test_batchgen.data_size//test_batchgen.batch_size
         if steps_to_test == 0:
@@ -423,7 +424,7 @@ def run_predict(session,
         n_valid_cnt = 0
         for i in range(steps_to_test):
             test_batch_Xs, test_batch_Ys, test_batch_labels, test_batch_sequence_lengths, test_batch_categories = test_batchgen.next_batch()
-            test_feed_dict= {Xs : test_batch_Xs, Ys : test_batch_Ys, 
+            test_feed_dict= {Xs : test_batch_Xs, Ys : test_batch_Ys,
                         seq_len : test_batch_sequence_lengths,
                         targets : test_batch_labels,
                         categories : test_batch_categories}
@@ -446,7 +447,7 @@ def run_predict(session,
             # update the model
             for i in range(steps_to_test):
                 test_batch_Xs, test_batch_Ys, test_batch_labels, test_batch_sequence_lengths, test_batch_categories = test_batchgen.next_batch()
-                feed_dict= {Xs : test_batch_Xs, Ys : test_batch_Ys, 
+                feed_dict= {Xs : test_batch_Xs, Ys : test_batch_Ys,
                             seq_len : test_batch_sequence_lengths,
                             targets : test_batch_labels,
                             categories : test_batch_categories}

@@ -122,7 +122,7 @@ def log_exercise_db(question_id, user_id, correctness, log_ip, log_time):
     '''
 
     db.commit()
-    
+
     # close_db()
     return success
 
@@ -365,7 +365,7 @@ def get_challenge_questions(user_id, question_id, correctness, challenge_size=5,
     # run the model
     accuracy, auc, pred_each_part, (n_categories, _, id_encoding) = run_model([question_id], [correctness], model_name=model_name, model_dir=model_dir, update=True)
     # [(idx, accuracy)]
-    # pred_questions = [(i, item) for i, item in enumerate(pred_each_part[n_categories:])] 
+    # pred_questions = [(i, item) for i, item in enumerate(pred_each_part[n_categories:])]
     # questions_idx2id = {id_encoding[key]: key for key in id_encoding.keys()}
     # shuffle(pred_questions)
     # return [q_info[0] for q_info in sorted(pred_questions, key=lambda x:x[1], reverse=False)[:challenge_size]]
@@ -373,7 +373,7 @@ def get_challenge_questions(user_id, question_id, correctness, challenge_size=5,
         #
         # print pred_each_part
         # return [1, 2, 3, 4, 5]
-        pred_questions = [(i, item) for i, item in enumerate(pred_each_part[n_categories:])] 
+        pred_questions = [(i, item) for i, item in enumerate(pred_each_part[n_categories:])]
         questions_idx2id = {id_encoding[key]: key for key in id_encoding.keys()}
         shuffle(pred_questions)
         return [q_info[0] for q_info in sorted(pred_questions, key=lambda x:x[1], reverse=False)[:challenge_size]]
@@ -421,17 +421,21 @@ def run_model(question_id_lst, correctness_lst, model_dir="./", model_name="mode
     test_batches = BatchGenerator(response_list, BATCH_SIZE, id_encoding, n_id, n_id, n_categories, skill_to_category_dict=skill2category_map)
     sess = tf.Session()
     # print ("start running prediction")
+    # debug_output("start running prediction")
     accuracy, auc, pred_each_part = run_predict(sess, test_batches, n_categories=n_categories, steps_to_test=1, \
             model_saved_path=os.path.join(model_dir, model_name),
             checkpoint_dir = model_dir, update=update)
     # print ("end with prediction")
+    # debug_output("end running prediction")
     sess.close()
     return accuracy, auc, pred_each_part, (n_categories, category_encoding, id_encoding)
 
 def get_topic_correctness_DKT(question_id, correctness, model_dir="./", model_name="model.ckpt", update=False, challenge_size=5):
     # print ("loading and running model DKT")
     # print ([question_id], [correctness], model_name, model_dir, update)
+    # debug_output("start executing running DKT model")
     accuracy, auc, pred_each_part, (n_categories, category_encoding, id_encoding) = run_model([question_id], [correctness], model_name=model_name, model_dir=model_dir, update=update)
+    # debug_output("end executing running DKT model")
     # print ("finished with DKT model running")
     category_idx2id = {category_encoding[key]: key for key in category_encoding.keys()}
     pred_category = pred_each_part[:n_categories]
@@ -439,7 +443,7 @@ def get_topic_correctness_DKT(question_id, correctness, model_dir="./", model_na
 
     df_topic_names = pd.read_csv(os.path.join(model_dir, TOPIC_NAMES_FILE), sep=',')
     # print (df_topic_names)
-    
+
     category_correctness = {}
     # print len(df_topic_names)
     # print pred_category
@@ -451,10 +455,10 @@ def get_topic_correctness_DKT(question_id, correctness, model_dir="./", model_na
         category_correctness[str(df_topic_names['topic_name'][i])] = float(pred_category[int(df_topic_names['topic_id'][i])])
     # print "hello here"
     # print category_correctness
-    pred_questions = [(i, item) for i, item in enumerate(pred_each_part[n_categories:])] 
+    pred_questions = [(i, item) for i, item in enumerate(pred_each_part[n_categories:])]
     questions_idx2id = {id_encoding[key]: key for key in id_encoding.keys()}
     shuffle(pred_questions)
     next_session = [questions_idx2id[q_info[0]] for q_info in sorted(pred_questions, key=lambda x:x[1], reverse=False)[:challenge_size]]
     # print next_session
-        
+
     return category_correctness, next_session, accuracy, auc
