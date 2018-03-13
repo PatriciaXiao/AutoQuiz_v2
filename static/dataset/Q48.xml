@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">coding</skill>
+	<description>
+		debug (2017 Spring, Quest, Question 13)
+	</description>
+	<question>
+		<p>
+			<line>The block tries to find the smallest item of a non-empty number list.</line>
+		</p>
+		<img>
+			<name height="6">48.1.png</name>
+		</img>
+		<p>
+			<line>Which is true about _CODES_smallest_CODEE_?</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					It always works as advertised
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					It works if the items are sorted in descending order, biggest to smallest
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					It only works when the first element (which we’ll call the “head”) is smallest, otherwise it won't report the correct answer
+				</line>
+			</p>
+		</option>
+		<option id="c4" correct="true">
+			<p>
+				<line>
+					It works when the first element smaller than the head is the smallest element
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>It works when it is OKAY to report the result once we find someone smaller than the head.</hint>
+</content>

@@ -2,17 +2,16 @@
 <content>
 	<skill kind="detailed">complexity</skill>
 	<description>
-		algorithm complexity. (2017 Fall, Quest, Question 9)
+		algorithm complexity. (2017 Spring, Quest, Question 6)
 	</description>
 	<question>
 		<p>
-			<line>We want to identify the maximum value in a list of one or more integers. Our algorithm works as follows:</line>
-			<line>Set a variable max to the first data value. Iterate through the list’s remaining values. For each item, if a data value is greater than the value of the variable max, set max to the data value.</line>
-			<line>What is its run time?</line>
+			<line>Given a list (of size N) of ID numbers well in advance, and _BOLDS_infinite storage_BOLDE_, what’s the running time of an algorithm to find whether two different IDs are in the list?</line>
+			<line>Select one.</line>
 		</p>
 	</question>
 	<answers>
-		<option id="c1">
+		<option id="c1" correct="true">
 			<p>
 				<line>
 					Constant
@@ -26,7 +25,7 @@
 				</line>
 			</p>
 		</option>
-		<option id="c3" correct="true">
+		<option id="c3">
 			<p>
 				<line>
 					Linear
@@ -48,5 +47,5 @@
 			</p>
 		</option>
 	</answers>
-	<hint>there is constant work per step through the list (just a compare).</hint>
+	<hint>the hash-table-like idea (e.g. using index of a list to refer to the ID)</hint>
 </content>

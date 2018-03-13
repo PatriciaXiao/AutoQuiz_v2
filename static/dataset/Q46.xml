@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">coding</skill>
+	<description>
+		predicting the outcome of a piece of code (2017 Spring, Quest, Question 8,9,10)
+	</description>
+	<question>
+		<p>
+			<line>There are some helper blocks for control and sensing of a robot, starting in the bottom center of the grid, facing up.</line>
+			<line>When calling _CODES_move forward (INPUT)_CODEE_, the robote moves _EMPHS_INPUT_EMPHE_ squares forward in the direction it is facing.</line>
+			<line>When calling _CODES_rotate left_CODEE_, the robote turns 90 degrees counterclockwise, in-place.</line>
+			<line>_CODES_can move {left, forward}_CODEE_ would check if there is a free square to the robot's {left, forward} to move onto, if yes, report _EMPHS_true_EMPHE_, otherwise report _EMPHS_false_EMPHE_.</line>
+		</p>
+		<img>
+			<name height="6">46.1.png</name>
+			<name height="5">46.2.png</name>
+		</img>
+		<p>
+			<line>_EMPHS_After 100 iterations_EMPHE_(100 iterations of the forever loop), which of the following statement is true?</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					The robot continues moving; and it could move into a black (non-free) square if it runs for a long time.
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					The robot continues moving; but it would never move into a black (non-free) square.
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					The robot stays in place; and it has moved into a black (non-free) square during the iterations it went through.
+				</line>
+			</p>
+		</option>
+		<option id="c4" correct="true">
+			<p>
+				<line>
+					The robot stays in place; it didn't, and would never move into a black (non-free) square.
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>try simulate its moves step by step</hint>
+</content>

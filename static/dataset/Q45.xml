@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">coding</skill>
+	<description>
+		domain and range (2017 Spring, Quest, Question 7)
+	</description>
+	<question>
+		<p>
+			<line>Given the following error-free expression, what is your best guess as to the Domain and Range of Foo?</line>
+		</p>
+		<img>
+			<name height="1">45.1.png</name>
+		</img>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					Foo's domain is sentences, range is sentences
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					Foo's domain is sentences, range is booleans
+				</line>
+			</p>
+		</option>
+		<option id="c3" correct="true">
+			<p>
+				<line>
+					Foo's domain is sentences, range is lists
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					Foo's domain is booleans, range is sentences
+				</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>
+					Foo's domain is booleans, range is booleans
+				</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>
+					Foo's domain is booleans, range is lists
+				</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>
+					Foo's domain is lists, range is sentences
+				</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>
+					Foo's domain is lists, range is booleans
+				</line>
+			</p>
+		</option>
+		<option id="c9">
+			<p>
+				<line>
+					Foo's domain is lists, range is lists
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>domain is the input value type; range is the output value type.</hint>
+</content>

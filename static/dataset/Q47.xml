@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">coding</skill>
+	<description>
+		debug (2017 Spring, Quest, Question 12)
+	</description>
+	<question>
+		<p>
+			<line>The two blocks attempt to find the smallest of three numbers.</line>
+		</p>
+		<img>
+			<name height="4">47.1.png</name>
+			<name height="4">47.2.png</name>
+		</img>
+		<p>
+			<line>Given the buggy _CODES_smallest of three_CODEE_, which values of A, B and C reveal the bug?</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					A=1, B=2, C=3
+				</line>
+			</p>
+		</option>
+		<option id="c2" correct="true">
+			<p>
+				<line>
+					A=1, B=3, C=2
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					A=2, B=1, C=3
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					A=2, B=3, C=1
+				</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>
+					A=3, B=1, C=2
+				</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>
+					A=3, B=2, C=1
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>bug occurs when a smaller than b and c, but c is smaller than b</hint>
+</content>

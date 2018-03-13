@@ -2,13 +2,17 @@
 <content>
 	<skill kind="detailed">complexity</skill>
 	<description>
-		algorithm complexity. (2017 Fall, Quest, Question 9)
+		algorithm complexity (2017 Spring, Quest, Question 14)
 	</description>
 	<question>
 		<p>
-			<line>We want to identify the maximum value in a list of one or more integers. Our algorithm works as follows:</line>
-			<line>Set a variable max to the first data value. Iterate through the list’s remaining values. For each item, if a data value is greater than the value of the variable max, set max to the data value.</line>
-			<line>What is its run time?</line>
+			<line>The block tries to find the smallest item of a non-empty number list.</line>
+		</p>
+		<img>
+			<name height="6">48.1.png</name>
+		</img>
+		<p>
+			<line>What is the running time of _CODES_smallest_CODEE_?</line>
 		</p>
 	</question>
 	<answers>
@@ -43,10 +47,17 @@
 		<option id="c5">
 			<p>
 				<line>
+					Cubic
+				</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>
 					Exponential
 				</line>
 			</p>
 		</option>
 	</answers>
-	<hint>there is constant work per step through the list (just a compare).</hint>
+	<hint>linear steps * constant time per step = linear time</hint>
 </content>

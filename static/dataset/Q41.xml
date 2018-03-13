@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">conversion</skill>
+	<description>
+		Number system conversion (2017 Spring, Quest, Question 2)
+	</description>
+	<question>
+		<p>
+			<line>What is the _EMPHS_decimal_EMPHE_ value of the expression: 1E_SUBS_16_SUBE_  (hex) / 10_SUBS_2_SUBE_ (binary)?</line>
+			<line>Select one:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					10
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					11
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					12
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					13
+				</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>
+					14
+				</line>
+			</p>
+		</option>
+		<option id="c6" correct="true">
+			<p>
+				<line>
+					15
+				</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>
+					16
+				</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>
+					17
+				</line>
+			</p>
+		</option>
+		<option id="c9">
+			<p>
+				<line>
+					18
+				</line>
+			</p>
+		</option>
+		<option id="c10">
+			<p>
+				<line>
+					19
+				</line>
+			</p>
+		</option>
+		<option id="c11">
+			<p>
+				<line>
+					20
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>30 / 2 = 15</hint>
+</content>

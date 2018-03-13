@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">coding</skill>
+	<description>
+		Basic understanding of if condition (2017 Spring, Quest, Question 3)
+	</description>
+	<question>
+		<p>
+			<line>If the output from _BOLDS_Mystery_BOLDE_ is _BOLDS_true_BOLDE_, which can you say for sure?</line>
+		</p>
+		<img>
+			<name height="5">42.1.png</name>
+		</img>
+		<p>
+			<line>select ONE:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					A must be true, B must be true
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					A must be true, B must be false
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					A must be false, B must be true
+				</line>
+			</p>
+		</option>
+		<option id="c4" correct="true">
+			<p>
+				<line>
+					A must be false, B must be false
+				</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>
+					None of these
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>you can try it in Snap!</hint>
+</content>
