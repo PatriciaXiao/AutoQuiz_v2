@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">debug</skill>
+	<description>
+		debugging (2016 Fall, Quest, Question 10)
+	</description>
+	<question>
+		<p>
+			<line>Consider the _BOLDS_buggy_BOLDE_ program on the right for determining whether there is a zero in a list of numbers:</line>
+		</p>
+		<img>
+			<name height="6">55.1.png</name>
+		</img>
+		<p>
+			<line>How could you fix the program so it works as intended?</line>
+			<line>Select one:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>Remove:</line>
+			</p>
+			<img>
+				<name height="1">56.2.png</name>
+			</img>
+		</option>
+		<option id="c2" >
+			<p>
+				<line>Change:</line>
+			</p>
+			<img>
+				<name height="1">56.2.png</name>
+			</img>
+			<p>
+				<line>To:</line>
+			</p>
+			<img>
+				<name height="1">56.3.png</name>
+			</img>
+		</option>
+		<option id="c3" correct="true">
+			<p>
+				<line>Change:</line>
+			</p>
+			<img>
+				<name height="1">56.6.png</name>
+			</img>
+			<p>
+				<line>To:</line>
+			</p>
+			<img>
+				<name height="1">56.4.png</name>
+			</img>
+		</option>
+		<option id="c4">
+			<p>
+				<line>Change:</line>
+			</p>
+			<img>
+				<name height="1">56.6.png</name>
+			</img>
+			<p>
+				<line>To:</line>
+			</p>
+			<img>
+				<name height="1">56.5.png</name>
+			</img>
+		</option>
+	</answers>
+	<hint>it always overrides “found a zero!” every time, ignoring what it was in the past</hint>
+</content>

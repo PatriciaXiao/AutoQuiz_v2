@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">boolean</skill>
+	<description>
+		boolean expression value (2016 Fall, Quest, Question 4)
+	</description>
+	<question>
+		<p>
+			<line>Your friend finds an abstract way to represent Boolean expressions.</line>
+			<line>It shows how the data flows from the variables A and B through the Boolean expressions and out:</line>
+		</p>
+		<img>
+			<name height="2">51.1.png</name>
+		</img>
+		<p>
+			<line>If the output from the figure above is true, which can you say for _EMPHS_sure?_EMPHE_</line>
+			<line>Select one:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>A must be true</line>
+			</p>
+		</option>
+		<option id="c2" correct="true">
+			<p>
+				<line>B must be true</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>Both A and B must be true</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>Nothing</line>
+			</p>
+		</option>
+	</answers>
+	<hint>Try logic truth tables if you don't understand.</hint>
+</content>

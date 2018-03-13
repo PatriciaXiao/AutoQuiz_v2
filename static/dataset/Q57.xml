@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">complexity</skill>
+	<description>
+		algorithm complexity (2016 Fall, Quest, Question 11)
+	</description>
+	<question>
+		<p>
+			<line>Consider the _BOLDS_buggy_BOLDE_ program on the right for determining whether there is a zero in a list of numbers:</line>
+		</p>
+		<img>
+			<name height="6">55.1.png</name>
+		</img>
+		<p>
+			<line>What is the worst-case running time of the algorithm after correcting it?</line>
+			<line>Select one:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>Constant</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>Logarithmic</line>
+			</p>
+		</option>
+		<option id="c3" correct="true">
+			<p>
+				<line>Linear</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>Quadratic</line>
+			</p>
+		</option>
+	</answers>
+	<hint>a constant amount of work is happening with each iteration</hint>
+</content>

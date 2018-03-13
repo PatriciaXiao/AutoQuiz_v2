@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">list</skill>
+	<description>
+		use higher order functions to design program (2016 Fall, Quest, Question 11)
+	</description>
+	<question>
+		<p>
+			<line>For each of the following questions, indicate which of _BOLDS_map, keep,_BOLDE_ and _BOLDS_combine_BOLDE_ would be used to solve it most efficiently, and if more than one are used, in what order they are evaluated. (The computer runs inner procedures first.)</line>
+			<line>For example, if you had to process a list by keeping only the numbers that are greater than 3 and then adding 10 to each, you could use:</line>
+		</p>
+		<img>
+			<name height="1">58.1.png</name>
+		</img>
+		<p>
+			<line>The higher-order functions are _BOLDS_keep_BOLDE_ and then _BOLDS_map_BOLDE_, evaluated in that order, because you first _EMPHS_filter_EMPHE_ for the items greater than 3 and then add 10 to _EMPHS_every element_EMPHE_ that abbreviated list.</line>
+			<line>Given a predicate function that determines whether two words rhyme, return all the words of a list that rhyme with _EMPHS_Computing._EMPHE_</line>
+		</p>
+		<img>
+			<name height="1">58.2.png</name>
+		</img>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>Only map</line>
+			</p>
+		</option>
+		<option id="c2" correct="true">
+			<p>
+				<line>Only keep</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>First map, then keep.</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>First keep, then map.</line>
+			</p>
+		</option>
+	</answers>
+	<hint>think about what keep (list to sublist), map (list to another list) and combine (list to a variable) does.</hint>
+</content>

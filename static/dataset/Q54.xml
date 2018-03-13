@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">coding</skill>
+	<description>
+		draw spiral using loop (2016 Fall, Quest, Question 8)
+	</description>
+	<question>
+		<p>
+			<line>The sprite starts in the center of the blank screen, and the user makes a call to Draw Spiral. We’ve zoomed in to the center to see the pretty pattern that was drawn.</line>
+		</p>
+		<img>
+			<name height="4">54.1.png</name>
+			<name height="4">54.2.png</name>
+		</img>
+		<p>
+			<line>What value of _CODES__BOLDS_turn_BOLDE__CODEE_ caused this pattern?</line>
+			<line>Select one:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>45</line>
+			</p>
+		</option>
+		<option id="c2" correct="true">
+			<p>
+				<line>60</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>90</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>120</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>150</line>
+			</p>
+		</option>
+	</answers>
+	<hint>it takes 6 turns to face the same direction</hint>
+</content>

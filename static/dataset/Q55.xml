@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">debug</skill>
+	<description>
+		debugging (2016 Fall, Quest, Question 9)
+	</description>
+	<question>
+		<p>
+			<line>Consider the _BOLDS_buggy_BOLDE_ program on the right for determining whether there is a zero in a list of numbers:</line>
+		</p>
+		<img>
+			<name height="6">55.1.png</name>
+		</img>
+		<p>
+			<line>What does the program always return?</line>
+			<line>Select one:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>true</line>
+			</p>
+		</option>
+		<option id="c2" correct="true">
+			<p>
+				<line>false</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>true if there is a zero in the _BOLDS_last_BOLDE_ element.</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>true if there is a zero in the _BOLDS_first_BOLDE_ element.</line>
+			</p>
+		</option>
+	</answers>
+	<hint>it always overrides “found a zero!” every time, ignoring what it was in the past</hint>
+</content>

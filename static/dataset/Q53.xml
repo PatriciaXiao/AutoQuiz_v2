@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">coding</skill>
+	<description>
+		domain and range (2016 Fall, Quest, Question 7)
+	</description>
+	<question>
+		<p>
+			<line>Given the following _BOLDS_error-free_BOLDE_ expression:</line>
+		</p>
+		<img>
+			<name height="1">53.1.png</name>
+		</img>
+		<p>
+			<line>what do you know for sure about the _EMPHS_Domain and Range_EMPHE_ of Foo and Bar?</line>
+			<line>Select one:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>The Domain of Bar contains the number 42.</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>The Range of Foo is exactly numbers.</line>
+			</p>
+		</option>
+		<option id="c3" correct="true">
+			<p>
+				<line>The Domain of Bar contains the range of Foo.</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>The Domain of Bar is exactly the range of Foo.</line>
+			</p>
+		</option>
+	</answers>
+	<hint>refer to the definition of domain (input type) and range (output type)</hint>
+</content>
