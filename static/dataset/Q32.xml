@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">coding</skill>
+	<description>
+		Predict the outcome of code. (2017 Fall, Quest, Question 4)
+	</description>
+	<question>
+		<p>
+			<line>If the sprite starts in the middle of the stage facing up and runs the script to the right, what is _EMPHS_eventually drawn_EMPHE_ on the stage after the stage stops changing?</line>
+		</p>
+		<img>
+			<name height="5">32.1.png</name>
+		</img>
+		<p>
+			<line>select ONE:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					Dot
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					Line
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					Spiral
+				</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>
+					Circle
+				</line>
+			</p>
+		</option>
+		<option id="c5" correct="true">
+			<p>
+				<line>
+					Triangle
+				</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>
+					None of these
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>you can try it in Snap!</hint>
+</content>

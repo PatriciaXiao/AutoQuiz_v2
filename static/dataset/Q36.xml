@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">debug</skill>
+	<description>
+		Debug a block (2017 Fall, Quest, Question 10)
+	</description>
+	<question>
+		<p>
+			<line>You write a block to determine whether three values are all equal (when they are, it should return true, otherwise false). You test it and it's fine:</line>
+		</p>
+		<img>
+			<name height="2">36.1.png</name>
+		</img>
+		<img>
+			<name height="1">36.2.png</name>
+		</img>
+		<img>
+			<name height="1">36.3.png</name>
+		</img>
+		<p>
+			<line>Which of the following statement is correct?</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>
+					Your program works as expected.
+				</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>
+					Your program might return true when it should return false, but when it returns false the real answer should be false.
+				</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>
+					Your program might return false when it should return true, but when it returns true the real answer should be true.
+				</line>
+			</p>
+		</option>
+		<option id="c4" correct="true">
+			<p>
+				<line>
+					Your program might return true when it should return false, and could return false when should return true.
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>try (true = 3 = 3), or (false = false = false)</hint>
+</content>

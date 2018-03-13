@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">boolean</skill>
+	<description>
+		Use boolean expression to abbreviate expression (2017 Fall, Quest, Question 6)
+	</description>
+	<question>
+		<p>
+			<line>You realize you could replace the entire body of _BOLDS_Mystery_BOLDE_ with a single _BOLDS_report_BOLDE_ (as shown below). What could go in there so _BOLDS_Mystery_BOLDE_ functions the same for all values of Boolean inputs A and B?</line>
+		</p>
+		<img>
+			<name height="5">33.1.png</name>
+			<name height="2">34.2.png</name>
+		</img>
+		<p>
+			<line>select ONE:</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<img>
+				<name height="1">34.3.png</name>
+			</img>
+		</option>
+		<option id="c2">
+			<img>
+				<name height="1">34.4.png</name>
+			</img>
+		</option>
+		<option id="c3">
+			<img>
+				<name height="1">34.5.png</name>
+			</img>
+		</option>
+		<option id="c4">
+			<img>
+				<name height="1">34.6.png</name>
+			</img>
+		</option>
+		<option id="c5" correct="true">
+			<p>
+				<line>
+					None of these
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>not (A and B) == (not A) or (not B); not (A or B) == (not A) and (not B). The correct answer would be equivalent to (A and B).</hint>
+</content>

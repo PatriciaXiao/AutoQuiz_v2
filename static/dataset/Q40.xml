@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">list</skill>
+	<description>
+		operating lists with higher-order functions (2017 Fall, Quest, Question 11 problem d)
+	</description>
+	<question>
+		<p>
+			<line>We love our powerful list processing tools of _BOLDS_map_BOLDE_ and _BOLDS_keep_BOLDE_! (This is an abstract visual representation so we can just focus on the blocks themselves, not the details of the inputs). For the following question, which solution works using the fewest of these blocks? Note that there may have to be non-powerful blocks before and/or after calls to these 3 blocks, we only care about these 3 blocks.</line>
+			<line>Problem: _EMPHS_Given a list of words, return a list of the lengths of all the words that start with X._EMPHE_</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<img>
+				<name height="1">37.1.png</name>
+			</img>
+		</option>
+		<option id="c2">
+			<img>
+				<name height="1">37.2.png</name>
+			</img>
+		</option>
+		<option id="c3" correct="true">
+			<img>
+				<name height="1">37.3.png</name>
+			</img>
+		</option>
+		<option id="c4">
+			<img>
+				<name height="1">37.4.png</name>
+			</img>
+		</option>
+		<option id="c5">
+			<p>
+				<line>
+					None of these
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>map apply a function to the whole list, returning a list of the same length; keep filter the list, keeps only the elements fullfill a certain condition; combine use every element in a list, compute them pair by pair and return one final result.</hint>
+</content>
