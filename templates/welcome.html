@@ -84,7 +84,8 @@
           return value;
         }
         function question_format(value, row, index, field) {
-          return '<a href="#" onclick="request_exercise(' + value + ')">Question ' + value + '</a>';
+          // return '<a href="#" onclick="request_exercise(' + value + ')">Question ' + value + '</a>';
+          return '<a href="/exercise/' + value + '" onclick="request_exercise(' + value + ')">Question ' + value + '</a>';
         }
         function logout() {
           var form = document.getElementById("logout_form");

@@ -53,7 +53,8 @@ def topic_question_lst(topic_id_marked):
     return json.dumps(questions)
 
 @app.route('/exercise/', methods=['GET', 'POST'])
-def exercise_section():
+@app.route('/exercise/<question_id>/', methods=['GET', 'POST'])
+def exercise_section(question_id=None):
     # request.args.get('name', '')
     if request.method == 'POST':
         # print request.values
@@ -61,11 +62,19 @@ def exercise_section():
         question_id = request.form['question_id']
         # next_id = request.form['next_id']
         # next_id = session["question_next"][int(question_id)] # doesn't work because session only works within this temp thread
+        '''
         next_id = None
-        while next_id is None: # maybe not resdy yet
+        while next_id is None: # maybe not ready yet
             next_id = next_cache.get(int(question_id))
+        '''
     else:
-        return redirect(url_for('welcome'))
+        if question_id is None:
+            return redirect(url_for('welcome'))
+        else:
+            question_id = int(question_id)
+    next_id = None
+    while next_id is None: # maybe not ready yet
+        next_id = next_cache.get(int(question_id))
     question_fname = "Q{0}.xml".format(question_id)
     # print "question file name {0}".format(question_fname)
     question, answers, correct_ans_id, hint = read_xml(question_fname, os.path.join(app.root_path, 'static', 'dataset'))
