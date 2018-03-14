@@ -1,5 +1,6 @@
 topic_id,topic_name
-0,Math Basis
-1,Programming
-2,Data Structure
-3,Algorithm
+0,Math and Logic Basics
+1,Programming and Algorithm
+2,Lists and HOFs
+3,Recursion
+4,Concurrency

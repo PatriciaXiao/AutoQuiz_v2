@@ -12,50 +12,54 @@ ROOT_DIR = './'
 
 topic_list = [
     {
-        'name': 'Math Basis',
-        'description': 'The questions focusing on basic math skills needed in CS10'
+        'name': 'Math and Logic Basics',
+        'description': 'The questions focusing on basic math skills, as well as logic reasonings, needed in CS10'
     }, {
-        'name': 'Programming',
-        'description': 'The questions focusing on basic programming skills needed in CS10 (e.g. loop, condition)'
+        'name': 'Programming and Algorithm',
+        'description': 'The questions focusing on basic programming skills needed in CS10 (e.g. loop, condition), as well as the questions focusing on algorithms (e.g. complexity, logic of a piece of code)'
     }, {
-        'name': 'Data Structure',
+        'name': 'Lists and HOFs',
         'description': 'The questions focusing on skills about data structure in CS10 (e.g. use of HOF, dictionaries, list, etc.)'
     }, {
-        'name': 'Algorithm',
-        'description': 'The questions focusing on algorithms (e.g. complexity, logic of a piece of code)'
+        'name': 'Recursion',
+        'description': 'The questions specifically aiming at recursions.'
+    }, {
+        'name': 'Concurrency',
+        'description': 'The questions specifically aiming at concurrency.'
     }
 ]
 
 topic_link = [
     {
-        'src': 'Math Basis',
-        'dst': 'Programming'
+        'src': 'Math and Logic Basics',
+        'dst': 'Programming and Algorithm'
     }, {
-        'src': 'Math Basis',
-        'dst': 'Data Structure'
+        'src': 'Programming and Algorithm',
+        'dst': 'Lists and HOFs'
     }, {
-        'src': 'Programming',
-        'dst': 'Algorithm'
+        'src': 'Programming and Algorithm',
+        'dst': 'Recursion'
     }, {
-        'src': 'Data Structure',
-        'dst': 'Algorithm'
+        'src': 'Programming and Algorithm',
+        'dst': 'Concurrency'
     }
 ]
 
 skill_map = {
-    'boolean': 'Math Basis',
-    'conversion': 'Math Basis',
-    'reasoning': 'Math Basis',
-    'calculation': 'Math Basis',
-    'coding': 'Programming',
-    'debug': 'Programming',
-    'function_as_variable': 'Programming',
-    'parallel': 'Programming',
-    'list': 'Data Structure',
-    'design': 'Algorithm',
-    'logic': 'Algorithm',
-    'recursion': 'Algorithm',
-    'complexity': 'Algorithm'
+    'boolean': 'Math and Logic Basics',
+    'conversion': 'Math and Logic Basics',
+    'reasoning': 'Math and Logic Basics',
+    'calculation': 'Math and Logic Basics',
+    'coding': 'Programming and Algorithm',
+    'debug': 'Programming and Algorithm',
+    'function_as_variable': 'Programming and Algorithm',
+    'parallel': 'Programming and Algorithm',
+    'list': 'Lists and HOFs',
+    'design': 'Programming and Algorithm',
+    'logic': 'Programming and Algorithm',
+    'recursion': 'Recursion',
+    'complexity': 'Programming and Algorithm',
+    'concurrency': 'Concurrency'
 }
 
 

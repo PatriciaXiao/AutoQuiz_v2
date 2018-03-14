@@ -9,6 +9,7 @@ import datetime
 from random import shuffle
 import tensorflow as tf
 import pandas as pd
+import math
 
 from fileio_func import save_session_data, IO
 from model import BatchGenerator, run_predict
@@ -248,57 +249,30 @@ def get_topic_info(user_id):
     for topic in topics_data:
         all_topics.append([topic[0] + 1, topic[1], topic_records[topic[0]][0], topic_records[topic[0]][1], layout[topic[0]]])
     return all_topics, topic_links
-    '''
-    # positions of points are hard-coded for now, this part could also be customized from the backend
-    # topic id (starts from 1), topic name, correct percent, wrong percent, location in layout [x, y]
-    all_topics = [
-                [1, 'Math Basis', 100, 0, [300, 300]],
-                [2, 'Programming', 50, 10, [550, 100]],
-                [3, 'Data Structure', 20, 5, [550, 500]],
-                [4, 'Algorithm', 5, 0, [800, 300]]
-            ]
-    # topic links: [source, target] (id starts from 0)
-    topic_links = [
-                [0, 1], [0, 2], [1, 3], [2, 3]
-            ]
-    return all_topics, topic_links
-    # '''
+
+def format_timestring(log_time_stmp):
+    log_time = datetime.datetime.fromtimestamp(log_time_stmp)
+    return "{0}/{1}/{2} {3}:{4}:{5}".format(\
+            "%02d" % log_time.month, "%02d" % log_time.day, "%04d" % log_time.year, \
+            "%02d" % log_time.hour, "%02d" % log_time.minute, "%02d" % log_time.second)
 
 def fetch_questions(topic_id, user_id):
-    # print topic_id
     db = get_db()
     cursor = db.cursor()
     sql = "select question_id, description from questions where topic_id={0};".format(topic_id)
     cursor.execute(sql)
-    questions_data = cursor.fetchall()
-    questions = []
-    for q in questions_data:
-        questions.append({
-                "id": q[0],
-                "description": q[1],
-                "timestring": "N/A",
-                "status": -1
-            })
+    whole_list_data = cursor.fetchall()
+    all_questions = [{"id": q[0], "description": q[1], "timestring": "N/A", "status": -1} for q in whole_list_data]
+    # print all_questions
+    done_questions = {}
     if user_id is not None:
-        for i in range(len(questions)):
-            question_id = questions[i]["id"]
-            sql = "select log_time as 'ts [log_time]' from records where log_time = (select MAX(log_time) from records where user_id={0} and question_id={1});".format(user_id, question_id)
-            cursor.execute(sql)
-            log_timedata = cursor.fetchone()
-            if log_timedata is not None:
-                log_time_str = log_timedata[0]
-                # print type(log_timedata[0])
-                log_time = datetime.datetime.fromtimestamp(log_time_str)
-                questions[i]["timestring"] = "{0}/{1}/{2} {3}:{4}:{5}".format(\
-                    "%02d" % log_time.month, "%02d" % log_time.day, "%04d" % log_time.year, \
-                    "%02d" % log_time.hour, "%02d" % log_time.minute, "%02d" % log_time.second)
-                sql = "select * from records where question_id={0} and user_id='{1}' and correct=1;".format(question_id, user_id)
-                cursor.execute(sql)
-                correct = cursor.fetchone() is not None
-                if correct:
-                    questions[i]["status"] = 1
-                else:
-                    questions[i]["status"] = 0
+        sql = 'select question_id, description, max(log_time), avg(correct) from (select records.question_id as question_id, description, log_time, correct from records left join questions on records.question_id = questions.question_id where user_id={0} and topic_id={1}) group by question_id;'.format(\
+            user_id, topic_id)
+        cursor.execute(sql)
+        user_list_data = cursor.fetchall()
+        done_questions = {q[0]: {"id": q[0], "description": q[1], "timestring": format_timestring(q[2]), "status": int(math.ceil(q[3]))} for q in user_list_data}
+    # print done_questions
+    questions = [done_questions[x["id"]] if x["id"] in done_questions.keys() else x for x in all_questions]
     '''
     questions = [{
             "id": 1,
@@ -325,7 +299,7 @@ def fetch_questions(topic_id, user_id):
             "status": -1
         }
     ]
-    '''
+    # '''
     return questions
 
 '''

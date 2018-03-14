@@ -1,2 +1,2 @@
-model_checkpoint_path: "/Users/patricia.xiao/Desktop/AutoQuiz_v2/model.ckpt"
-all_model_checkpoint_paths: "/Users/patricia.xiao/Desktop/AutoQuiz_v2/model.ckpt"
+model_checkpoint_path: "model.ckpt"
+all_model_checkpoint_paths: "model.ckpt"
