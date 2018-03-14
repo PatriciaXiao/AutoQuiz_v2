@@ -32,7 +32,7 @@ def close_db(error=None):
             "correctness": correctness_lst,
             "question_id": question_id_lst
         }
-        save_session_data(session_data, os.path.join(app.root_path, DKT_SESS_DAT))
+        # save_session_data(session_data, os.path.join(app.root_path, DKT_SESS_DAT))
         executor.submit(set_topic_correctness, session_data, model_dir=app.root_path, update=True)
         sess_cache.delete("correctness")
         sess_cache.delete("question_id")
@@ -47,9 +47,9 @@ def topic_question_lst(topic_id_marked):
     questions = fetch_questions(topic_id, user_id)
     last_idx = len(questions) - 1
     for i in range(last_idx):
-        next_cache.set(questions[i]["id"], questions[i + 1]["id"])
+        next_cache.set(questions[i]["id"], questions[i + 1]["id"], timeout=0)
     if last_idx >= 0:
-        next_cache.set(questions[last_idx]["id"], -1)
+        next_cache.set(questions[last_idx]["id"], -1, timeout=0)
     return json.dumps(questions)
 
 @app.route('/exercise/', methods=['GET', 'POST'])
@@ -130,8 +130,8 @@ def log_exercise_result():
     else:
         question_id_lst= [question_id]
         correctness_lst= [correctness]
-    sess_cache.set("question_id", question_id_lst)
-    sess_cache.set("correctness", correctness_lst)
+    sess_cache.set("question_id", question_id_lst, timeout=0)
+    sess_cache.set("correctness", correctness_lst, timeout=0)
     return json.dumps(info)
 
 # http://blog.csdn.net/yatere/article/details/78860852
@@ -146,8 +146,8 @@ def set_topic_correctness(data, model_dir=app.root_path, update=True):
     category_correctness, next_session, accuracy, auc = get_topic_correctness_DKT(question_id, correctness, model_dir=model_dir, update=update)
     # debug_output("end executing DKT model")
     # print category_correctness, next_session
-    sess_cache.set("next_session", next_session)
-    sess_cache.set("category_correctness", category_correctness)
+    sess_cache.set("next_session", next_session, timeout=0)
+    sess_cache.set("category_correctness", category_correctness, timeout=0)
     # print "finished updating DKT model"
 
 @app.route('/log_session', methods=['GET', 'POST'])
@@ -174,9 +174,9 @@ def log_challenge_session():
     save_session_data(data, file_name = os.path.join(app.root_path, DKT_SESS_DAT))
     category_correctness, next_session = get_topic_correctness_DKT(question_id, correctness, model_dir=app.root_path, update=True)
     sess_cache.clear()
-    sess_cache.set("question_id", question_id)
-    sess_cache.set("correctness", correctness)
-    sess_cache.set("next_session", next_session)
+    sess_cache.set("question_id", question_id, timeout=0)
+    sess_cache.set("correctness", correctness, timeout=0)
+    sess_cache.set("next_session", next_session, timeout=0)
     '''
     # delete(key)
     # print pred_each_part
@@ -243,8 +243,8 @@ def welcome():
                     show_msg = True
                     msg = ['success', 'Welcome', 'You are registered in our system as {0}'.format(username)]
                     login = True
-                    user_cache.set('user_name', username)
-                    user_cache.set('user_id', user_id)
+                    user_cache.set('user_name', username, timeout=0)
+                    user_cache.set('user_id', user_id, timeout=0)
                 else:
                     show_msg = True
                     msg = ['danger', 'Sorry', 'The user name "{0}" you came up with already exists in our system. Please try another one.'.format(username)]
@@ -257,8 +257,8 @@ def welcome():
                     show_msg = True
                     msg = ['success', 'Hi {0}'.format(username), 'Welcome back!'.format(username)]
                     login = True
-                    user_cache.set('user_name', username)
-                    user_cache.set('user_id', user_id)
+                    user_cache.set('user_name', username, timeout=0)
+                    user_cache.set('user_id', user_id, timeout=0)
                 else:
                     login = False
                     show_msg = True
@@ -281,7 +281,7 @@ def welcome():
     # fetch personal topic information from database
     user_id = user_cache.get('user_id')
     all_topics, topic_links = get_topic_info(user_id)
-    # user_cache.set('topic_info', all_topics)
+    # user_cache.set('topic_info', all_topics, timeout=0)
 
     return render_template('welcome.html', login=login, username=username, \
         all_topics=all_topics, topic_links=topic_links,\
