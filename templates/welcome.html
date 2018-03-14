@@ -167,12 +167,12 @@
                     data-url="/topic/{{topic_elem[0]}}"
                     data-pagination="true"
                     data-search="true">
-              <caption>Questions included in Programming</caption>
+              <caption>Questions included in {{topic_elem[1]}}</caption>
               <thead>
                   <tr>
-                      <th data-field="id" data-formatter="question_format">Question</th>
+                      <th data-field="id" data-formatter="question_format" data-sortable="true">Question</th>
                       <th data-field="description">Question Description</th>
-                      <th data-field="timestring">Last Tried</th>
+                      <th data-field="timestring" data-sortable="true">Last Tried</th>
                       <th data-field="status" data-formatter="status_format">Status</th>
                   </tr>
               </thead>
