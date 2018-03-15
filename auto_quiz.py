@@ -63,9 +63,9 @@ def exercise_section(question_id=None):
             return redirect(url_for('welcome'))
         else:
             question_id = int(question_id)
-    # if session.get("next_cache") is None:
-        # session["next_cache"] = get_next_map()
-    session["next_cache"] = get_next_map()
+    if session.get("next_cache") is None:
+        session["next_cache"] = get_next_map()
+    # session["next_cache"] = get_next_map()
     next_id = session["next_cache"].get(int(question_id))
     if next_id is None:
         next_id = -1
@@ -84,9 +84,9 @@ def challenge_section():
     # question_id_lst = [1, 2]
     user_id = current_user.get_id()
     print user_id
-    question_id = sess_cache.get("question_id")
-    correctness = sess_cache.get("correctness")
-    question_id_lst = get_challenge_questions(user_id, model_dir=app.root_path, prev_load=sess_cache.get('next_session'))
+    question_id = user_cache.get("question_id")
+    correctness = user_cache.get("correctness")
+    question_id_lst = get_challenge_questions(user_id, model_dir=app.root_path, prev_load=user_cache.get('next_session'))
     for question_id in question_id_lst:
         question_fname = "Q{0}.xml".format(question_id)
         # print "question file name {0}".format(question_fname)
@@ -152,8 +152,8 @@ def set_topic_correctness(data, model_dir=app.root_path, update=True):
     category_correctness, next_session, accuracy, auc = get_topic_correctness_DKT(question_id, correctness, model_dir=model_dir, update=update)
     # debug_output("end executing DKT model")
     # print category_correctness, next_session
-    sess_cache.set("next_session", next_session, timeout=0)
-    sess_cache.set("category_correctness", category_correctness, timeout=0)
+    user_cache.set("next_session", next_session, timeout=0)
+    user_cache.set("category_correctness", category_correctness, timeout=0)
     # print "finished updating DKT model"
 
 @app.route('/log_session', methods=['GET', 'POST'])
@@ -178,7 +178,7 @@ def log_challenge_session():
     # debug_output("end executing parallel submit")
     topic_info, _ = get_topic_info(user_id)
     category_correctness = {str(t[1]): float(t[2] / (t[2] + t[3])) if (t[2] + t[3]) > 0 else 0 for t in topic_info}
-    session_topic_info = sess_cache.get('category_correctness')
+    session_topic_info = user_cache.get('category_correctness')
     if session_topic_info is None:
         session_topic_info = {'your recent bahaviors': 0}
     # print category_correctness
