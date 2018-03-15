@@ -7,6 +7,11 @@ from sqlite3 import dbapi2 as sqlite3
 import glob
 import xml.etree.ElementTree as ET
 
+# for user login
+#  pip install Flask-Login 
+from flask_login import LoginManager, login_required, login_user, \
+                                 logout_user, UserMixin, AnonymousUserMixin, current_user
+
 # http://blog.csdn.net/yatere/article/details/78860852
 # from time import sleep
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -34,10 +39,7 @@ app = Flask(__name__)
 # http://blog.csdn.net/yannanxiu/article/details/52916892
 # http://werkzeug.pocoo.org/docs/0.14/contrib/cache/
 # cache
-next_cache = SimpleCache()
 user_cache = SimpleCache()
-sess_cache = SimpleCache() # session cache
-# my_cache = SimpleCache()
 
 executor = ThreadPoolExecutor(2)
 
@@ -51,6 +53,10 @@ app.config.update(dict(
 ))
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
+# login management
+login_manager = LoginManager()
+login_manager.setup_app(app)
+
 
 DEBUG_FILE = 'debug_info.txt'
 def debug_output(output_string):
@@ -59,3 +65,30 @@ def debug_output(output_string):
     with open(file_path, 'a') as f:
         f.write("{0}\n".format(output_string))
     return True
+
+class User(UserMixin):
+    def __init__(self, user_name, user_id):
+        self.user_id = user_id
+        self.user_name = user_name
+        user_cache.set('user_id', user_id, timeout=0)
+        user_cache.set('user_name', user_name, timeout=0)
+    def get_id(self):
+        try:
+            return unicode(self.user_id)  # python 2
+        except NameError:
+            return str(self.user_id)  # python 3
+    def get_name(self):
+        try:
+            return unicode(self.user_name)  # python 2
+        except NameError:
+            return str(self.user_name)  # python 3
+    def debug_introduce(self):
+        print ("hello, I am {0}, my id is {1}".format(self.user_name, self.user_id))
+
+class AnonymousUser(AnonymousUserMixin):
+    def get_name(self):
+        return None
+    def debug_introduce(self):
+        print ("hello, I am annonymous user")
+
+login_manager.anonymous_user = AnonymousUser

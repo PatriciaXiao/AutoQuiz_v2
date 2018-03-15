@@ -7,56 +7,47 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 import xml.etree.ElementTree as ET
 import json
-from werkzeug.contrib.cache import SimpleCache
+
 import time
 import datetime
 
 from fileio_func import read_xml, save_session_data
-from database_func import check_user, user_registration, user_login, log_exercise_db, get_topic_info, fetch_questions, get_challenge_questions, get_topic_correctness_DKT
+from database_func import check_user, get_user, get_next_map, user_registration, user_login, log_exercise_db, get_topic_info, fetch_questions, get_challenge_questions, get_topic_correctness_DKT
 
 @app.cli.command('initdb')
 def initdb_command():
     """Creates the database tables."""
     init_db()
     print('Initialized the database.')
+
+@app.before_request
+def before_request():
+    g.user = current_user
+    # if g.user.is_authenticated:
+    #     g.user.debug_introduce()
+
 @app.teardown_appcontext
-def update_session(error=None):
-    """Closes the database again at the end of the request."""
-    # print "tear down?"
-    question_id_lst = sess_cache.get("question_id")
-    correctness_lst = sess_cache.get("correctness")
-    # print question_id_lst
-    # print correctness_lst
-    if question_id_lst is not None and len(question_id_lst) >= MAX_SESS:
-        session_data = {
-            "correctness": correctness_lst,
-            "question_id": question_id_lst
-        }
-        # save_session_data(session_data, os.path.join(app.root_path, DKT_SESS_DAT))
-        executor.submit(set_topic_correctness, session_data, model_dir=app.root_path, update=True)
-        sess_cache.delete("correctness")
-        sess_cache.delete("question_id")
-    if hasattr(g, 'sqlite_db'):
-        g.sqlite_db.close()
-'''
 def close_db(error=None):
     # Closes the database again at the end of the request.
     # print "tear down?"
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
-'''
+
+@login_manager.user_loader
+def load_user(user_id):
+    user_name = user_cache.get('user_name')
+    if user_name is None:
+        success, user_name = get_user(user_id)
+    else:
+        success = (int(user_id) == int(user_cache.get('user_id')))
+    return User(user_name, user_id) if success else AnonymousUser()
 
 @app.route('/topic/<topic_id_marked>')
 def topic_question_lst(topic_id_marked):
     topic_id = int(topic_id_marked) - 1
     # print "topic id = {0}".format(topic_id)
-    user_id = user_cache.get('user_id')
+    user_id = current_user.get_id()
     questions = fetch_questions(topic_id, user_id)
-    last_idx = len(questions) - 1
-    for i in range(last_idx):
-        next_cache.set(questions[i]["id"], questions[i + 1]["id"], timeout=0)
-    if last_idx >= 0:
-        next_cache.set(questions[last_idx]["id"], -1, timeout=0)
     return json.dumps(questions)
 
 @app.route('/exercise/', methods=['GET', 'POST'])
@@ -67,21 +58,17 @@ def exercise_section(question_id=None):
         # print request.values
         # print request.args
         question_id = request.form['question_id']
-        # next_id = request.form['next_id']
-        # next_id = session["question_next"][int(question_id)] # doesn't work because session only works within this temp thread
-        '''
-        next_id = None
-        while next_id is None: # maybe not ready yet
-            next_id = next_cache.get(int(question_id))
-        '''
     else:
         if question_id is None:
             return redirect(url_for('welcome'))
         else:
             question_id = int(question_id)
-    next_id = None
-    while next_id is None: # maybe not ready yet
-        next_id = next_cache.get(int(question_id))
+    # if session.get("next_cache") is None:
+        # session["next_cache"] = get_next_map()
+    session["next_cache"] = get_next_map()
+    next_id = session["next_cache"].get(int(question_id))
+    if next_id is None:
+        next_id = -1
     question_fname = "Q{0}.xml".format(question_id)
     # print "question file name {0}".format(question_fname)
     question, answers, correct_ans_id, hint, description = read_xml(question_fname, os.path.join(app.root_path, 'static', 'dataset'))
@@ -95,7 +82,8 @@ def exercise_section(question_id=None):
 def challenge_section():
     questions_lst = []
     # question_id_lst = [1, 2]
-    user_id = user_cache.get('user_id')
+    user_id = current_user.get_id()
+    print user_id
     question_id = sess_cache.get("question_id")
     correctness = sess_cache.get("correctness")
     question_id_lst = get_challenge_questions(user_id, model_dir=app.root_path, prev_load=sess_cache.get('next_session'))
@@ -107,6 +95,22 @@ def challenge_section():
         questions_lst.append([question_id, question, answers, correct_ans_id, hint, description])
     return render_template('challenge.html', questions_lst=questions_lst)
 
+def update_session(question_id_lst, correctness_lst, new_data):
+    # print "tear down?"
+    if question_id_lst is not None and len(question_id_lst) >= MAX_SESS:
+        session_data = {
+            "correctness": correctness_lst,
+            "question_id": question_id_lst
+        }
+        # save_session_data(session_data, os.path.join(app.root_path, DKT_SESS_DAT))
+        executor.submit(set_topic_correctness, session_data, model_dir=app.root_path, update=True)
+        question_id_lst=[]
+        correctness_lst=[]
+    else:
+        question_id_lst.append(new_data["question_id"])
+        correctness_lst.append(new_data["correctness"])
+    return question_id_lst, correctness_lst
+
 # https://segmentfault.com/a/1190000007605055
 @app.route('/log_exercise', methods=['GET', 'POST'])
 def log_exercise_result():
@@ -116,7 +120,7 @@ def log_exercise_result():
     correctness = data["correctness"]
     # timestamp = time.time()
     # timestring = datetime.datetime.fromtimestamp(timestamp).strftime('%Y/%m/%d %H:%M:%S')
-    user_id = user_cache.get('user_id')
+    user_id = current_user.get_id()
     log_ip = request.remote_addr
     log_time = datetime.datetime.now()
     # print "user {0} do exe {1} at time {2}, correctness: {3}".format(user_id, question_id, timestring, correctness)
@@ -129,16 +133,11 @@ def log_exercise_result():
             "success": success
         }
     ]
-    question_id_lst = sess_cache.get("question_id")
-    correctness_lst = sess_cache.get("correctness")
-    if question_id_lst is not None and correctness_lst is not None:
-        question_id_lst.append(question_id)
-        correctness_lst.append(correctness)
-    else:
-        question_id_lst= [question_id]
-        correctness_lst= [correctness]
-    sess_cache.set("question_id", question_id_lst, timeout=0)
-    sess_cache.set("correctness", correctness_lst, timeout=0)
+    if session.get("question_id") is None:
+        session["question_id"] = []
+    if session.get("correctness") is None:
+        session["correctness"] = []
+    session["question_id"], session["correctness"] = update_session(session["question_id"], session["correctness"], data)
     return json.dumps(info)
 
 # http://blog.csdn.net/yatere/article/details/78860852
@@ -168,7 +167,7 @@ def log_challenge_session():
     # log the data
     assert len(question_id) == len(correctness), "log error: questions and answers number not match"
     len_session = len(question_id)
-    user_id = user_cache.get('user_id')
+    user_id = current_user.get_id()
     log_ip = request.remote_addr
     for i in range(len_session):
         log_time = datetime.datetime.now()
@@ -177,17 +176,6 @@ def log_challenge_session():
     # debug_output("start executing parallel submit")
     executor.submit(set_topic_correctness, data, model_dir=app.root_path, update=True)
     # debug_output("end executing parallel submit")
-    '''
-    save_session_data(data, file_name = os.path.join(app.root_path, DKT_SESS_DAT))
-    category_correctness, next_session = get_topic_correctness_DKT(question_id, correctness, model_dir=app.root_path, update=True)
-    sess_cache.clear()
-    sess_cache.set("question_id", question_id, timeout=0)
-    sess_cache.set("correctness", correctness, timeout=0)
-    sess_cache.set("next_session", next_session, timeout=0)
-    '''
-    # delete(key)
-    # print pred_each_part
-    # print category_encoding
     topic_info, _ = get_topic_info(user_id)
     category_correctness = {str(t[1]): float(t[2] / (t[2] + t[3])) if (t[2] + t[3]) > 0 else 0 for t in topic_info}
     session_topic_info = sess_cache.get('category_correctness')
@@ -228,12 +216,12 @@ def welcome():
         status = request.form.get('confirm_logout', '0')
         if str(status) == '1':
             # logout
-            username = user_cache.get('user_name')
-            user_cache.clear()
+            username = current_user.get_name()
             show_msg = True
             msg = ['success', 'Done', 'You successfully logged out {0}'.format(username)]
             login = False
             username=None
+            logout_user()
         else:
             # get login / register information
             username = request.form.get('username', '')
@@ -250,8 +238,8 @@ def welcome():
                     show_msg = True
                     msg = ['success', 'Welcome', 'You are registered in our system as {0}'.format(username)]
                     login = True
-                    user_cache.set('user_name', username, timeout=0)
-                    user_cache.set('user_id', user_id, timeout=0)
+                    tmp_user = User(user_name= username, user_id=user_id)
+                    login_user(tmp_user, remember=True)
                 else:
                     show_msg = True
                     msg = ['danger', 'Sorry', 'The user name "{0}" you came up with already exists in our system. Please try another one.'.format(username)]
@@ -264,15 +252,15 @@ def welcome():
                     show_msg = True
                     msg = ['success', 'Hi {0}'.format(username), 'Welcome back!'.format(username)]
                     login = True
-                    user_cache.set('user_name', username, timeout=0)
-                    user_cache.set('user_id', user_id, timeout=0)
+                    tmp_user = User(user_name= username, user_id=user_id)
+                    login_user(tmp_user, remember=True)
                 else:
                     login = False
                     show_msg = True
                     msg = ['danger', 'ERROR', 'Incorrect Password or User Name; Please try again, or contact us at {0} if you need help.'.format(OFFICIAL_MAILBOX)]
     else:
         # check it up in cache
-        username = user_cache.get('user_name')
+        username = current_user.get_name()
         if username is None:
             # userip = request.remote_addr
             login = False
@@ -286,9 +274,8 @@ def welcome():
             msg = []
 
     # fetch personal topic information from database
-    user_id = user_cache.get('user_id')
+    user_id = current_user.get_id()
     all_topics, topic_links = get_topic_info(user_id)
-    # user_cache.set('topic_info', all_topics, timeout=0)
 
     return render_template('welcome.html', login=login, username=username, \
         all_topics=all_topics, topic_links=topic_links,\

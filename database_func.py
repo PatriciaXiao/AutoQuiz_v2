@@ -59,6 +59,17 @@ def check_user(name):
     # close_db()
     return existing_user is not None
 
+def get_user(user_id):
+    db = get_db()
+    cursor = db.cursor()
+    sql = "select name from users where id={0};".format(user_id)
+    cursor.execute(sql)
+    existing_user = cursor.fetchone()
+    if existing_user is not None:
+        success = True
+        user_name = existing_user[0]
+    return success, user_name
+
 def timestamp(datetime_dat):
     return time.mktime(datetime_dat.timetuple())
 
@@ -269,6 +280,23 @@ def fetch_questions(topic_id, user_id):
     # print done_questions
     questions = [done_questions[x["id"]] if x["id"] in done_questions.keys() else x for x in all_questions]
     return questions
+
+def get_next_map():
+    db = get_db()
+    cursor = db.cursor()
+    sql = "select topic_id from topics;"
+    cursor.execute(sql)
+    topics_data = cursor.fetchall()
+    topic_id_list = [t[0] for t in topics_data]
+    id_pairs = []
+    for topic_id in topic_id_list:
+        sql = "select question_id from questions where topic_id={0};".format(topic_id)
+        cursor.execute(sql)
+        questions_data = cursor.fetchall()
+        n_questions = len(questions_data)
+        id_pairs += [(questions_data[i][0], questions_data[i + 1][0]) for i in range(n_questions - 1)]
+        id_pairs.append((questions_data[n_questions - 1][0], -1))
+    return dict(id_pairs)
 
 def get_challenge_questions(user_id, challenge_size=5, model_dir="./", model_name="model.ckpt", prev_load=None):
     if prev_load and len(prev_load) == challenge_size:
