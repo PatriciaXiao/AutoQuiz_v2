@@ -53,7 +53,6 @@ skill_map = {
     'coding': 'Programming and Algorithm',
     'debug': 'Programming and Algorithm',
     'function_as_variable': 'Programming and Algorithm',
-    'parallel': 'Programming and Algorithm',
     'list': 'Lists and HOFs',
     'design': 'Programming and Algorithm',
     'logic': 'Programming and Algorithm',

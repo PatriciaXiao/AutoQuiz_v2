@@ -33,7 +33,12 @@ def get_db():
     """
     if not hasattr(g, 'sqlite_db'):
         g.sqlite_db = connect_db()
-    return g.sqlite_db
+    if g.sqlite_db:
+        return g.sqlite_db
+    else:
+        # print ("connection expired")
+        g.sqlite_db = connect_db()
+        return g.sqlite_db
 
 def init_db():
     """Initializes the database."""
@@ -112,15 +117,6 @@ def log_exercise_db(question_id, user_id, correctness, log_ip, log_time):
         sql = "insert into records (log_ip, log_time, correct, question_id, user_id) values ('{0}', {1}, {2}, {3}, {4});".format(\
             log_ip, log_timestamp, correctness, question_id, user_id)
     cursor.execute(sql)
-    '''
-    if user_id is None:
-        sql = "insert into records (log_ip, log_time, correct, question_id) values (?, ?, ?, ?);"
-        args = (log_ip, log_time, correctness, question_id)
-    else:
-        sql = "insert into records (log_ip, log_time, correct, question_id, user_id) values (?, ?, ?, ?, ?);"
-        args = (log_ip, log_time, correctness, question_id, user_id)
-    cursor.execute(sql, args)
-    '''
 
     db.commit()
 
@@ -199,36 +195,35 @@ def calculate_layout(links, x_range=[300, 800], y_range=[100, 500]):
     return layout_dict
 
 def summarize_records(user_id, topics_data):
-    records = {}
-    db = get_db()
-    cursor = db.cursor()
-    if user_id is None:
-        user_id = -1
-    for topic in topics_data:
-        topic_id = topic[0]
-        sql = "select question_id from questions where topic_id={0};".format(topic_id)
+    topic_id_list = [t[0] for t in topics_data]
+    user_record_summ = {}
+    if user_id is not None:
+        db = get_db()
+        cursor = db.cursor()
+        sql = "select topic_id, count(question_id) from questions group by topic_id;"
         cursor.execute(sql)
-        included_questions = cursor.fetchall()
-        n_questions = len(included_questions)
-        n_correct = 0
-        n_wrong = 0
-        for question in included_questions:
-            question_id = question[0]
-            sql = "select * from records where question_id={0} and user_id='{1}' and correct=1;".format(question_id, user_id)
-            cursor.execute(sql)
-            correct = cursor.fetchone() is not None
-            if correct:
-                n_correct += 1
-            else:
-                sql = "select * from records where question_id={0} and user_id='{1}' and correct=0;".format(question_id, user_id)
-                cursor.execute(sql)
-                wrong = cursor.fetchone() is not None
-                if wrong:
-                    n_wrong += 1
-        if n_questions > 0:
-            records[topic_id] = [100. * float(n_correct) / float(n_questions), 100. * float(n_wrong) / float(n_questions)]
-        else:
-            records[topic_id] = [0, 0]
+        topics_sum_data = cursor.fetchall()
+        topics_sum_list = {t[0]: t[1] for t in topics_sum_data}
+        # sum of questions done
+        # sql = "select topic_id, count(distinct records.question_id) from records left join questions on records.question_id=questions.question_id group by topic_id;"
+        sql = "select topic_id, count(distinct records.question_id) from records left join questions on records.question_id=questions.question_id where user_id={0} group by topic_id;".format(\
+            user_id)
+        cursor.execute(sql)
+        topics_done_data = cursor.fetchall()
+        topics_done_list = {t[0]: t[1] for t in topics_done_data}
+        # sum of correct question number
+        # sql = "select topic_id, count(distinct records.question_id) from records left join questions on records.question_id=questions.question_id where correct=1 group by topic_id;"
+        sql = "select topic_id, count(distinct records.question_id) from records left join questions on records.question_id=questions.question_id where correct=1 and user_id={0} group by topic_id;".format(\
+            user_id)
+        cursor.execute(sql)
+        topics_correct_data = cursor.fetchall()
+        topics_correct_list = {t[0]: t[1] for t in topics_correct_data}
+        # user behavior
+        user_record_summ = { k: [\
+                            float(100. * topics_correct_list[k] / topics_sum_list[k]) if k in topics_correct_list.keys() else 0, \
+                            float(100. * (topics_done_list[k] - topics_correct_list[k]) / topics_sum_list[k]) if k in topics_correct_list.keys() else float(100. * topics_done_list[k] / topics_sum_list[k]) ] \
+                            for k in topics_done_list.keys()}
+    records = {t_id: user_record_summ[t_id] if t_id in user_record_summ.keys() else [0, 0] for t_id in topic_id_list}
     return records
 
 def get_topic_info(user_id):
@@ -273,88 +268,8 @@ def fetch_questions(topic_id, user_id):
         done_questions = {q[0]: {"id": q[0], "description": q[1], "timestring": format_timestring(q[2]), "status": int(math.ceil(q[3]))} for q in user_list_data}
     # print done_questions
     questions = [done_questions[x["id"]] if x["id"] in done_questions.keys() else x for x in all_questions]
-    '''
-    questions = [{
-            "id": 1,
-            "description": "Higher Order Functions",
-            "timestring": "N/A",
-            "status": -1
-        },
-        {
-            "id": 2,
-            "description": "Python Syntax",
-            "timestring": "12/01/2018",
-            "status": 0
-        },
-        {
-            "id": 3,
-            "description": "Loop",
-            "timestring": "20/02/2018",
-            "status": 1
-        },
-        {
-            "id": 4,
-            "description": "Recursion",
-            "timestring": "N/A",
-            "status": -1
-        }
-    ]
-    # '''
     return questions
 
-'''
-def get_challenge_questions(user_id, question_id, correctness, challenge_size=5, model_dir="./", model_name="model.ckpt", prev_load=None):
-    if prev_load and len(prev_load) == challenge_size:
-        return prev_load
-    db = get_db()
-    cursor = db.cursor()
-    question_id = sess_cache.get("question_id")
-    correctness = sess_cache.get("correctness")
-    # sess = tf.Session()
-    # test_batches = BatchGenerator(response_list, BATCH_SIZE, id_encoding, n_id, n_id, n_categories, skill_to_category_dict=skill2category_map)
-    # auc, pred_each_part = run_predict(sess, test_batches, n_categories=n_categories, steps_to_test=1)
-    if question_id is None and correctness is None:
-        print "not yet challenged"
-        if user_id is not None:
-            sql = "select question_id, correct from records where user_id={0} order by log_time ASC;".format(user_id)
-            cursor.execute(sql)
-            # questions_data = cursor.fetchall()[:challenge_size]
-            questions_data = cursor.fetchall()
-            if len(questions_data) >= 2:
-                question_id = []
-                correctness = []
-                for q in questions_data[:challenge_size*5]:
-                    question_id.append(q[0])
-                    correctness.append(q[1])
-        else:
-            return random_questions(challenge_size)
-            # return sorted(question_summarize, key=question_summarize.get, reverse=True)[:challenge_size]
-    elif question_id is None or correctness is None:
-        print "challenged but data not finished logging"
-        while question_id is None or correctness is None:
-            question_id = sess_cache.get("question_id")
-            correctness = sess_cache.get("correctness")
-    else:
-        print "has log of last session"
-    # run the model
-    accuracy, auc, pred_each_part, (n_categories, _, id_encoding) = run_model([question_id], [correctness], model_name=model_name, model_dir=model_dir, update=True)
-    # [(idx, accuracy)]
-    # pred_questions = [(i, item) for i, item in enumerate(pred_each_part[n_categories:])]
-    # questions_idx2id = {id_encoding[key]: key for key in id_encoding.keys()}
-    # shuffle(pred_questions)
-    # return [q_info[0] for q_info in sorted(pred_questions, key=lambda x:x[1], reverse=False)[:challenge_size]]
-    if accuracy > THRESHOLD_ACC or auc > THRESHOLD_AUC:
-        #
-        # print pred_each_part
-        # return [1, 2, 3, 4, 5]
-        pred_questions = [(i, item) for i, item in enumerate(pred_each_part[n_categories:])]
-        questions_idx2id = {id_encoding[key]: key for key in id_encoding.keys()}
-        shuffle(pred_questions)
-        return [q_info[0] for q_info in sorted(pred_questions, key=lambda x:x[1], reverse=False)[:challenge_size]]
-
-    else:
-        return random_questions(challenge_size)
-'''
 def get_challenge_questions(user_id, challenge_size=5, model_dir="./", model_name="model.ckpt", prev_load=None):
     if prev_load and len(prev_load) == challenge_size:
         return prev_load

@@ -94,9 +94,10 @@ def read_xml(fname, fpath):
             correct_ans_id.append(tmp_id)
         idx += 1
     hint = clean_str(root.find('hint').text)
+    description = clean_str(root.find('description').text)
     # print hint
     
-    return question, answers, correct_ans_id, hint
+    return question, answers, correct_ans_id, hint, description
 
 def save_session_data(data, file_name):
     question_id = data["question_id"]

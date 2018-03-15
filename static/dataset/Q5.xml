@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <content>
-	<skill kind="detailed">coding</skill>
+	<skill kind="detailed">concurrency</skill>
 	<description>
-		predicting possible results of code (2017 Fall, Midterm 2 Version A, Question 3)
+		predicting possible results of concurrency program (2017 Fall, Midterm 2 Version A, Question 3)
 	</description>
 	<question>
 		<p>

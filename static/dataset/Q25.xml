@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <content>
-	<skill kind="detailed">parallel</skill>
+	<skill kind="detailed">concurrency</skill>
 	<description>
-		understanding parallel (2016 Fall, Midterm 2, Question 7)
+		predicting outcome of concurrency (2016 Fall, Midterm 2, Question 7)
 	</description>
 	<question>
 		<p>

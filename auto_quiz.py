@@ -20,7 +20,7 @@ def initdb_command():
     init_db()
     print('Initialized the database.')
 @app.teardown_appcontext
-def close_db(error=None):
+def update_session(error=None):
     """Closes the database again at the end of the request."""
     # print "tear down?"
     question_id_lst = sess_cache.get("question_id")
@@ -38,6 +38,13 @@ def close_db(error=None):
         sess_cache.delete("question_id")
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
+'''
+def close_db(error=None):
+    # Closes the database again at the end of the request.
+    # print "tear down?"
+    if hasattr(g, 'sqlite_db'):
+        g.sqlite_db.close()
+'''
 
 @app.route('/topic/<topic_id_marked>')
 def topic_question_lst(topic_id_marked):
@@ -77,11 +84,11 @@ def exercise_section(question_id=None):
         next_id = next_cache.get(int(question_id))
     question_fname = "Q{0}.xml".format(question_id)
     # print "question file name {0}".format(question_fname)
-    question, answers, correct_ans_id, hint = read_xml(question_fname, os.path.join(app.root_path, 'static', 'dataset'))
+    question, answers, correct_ans_id, hint, description = read_xml(question_fname, os.path.join(app.root_path, 'static', 'dataset'))
     # print "next question is {0}".format(next_id)
 
     return render_template('exercise.html', question=question, answers=answers, \
-        question_id=question_id, correct_ans_id=correct_ans_id, hint=hint, next_id=next_id)
+        question_id=question_id, correct_ans_id=correct_ans_id, hint=hint, next_id=next_id, description=description)
     # return render_template('exercise.html', **locals())
 
 @app.route('/challenge/', methods=['GET', 'POST'])
@@ -95,9 +102,9 @@ def challenge_section():
     for question_id in question_id_lst:
         question_fname = "Q{0}.xml".format(question_id)
         # print "question file name {0}".format(question_fname)
-        question, answers, correct_ans_id, hint = read_xml(question_fname, os.path.join(app.root_path, 'static', 'dataset'))
+        question, answers, correct_ans_id, hint, description = read_xml(question_fname, os.path.join(app.root_path, 'static', 'dataset'))
         # print "next question is {0}".format(next_id)
-        questions_lst.append([question_id, question, answers, correct_ans_id, hint])
+        questions_lst.append([question_id, question, answers, correct_ans_id, hint, description])
     return render_template('challenge.html', questions_lst=questions_lst)
 
 # https://segmentfault.com/a/1190000007605055

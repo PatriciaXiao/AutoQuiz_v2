@@ -127,12 +127,12 @@
                   // console.log(topics_data[topic_names[i]])
                   var tmp_topic = topic_names_session[i];
                   var tmp_value = session_data[tmp_topic];
-                  if (tmp_value > 0.8) {
+                  if (tmp_value > 0.6) {
                     // report_msg += "<font size='20px;' color='green'>Your mastery level of " + tmp_topic + " is very high!</font><br>";
                     report_msg += "<font style='color:green;font-size:24px;'>Your mastery level of " + tmp_topic + " is very high!</font><br>";
-                  } else if (tmp_value > 0.6) {
+                  } else if (tmp_value > 0.45) {
                     report_msg += "<font style='color:blue;font-size:24px;'>Your mastery level of " + tmp_topic + " is above average.</font><br>"; // so-called average = 0.5
-                  } else if (tmp_value > 0.4) {
+                  } else if (tmp_value > 0.2) {
                     report_msg += "<font style='color:black;font-size:24px;'>You can definitely do better on " + tmp_topic + "~</font><br>";
                   } else if (tmp_value > 0) {
                     report_msg += "<font style='color:orange;font-size:24px;'>You might need more practice on " + tmp_topic + "~</font><br>";
@@ -159,7 +159,7 @@
       </script>
       {% for question_elem in questions_lst %}
       <div class="panel panel-primary MultipleChoice Question">
-        <div class="panel-heading questionType">Question {{question_elem[0]}}</div>
+        <div class="panel-heading questionType">Question {{question_elem[0]}} &nbsp;&nbsp; <small>{{question_elem[5]}}</small></div>
         <div class="panel-body currentQuestionBox">
           <div class="leftColumn">
             <div class="promptDiv">
