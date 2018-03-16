@@ -305,7 +305,7 @@
         }
         function check_valid_string(string_content) {
           // return string_content.matches("^[a-zA-Z0-9]+$");
-          return string_content.match("^[a-zA-Z0-9\\_@.]+$")
+          return string_content.match("^[a-zA-Z0-9\\ _@.]+$")
         }
         function check_valid_pwd(pwd) {
           return pwd.match("^[a-zA-Z0-9\\.;,:'@^!~#$%^&*-+_=]{1,32}$")
@@ -313,21 +313,24 @@
         function check_valid_before_submit() {
           var form = document.getElementById("login_form");
           var reg = form.reg.checked;
-          var username = form.username.value;
-          var password = form.password.value;
-          var confirm = form.confirm.value;
+          var username = $.trim(form.username.value); // form.username.value;
+          var password = $.trim(form.password.value); // form.password.value;
+          var confirm = $.trim(form.confirm.value); // form.confirm.value;
+          form.username.value = username;
+          form.password.value = password;
+          form.confirm.value = confirm;
           var message = document.getElementById("login_format_message");
           if (!check_valid_string(username)) {
-            message.innerHTML = "We are sorry, but user name in this system has to be a string contains ONLY characters (a-z, A-Z), numbers (0-9), underscore, dot ('.'), or at ('@'). Sorry for the inconvenience and thank your for your understanding.";
+            message.innerHTML = "Please make user name contain ONLY characters (a-z, A-Z), blanks(in the middle), numbers (0-9), underscore ('_'), dot ('.'), or at ('@').";
             message.style.display=""; // display the message
-          } else if (username.length > 30) {
-            message.innerHTML = "We are sorry, but it seems that your user name is way too long, could you please use a name that is not longer than 30 characters in total? Thank you for your understanding.";
+          } else if (username.length > 60) {
+            message.innerHTML = "Your user name is way too long, could you please use a name that is not longer than 60 characters in total? Thank you for your understanding.";
             message.style.display=""; // display the message
           } else if (username.length == 0 || password.length == 0) {
             message.innerHTML = "Please check it again before submission, neither user name nor password should be blank.";
             message.style.display=""; // display the message
           } else if (!check_valid_pwd(password)) {
-            message.innerHTML = "We are sorry, but password has to be a string contains ONLY characters (a-z, A-Z), numbers, or some of the special characters namely in this set (brackets excluded): ( . , : ; ! @ # $ % ^ & * + - = _ ~ ). And we also have a maximum length limit of 32. We do appreciate that you attempted to design a special password, and thank your for your understanding.";
+            message.innerHTML = "Password has to be a string contains ONLY characters (a-z, A-Z), numbers, or some of the special characters namely in this set (brackets excluded): ( . , : ; ! @ # $ % ^ & * + - = _ ~ ). And we also have a maximum length limit of 32. We do appreciate that you attempted to design a special password, and thank your for your understanding.";
             message.style.display=""; // display the message
           } else if (reg && password != confirm) {
             message.innerHTML = "please make sure that the password you entered matches the password confirmation before you submit this form";
@@ -378,7 +381,7 @@
           <div class="modal-body">
             <form class="form-horizontal" role="form" action="{{ url_for('welcome') }}" method=post id="login_form">
               <div class="form-group">
-                <label for="usr" class="col-sm-2 control-label">name</label>
+                <label for="usr" class="col-sm-2 control-label">name or SID</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="username" name="username"
                        placeholder="user name please">
@@ -411,7 +414,7 @@
                 <div class="col-sm-offset-2 col-sm-10">
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox" onclick="show_confirm()" name="reg"> for registration
+                      <input type="checkbox" onclick="show_confirm()" name="reg"> first time logging in
                     </label>
                   </div>
                 </div>

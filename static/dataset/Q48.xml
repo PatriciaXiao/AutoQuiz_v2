@@ -33,7 +33,7 @@
 		<option id="c3">
 			<p>
 				<line>
-					It only works when the first element (which we’ll call the “head”) is smallest, otherwise it won't report the correct answer
+					It only works when the first element (which we'll call the "head") is smallest, otherwise it won't report the correct answer
 				</line>
 			</p>
 		</option>

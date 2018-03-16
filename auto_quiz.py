@@ -83,7 +83,9 @@ def challenge_section():
     print user_id
     question_id = user_cache.get("question_id")
     correctness = user_cache.get("correctness")
-    question_id_lst = get_challenge_questions(user_id, model_dir=app.root_path, prev_load=user_cache.get('next_session'))
+    next_session = user_cache.get("next_session")[:]
+    user_cache.set("next_session", [], timeout=0)
+    question_id_lst = get_challenge_questions(user_id, model_dir=app.root_path, prev_load=next_session)
     for question_id in question_id_lst:
         question_fname = "Q{0}.xml".format(question_id)
         # print "question file name {0}".format(question_fname)
