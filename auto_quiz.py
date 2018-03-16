@@ -12,7 +12,7 @@ import time
 import datetime
 
 from fileio_func import read_xml, save_session_data
-from database_func import check_user, get_user, get_next_map, user_registration, user_login, log_exercise_db, get_topic_info, fetch_questions, get_challenge_questions, get_topic_correctness_DKT
+from database_func import check_user, get_user, get_next_id, user_registration, user_login, log_exercise_db, get_topic_info, fetch_questions, get_challenge_questions, get_topic_correctness_DKT
 
 @app.cli.command('initdb')
 def initdb_command():
@@ -63,10 +63,7 @@ def exercise_section(question_id=None):
             return redirect(url_for('welcome'))
         else:
             question_id = int(question_id)
-    if session.get("next_cache") is None:
-        session["next_cache"] = get_next_map()
-    # session["next_cache"] = get_next_map()
-    next_id = session["next_cache"].get(int(question_id))
+    next_id = get_next_id(question_id)
     if next_id is None:
         next_id = -1
     question_fname = "Q{0}.xml".format(question_id)

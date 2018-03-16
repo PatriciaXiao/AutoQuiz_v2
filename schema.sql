@@ -39,3 +39,9 @@ create table skill2topic (
   skill_name string not null unique,
   topic_id integer not null
 );
+
+drop table if exists next_question_map;
+create table next_question_map (
+  temp_id integer primary key,
+  next_id not null
+);

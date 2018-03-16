@@ -116,7 +116,7 @@ def init_topics_and_links():
             src_id, dst_id)
         cursor.execute(sql)
         db.commit()
-    # db.close()
+    db.close()
     return updated
 
 def clean_str(raw_str):
@@ -182,13 +182,45 @@ def init_skills_and_questions():
             question_id, skill_id, topic_id, description)
         cursor.execute(sql)
         db.commit()
+    db.close()
     return updated
+
+def get_next_map():
+    db = get_db()
+    cursor = db.cursor()
+    sql = "select topic_id from topics;"
+    cursor.execute(sql)
+    topics_data = cursor.fetchall()
+    topic_id_list = [t[0] for t in topics_data]
+    id_pairs = []
+    for topic_id in topic_id_list:
+        sql = "select question_id from questions where topic_id={0};".format(topic_id)
+        cursor.execute(sql)
+        questions_data = cursor.fetchall()
+        n_questions = len(questions_data)
+        id_pairs += [(questions_data[i][0], questions_data[i + 1][0]) for i in range(n_questions - 1)]
+        id_pairs.append((questions_data[n_questions - 1][0], -1))
+        for pair in id_pairs:
+            sql = "select * from next_question_map where temp_id={0};".format(pair[0])
+            cursor.execute(sql)
+            exists = cursor.fetchone() is not None
+            if exists:
+                sql = "update next_question_map set next_id={1} where temp_id={0};".format(pair[0], pair[1])
+            else:
+                sql = "insert into next_question_map (temp_id, next_id) values ({0}, {1});".format(pair[0], pair[1])
+            cursor.execute(sql)
+            db.commit()
+    db.close()
+    return dict(id_pairs)
 
 if __name__ == '__main__':
     updated = False
     updated = init_topics_and_links() or updated
     updated = init_skills_and_questions() or updated
     if updated:
+        # if updated, update next mapping
+        next_id_map = get_next_map()
+        # if updated, update model
         print ("database updated, run dkt model with data from {0}".format(DKT_SESS_DAT))
         PrepData = IO()
         response_list = PrepData.load_model_input(DKT_SESS_DAT, sep=',')
