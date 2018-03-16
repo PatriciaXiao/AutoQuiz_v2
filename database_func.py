@@ -68,6 +68,9 @@ def get_user(user_id):
     if existing_user is not None:
         success = True
         user_name = existing_user[0]
+    else:
+        success = False
+        user_name = None
     return success, user_name
 
 def timestamp(datetime_dat):
