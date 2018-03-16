@@ -321,7 +321,7 @@
           form.confirm.value = confirm;
           var message = document.getElementById("login_format_message");
           if (!check_valid_string(username)) {
-            message.innerHTML = "Please make user name contain ONLY characters (a-z, A-Z), blanks(in the middle), numbers (0-9), underscore ('_'), dot ('.'), or at ('@').";
+            message.innerHTML = "We would recommend using your CalNet ID, but names or email address are also acceptable, as long as they contain ONLY characters (a-z, A-Z), blanks(in the middle), numbers (0-9), underscore ('_'), dot ('.'), or at ('@').";
             message.style.display=""; // display the message
           } else if (username.length > 60) {
             message.innerHTML = "Your user name is way too long, could you please use a name that is not longer than 60 characters in total? Thank you for your understanding.";
@@ -381,7 +381,7 @@
           <div class="modal-body">
             <form class="form-horizontal" role="form" action="{{ url_for('welcome') }}" method=post id="login_form">
               <div class="form-group">
-                <label for="usr" class="col-sm-2 control-label">name or SID</label>
+                <label for="usr" class="col-sm-2 control-label">CalNet ID</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="username" name="username"
                        placeholder="user name please">
