@@ -75,5 +75,5 @@
 			</p>
 		</option>
 	</answers>
-	<hint>This "forced non-determinism" yields four different answers – (1) if the left one finished completely (both random numbers 0.1) before the right one started (first random number 0.9): copy would be CALIFORNIA, which is what NAME would be, then the right would join BEARS and it’d be "CALIFORNIA BEARS". (2) If the opposite happened, it would be "CAL BEARSIFORNIA". (3, 4) If neither block can finish completely before the other sets "my copy", then each will grab an independent copy, and set NAME accordingly to "CAL BEARS" or "CALIFORNIA" but the one that finishes last will overwrite the earlier one.</hint>
+	<hint>This "forced non-determinism" yields four different answers. (1) if the left one finished completely (both random numbers 0.1) before the right one started (first random number 0.9): copy would be CALIFORNIA, which is what NAME would be, then the right would join BEARS and it’d be "CALIFORNIA BEARS". (2) If the opposite happened, it would be "CAL BEARSIFORNIA". (3, 4) If neither block can finish completely before the other sets "my copy", then each will grab an independent copy, and set NAME accordingly to "CAL BEARS" or "CALIFORNIA" but the one that finishes last will overwrite the earlier one.</hint>
 </content>
