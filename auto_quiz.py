@@ -36,11 +36,12 @@ def close_db(error=None):
 @login_manager.user_loader
 def load_user(user_id):
     user_name = user_cache.get('user_name')
-    if user_name is None:
+    user_id_cached = user_cache.get('user_id')
+    if user_name is None or int(user_id_cached) != int(user_id):
         success, user_name = get_user(user_id)
-    else:
-        success = (int(user_id) == int(user_cache.get('user_id')))
-    return User(user_name, user_id) if success else AnonymousUser()
+        user_cache.set('user_id', user_id, timeout=0)
+        user_cache.set('user_name', user_name, timeout=0)
+    return User(user_name, user_id)
 
 @app.route('/topic/<topic_id_marked>')
 def topic_question_lst(topic_id_marked):
@@ -210,7 +211,8 @@ def check_user_exists():
 
 @app.route('/home/', methods=['GET', 'POST'])
 def welcome():
-    if request.method == 'POST':
+    print request.form.get('form_name', 'null') 
+    if request.method == 'POST' and request.form.get('form_name', 'null') in ['login', 'logout']:
         # if it is login, not logout
         status = request.form.get('confirm_logout', '0')
         if str(status) == '1':
@@ -239,6 +241,8 @@ def welcome():
                     login = True
                     tmp_user = User(user_name= username, user_id=user_id)
                     login_user(tmp_user, remember=True)
+                    user_cache.set('user_id', user_id, timeout=0)
+                    user_cache.set('user_name', username, timeout=0)
                 else:
                     show_msg = True
                     msg = ['danger', 'Sorry', 'The user name "{0}" you came up with already exists in our system. Please try another one.'.format(username)]
@@ -253,6 +257,8 @@ def welcome():
                     login = True
                     tmp_user = User(user_name= username, user_id=user_id)
                     login_user(tmp_user, remember=True)
+                    user_cache.set('user_id', user_id, timeout=0)
+                    user_cache.set('user_name', username, timeout=0)
                 else:
                     login = False
                     show_msg = True

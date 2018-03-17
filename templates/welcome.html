@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Welcome to AutoQuiz</title>
+    <title>Welcome to AutoQuiz (Beta Version)</title>
     <!--script src="../static/jquery.min.js" type="text/javascript"></script>
     <script src="../static/bootstrap.min.js" type="text/javascript"></script>
     <script src="../static/analytics.js" type="text/javascript"></script>
@@ -42,7 +42,7 @@
     {% endif %}
 
     <nav class="llab-nav navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="nav navbar-nav navbar-left navbar-title">CS10 AutoQuiz | Spring 2018 | UC Berkeley</div>
+      <div class="nav navbar-nav navbar-left navbar-title">CS10 AutoQuiz (Beta) | Spring 2018 | UC Berkeley</div>
       <div class="nav navbar-nav navbar-right">
         <ul class="nav-btns btn-group">
           <!--a class="btn btn-default" href="url_for('default_entry')">logout</a-->
@@ -57,7 +57,7 @@
       </div>
     </nav>
 
-    <div class="title-small-screen">CS10 AutoQuiz | Spring 2018 | UC Berkeley</div>
+    <div class="title-small-screen">CS10 AutoQuiz (Beta) | Spring 2018 | UC Berkeley</div>
     <div class="llab-full">
       <p>
         This is an AutoQuiz of The Beauty and Joy of Computing (Berkeley CS10) course during
@@ -104,6 +104,7 @@
       </div>
       <div style="display:none;">
         <form action="{{ url_for('welcome') }}" method=post id="logout_form">
+          <input type=hidden name=form_name value="logout"/>
           <input type=hidden name=confirm_logout value=0 id="confirm_logout"/>
         </form>
       </div>
@@ -203,7 +204,7 @@
           $('#myTab li:eq('+(topic_id+2-first_idx)+') a').tab('show');
         }
         function color_format(correct, wrong) {
-          if (wrong > correct * 3)
+          if (wrong > 0 && wrong >= correct)
             return "orange";
           if (correct >= 80) {
             return "#009400";
@@ -321,7 +322,7 @@
           form.confirm.value = confirm;
           var message = document.getElementById("login_format_message");
           if (!check_valid_string(username)) {
-            message.innerHTML = "We would recommend using your CalNet ID, but names or email address are also acceptable, as long as they contain ONLY characters (a-z, A-Z), blanks(in the middle), numbers (0-9), underscore ('_'), dot ('.'), or at ('@').";
+            message.innerHTML = "We would recommend using your name, but nickname, id, or email address are also acceptable, as long as they contain ONLY characters (a-z, A-Z), blanks(in the middle of the string), numbers (0-9), underscore ('_'), dot ('.'), or at ('@').";
             message.style.display=""; // display the message
           } else if (username.length > 60) {
             message.innerHTML = "Your user name is way too long, could you please use a name that is not longer than 60 characters in total? Thank you for your understanding.";
@@ -380,8 +381,9 @@
           </div>
           <div class="modal-body">
             <form class="form-horizontal" role="form" action="{{ url_for('welcome') }}" method=post id="login_form">
+              <input type=hidden name=form_name value="login"/>
               <div class="form-group">
-                <label for="usr" class="col-sm-2 control-label">CalNet ID</label>
+                <label for="usr" class="col-sm-2 control-label">user name</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="username" name="username"
                        placeholder="user name please">

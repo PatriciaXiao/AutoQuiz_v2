@@ -6,7 +6,7 @@
 	</description>
 	<question>
 		<p>
-			<line>The sprite starts in the center of the blank screen, and the user makes a call to Draw Spiral. We’ve zoomed in to the center to see the pretty pattern that was drawn.</line>
+			<line>The sprite starts in the center of the blank screen, and the user makes a call to Draw Spiral. We've zoomed in to the center to see the pretty pattern that was drawn.</line>
 		</p>
 		<img>
 			<name height="4">54.1.png</name>

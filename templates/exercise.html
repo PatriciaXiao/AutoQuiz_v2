@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Welcome to AutoQuiz: Exercise!</title>
+    <title>Welcome to AutoQuiz: Exercise! (Beta Version)</title>
 
     <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
     <!--script src="../static/jquery.min.js" type="text/javascript"></script>
@@ -20,7 +20,7 @@
   </head>
   <body>
     <nav class="llab-nav navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="nav navbar-nav navbar-left navbar-title">CS10 AutoQuiz | Spring 2018 | UC Berkeley</div>
+      <div class="nav navbar-nav navbar-left navbar-title">CS10 AutoQuiz (Beta) | Spring 2018 | UC Berkeley</div>
       <div class="nav navbar-nav navbar-right">
         <ul class="nav-btns btn-group">
           <!--a class="btn btn-default" id="return" href="#">logout</a-->
@@ -28,7 +28,7 @@
         </ul>
       </div>
     </nav>
-    <div class="title-small-screen">CS10 AutoQuiz | Spring 2018 | UC Berkeley</div>
+    <div class="title-small-screen">CS10 AutoQuiz (Beta) | Spring 2018 | UC Berkeley</div>
     <div style="display:none;">
         <form action="{{ url_for('exercise_section') }}" method=post id="selection_form">
           <input type=hidden name=question_id value=10 id="question_id"/>
@@ -50,10 +50,10 @@
             // correctly answered
             document.getElementById("correctness").innerHTML="<font color='green'>Correct! Congratulations!</font>";
             // show explain
-            document.getElementById("show_hint").innerHTML="Explain: {{hint}}";
+            document.getElementById("show_hint").innerHTML="Explanation: {{hint}}";
           } else {
             // wrong
-            document.getElementById("correctness").innerHTML="Haven't get it correct yet, please think twice.";
+            document.getElementById("correctness").innerHTML="That's not correct, think about it and try again...";
             // show hint
             document.getElementById("show_hint").innerHTML="HINT: {{hint}}";
           }
@@ -272,7 +272,10 @@
                   <td>
                     <div class="buttonDiv">
                       {% if next_id == -1 or next_id == '-1' %}
-                        <button class="btn btn-primary" disabled>Next Question</button>
+                        <!--button class="btn btn-primary" disabled>Next Question</button-->
+                        <form action="{{url_for('welcome')}}" method=get>
+                          <button class="btn btn-primary" type=submit>Back to Topics</button>
+                        </form>
                       {% else %}
                         <button class="btn btn-primary" onclick="request_exercise({{next_id}})">Next Question</button>
                       {% endif %}

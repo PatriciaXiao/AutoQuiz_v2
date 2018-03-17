@@ -70,8 +70,6 @@ class User(UserMixin):
     def __init__(self, user_name, user_id):
         self.user_id = user_id
         self.user_name = user_name
-        user_cache.set('user_id', user_id, timeout=0)
-        user_cache.set('user_name', user_name, timeout=0)
     def get_id(self):
         try:
             return unicode(self.user_id)  # python 2
