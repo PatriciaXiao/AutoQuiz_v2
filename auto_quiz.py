@@ -155,6 +155,7 @@ def set_topic_correctness(data, model_dir=app.root_path, update=True):
     user_cache.set("next_session", next_session, timeout=0)
     user_cache.set("category_correctness", category_correctness, timeout=0)
     # print "finished updating DKT model"
+    return next_session, category_correctness
 
 @app.route('/log_session', methods=['GET', 'POST'])
 def log_challenge_session():
@@ -174,6 +175,7 @@ def log_challenge_session():
         log_exercise_db(question_id[i], user_id, correctness[i], log_ip, log_time)
     # save the session and set the value
     # debug_output("start executing parallel submit")
+    # next_session, category_correctness = set_topic_correctness(data, model_dir=app.root_path, update=True)
     executor.submit(set_topic_correctness, data, model_dir=app.root_path, update=True)
     # debug_output("end executing parallel submit")
     topic_info, _ = get_topic_info(user_id)
@@ -183,11 +185,12 @@ def log_challenge_session():
         session_topic_info = {'your recent bahaviors': 0}
     # print category_correctness
     '''
-    category_correctness = {
-            "Math Basis": 1,
-            "Programming": 0.5,
-            "Data Structure": 0.4,
-            "Algorithm": 0.3
+    session_topic_info = {
+            "Math and Logic Basics": 0.6,
+            "Programming and Algorithm": 0.4,
+            "Lists and HOFs": 0.3,
+            "Recursion": 0.2,
+            "Concurrency": 0.1
         }
     '''
     info = [category_correctness, session_topic_info]
