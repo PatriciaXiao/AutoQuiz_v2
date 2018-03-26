@@ -22,12 +22,12 @@
 				<line>true</line>
 			</p>
 		</option>
-		<option id="c2" correct="true">
+		<option id="c2">
 			<p>
 				<line>false</line>
 			</p>
 		</option>
-		<option id="c3">
+		<option id="c3" correct="true">
 			<p>
 				<line>true if there is a zero in the _BOLDS_last_BOLDE_ element.</line>
 			</p>
