@@ -72,6 +72,9 @@ def exercise_section(question_id=None):
     question, answers, correct_ans_id, hint, description = read_xml(question_fname, os.path.join(app.root_path, 'static', 'dataset'))
     # print "next question is {0}".format(next_id)
 
+    print correct_ans_id
+    print answers
+
     return render_template('exercise.html', question=question, answers=answers, \
         question_id=question_id, correct_ans_id=correct_ans_id, hint=hint, next_id=next_id, description=description)
     # return render_template('exercise.html', **locals())

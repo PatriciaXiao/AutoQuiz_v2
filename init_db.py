@@ -26,6 +26,9 @@ topic_list = [
     }, {
         'name': 'Concurrency',
         'description': 'The questions specifically aiming at concurrency.'
+    }, {
+        'name': 'Python',
+        'description': 'The questions on Python. The most advanced questions, involving almost all the previous modules.'
     }
 ]
 
@@ -42,6 +45,12 @@ topic_link = [
     }, {
         'src': 'Programming and Algorithm',
         'dst': 'Concurrency'
+    }, {
+        'src': 'Recursion',
+        'dst': 'Python'
+    }, {
+        'src': 'Lists and HOFs',
+        'dst': 'Python'
     }
 ]
 
@@ -198,6 +207,8 @@ def get_next_map():
         cursor.execute(sql)
         questions_data = cursor.fetchall()
         n_questions = len(questions_data)
+        if n_questions == 0:
+            continue
         id_pairs += [(questions_data[i][0], questions_data[i + 1][0]) for i in range(n_questions - 1)]
         id_pairs.append((questions_data[n_questions - 1][0], -1))
         for pair in id_pairs:

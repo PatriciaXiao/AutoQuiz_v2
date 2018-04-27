@@ -39,13 +39,38 @@
         function check_answer() {
           // get the selected answer
           // console.log("radio button selected", document.querySelector('input[name="radiobutton"]:checked').value)
-          if (document.querySelector('input[name="radiobutton"]:checked') == null) return;
-          var id_selected = document.querySelector('input[name="radiobutton"]:checked').value;
-          var id_correct = "{{correct_ans_id[0]}}";
+          // console.log("correct_ans_id list length",{{correct_ans_id | length}})
+          var answer_list_length = {{correct_ans_id | length}};
           var correct = 0;
-          if (id_selected == id_correct)
-            correct = 1;
-          // console.log(id_selected, id_correct)
+          if (answer_list_length == 1) {
+            if (document.querySelector('input[name="radiobutton"]:checked') == null) return;
+            var id_selected = document.querySelector('input[name="radiobutton"]:checked').value;
+            var id_correct = "{{correct_ans_id[0]}}";
+            if (id_selected == id_correct)
+              correct = 1;
+
+            // console.log(id_selected, id_correct)
+            
+          } else {
+            // have multiple correct answers
+            var answer_list = [];
+            // correct answer list
+            {% for item_id in correct_ans_id %}
+              answer_list.push("{{item_id}}");
+            {% endfor %}
+            // checked answer list
+            var checked_list = [];
+            {% for candidate in answers %}
+              var elem = document.getElementById("{{candidate[0]}}");
+              if (elem.checked)
+                checked_list.push(elem.value); // "{{candidate[0]}}"
+            {% endfor %}
+            // console.log(checked_list)
+            // then check if all correct answers are checked and only the correct answers are checked
+            if (JSON.stringify(answer_list.sort())==JSON.stringify(checked_list.sort())) {
+              correct = 1;
+            }
+          }
           if (correct) {
             // correctly answered
             document.getElementById("correctness").innerHTML="<font color='green'>Correct! Congratulations!</font>";
@@ -65,6 +90,7 @@
           document.getElementById("check_answer_button").disabled=true;
           // enable try again
           document.getElementById("try_again_button").disabled=false;
+          if (answer_list_length == 1) return;
           //////
           var data = {
             data: JSON.stringify({
@@ -176,7 +202,12 @@
                   <tbody>
                     <tr class="table-middle">
                       <td class="table-middle">
+                        <!--input type="radio" name="radiobutton" id="{{candidate[0]}}" value="{{candidate[0]}}" class="radio"-->
+                        {% if correct_ans_id | length == 1 %}
                         <input type="radio" name="radiobutton" id="{{candidate[0]}}" value="{{candidate[0]}}" class="radio">
+                        {% else %}
+                        <input type="checkbox" name="checkbox_elem" id="{{candidate[0]}}" value="{{candidate[0]}}">
+                        {% endif %}
                       </td>
                       <td class="table-middle">
                         <div id="choicetext:{{candidate[0]}}">
@@ -236,6 +267,7 @@
                               </p>
                             {% endif %}
                           {% endfor %}
+                          <!--end of the candidates-->
                         </div>
                       </td>
                       <td class="table-middle">

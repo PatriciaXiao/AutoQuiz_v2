@@ -18,49 +18,126 @@
 			<name height="3">4.5.png</name>
 		</img>
 		<p>
-			<line>Choose one:</line>
+			<line>Select all that apply:</line>
 		</p>
 	</question>
 	<answers>
-		<option id="c1" correct="true">
+		<option id="c1">
 			<p>
 				<line>
-					6, 25, 36, 30, 26
+					0
 				</line>
 			</p>
 		</option>
 		<option id="c2">
 			<p>
 				<line>
-					6, 25, 26, 30, 16
+					5
 				</line>
 			</p>
 		</option>
-		<option id="c3">
+		<option id="c3" correct="true">
 			<p>
 				<line>
-					16, 37, 35, 30, 26
+					6
 				</line>
 			</p>
 		</option>
 		<option id="c4">
 			<p>
 				<line>
-					6, 25, 37, 30, 26
+					10
 				</line>
 			</p>
 		</option>
 		<option id="c5">
 			<p>
 				<line>
-					16, 35, 36, 20, 26
+					11
 				</line>
 			</p>
 		</option>
-		<option id="c6" correct="false">
+		<option id="c6" correct="true">
 			<p>
 				<line>
-					All of the above.
+					25
+				</line>
+			</p>
+		</option>
+		<option id="c7" correct="true">
+			<p>
+				<line>
+					26
+				</line>
+			</p>
+		</option>
+		<option id="c8" correct="true">
+			<p>
+				<line>
+					30
+				</line>
+			</p>
+		</option>
+		<option id="c9" correct="false">
+			<p>
+				<line>
+					31
+				</line>
+			</p>
+		</option>
+		<option id="c10" correct="false">
+			<p>
+				<line>
+					35
+				</line>
+			</p>
+		</option>
+		<option id="c11" correct="true">
+			<p>
+				<line>
+					36
+				</line>
+			</p>
+		</option>
+		<option id="c12" correct="false">
+			<p>
+				<line>
+					100
+				</line>
+			</p>
+		</option>
+		<option id="c13" correct="false">
+			<p>
+				<line>
+					101
+				</line>
+			</p>
+		</option>
+		<option id="c14" correct="false">
+			<p>
+				<line>
+					110
+				</line>
+			</p>
+		</option>
+		<option id="c15" correct="false">
+			<p>
+				<line>
+					111
+				</line>
+			</p>
+		</option>
+		<option id="c16" correct="false">
+			<p>
+				<line>
+					120
+				</line>
+			</p>
+		</option>
+		<option id="c17" correct="false">
+			<p>
+				<line>
+					121
 				</line>
 			</p>
 		</option>
