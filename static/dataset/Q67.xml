@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">logic</skill>
+	<description>
+		Predicting the outcome of code. (2016 Fall, Final, Question 14 a)
+	</description>
+	<question>
+		<p>
+			<line>Consider the problem of wanting to determine if a list is a set (i.e., every element is unique, there are no duplicates). What's wrong (if anything) with each of the following 3 attempts? (select ONE from each legend)</line>
+			<line>Example calls to _CODES_set?_CODEE_</line>
+		</p>
+		<img>
+			<name height="1">67.1.png</name>
+			<name height="1">67.2.png</name>
+			<name height="1">67.3.png</name>
+			<name height="1">67.4.png</name>
+		</img>
+		<p>
+			<line>A = it works fine.</line>
+			<line>B = It will cause an error or run forever.</line>
+			<line>C = It always returns _EMPHS_true._EMPHE_</line>
+			<line>D = It always returns _EMPHS_false._EMPHE_</line>
+			<line>E = If it's the empty list, _EMPHS_true_EMPHE_, otherwise it always returns _EMPHS_false._EMPHE_</line>
+			<line>F = If it's the empty list, _EMPHS_false_EMPHE_, otherwise it always returns _EMPHS_true._EMPHE_</line>
+			<line>G = If it's the empty list, _EMPHS_true_EMPHE_, otherwise it only returns whether the _EMPHS_first_EMPHE_ element is in the list multiple times.</line>
+			<line>H = If it's the empty list, _EMPHS_true_EMPHE_, otherwise it only returns whether the _EMPHS_last_EMPHE_ element is in the list multiple times.</line>
+		</p>
+		<img>
+			<name height="7">67.5.png</name>
+		</img>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>A</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>B</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>C</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>D</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>E</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>F</line>
+			</p>
+		</option>
+		<option id="c7" correct="true">
+			<p>
+				<line>G</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>H</line>
+			</p>
+		</option>
+	</answers>
+	<hint>Be aware of the role of report.</hint>
+</content>

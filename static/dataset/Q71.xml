@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">coding</skill>
+	<description>
+		Decide how to implement your code. (2016 Fall, Final, Question 14 d part 2)
+	</description>
+	<question>
+		<p>
+			<line>Author a working _CODES_set?_CODEE_ block by choosing one from A, one from B, one from C. (select ONE from each)</line>
+		</p>
+		<img>
+			<name height="1">67.1.png</name>
+			<name height="1">67.2.png</name>
+			<name height="1">67.3.png</name>
+			<name height="1">67.4.png</name>
+		</img>
+		<p>
+			<line>The helper block is given:</line>
+		</p>
+		<img>
+			<name height="5">70.5.png</name>
+		</img>
+		<p>
+			<line>The possible choices are given and labeled:</line>
+		</p>
+		<img>
+			<name height="5">70.6.png</name>
+		</img>
+		<p>
+			<line>Which one is the best choice of line B?</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>B1</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>B2</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>B3</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>B4</line>
+			</p>
+		</option>
+		<option id="c5" correct="true">
+			<p>
+				<line>B5</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>B6</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>B7</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>B8</line>
+			</p>
+		</option>
+	</answers>
+	<hint>Try it in Snap.</hint>
+</content>

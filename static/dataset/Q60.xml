@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">debug</skill>
+	<description>
+		Test cases usage. (2016 Fall, Final, Question 9)
+	</description>
+	<question>
+		<p>
+			<line>You plan to test an algorithm with a set of very extensive test cases. Which is true?</line>
+			<line>select ONE.</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>Only if it fails all test cases is the program incorrect.</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>Only if it fails more than half is the program incorrect.</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>If it passes more than half, the program is considered correct.</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>If it passes all of them, the program is considered correct.</line>
+			</p>
+		</option>
+		<option id="c5" correct="true">
+			<p>
+				<line>
+					None of the above.
+				</line>
+			</p>
+		</option>
+	</answers>
+	<hint>Failing once means fail. Passing all test cases doesn't means working correctly for all possible inputs.</hint>
+</content>

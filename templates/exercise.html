@@ -41,8 +41,9 @@
           // console.log("radio button selected", document.querySelector('input[name="radiobutton"]:checked').value)
           // console.log("correct_ans_id list length",{{correct_ans_id | length}})
           var answer_list_length = {{correct_ans_id | length}};
+          var multi_answers = parseInt({{multi_answers}});
           var correct = 0;
-          if (answer_list_length == 1) {
+          if (answer_list_length == 1 && multi_answers == 0) {
             if (document.querySelector('input[name="radiobutton"]:checked') == null) return;
             var id_selected = document.querySelector('input[name="radiobutton"]:checked').value;
             var id_correct = "{{correct_ans_id[0]}}";
@@ -176,6 +177,10 @@
                       &le;
                     {% elif line == '&ge;' %}
                       &ge;
+                    {% elif line == '&nbsp;' %}
+                      &nbsp;
+                    {% elif line == '&emsp;' %}
+                      &emsp;
                     {% else %}
                       {{line}}
                     {% endif %}
@@ -203,7 +208,7 @@
                     <tr class="table-middle">
                       <td class="table-middle">
                         <!--input type="radio" name="radiobutton" id="{{candidate[0]}}" value="{{candidate[0]}}" class="radio"-->
-                        {% if correct_ans_id | length == 1 %}
+                        {% if multi_answers == 0 and correct_ans_id | length == 1 %}
                         <input type="radio" name="radiobutton" id="{{candidate[0]}}" value="{{candidate[0]}}" class="radio">
                         {% else %}
                         <input type="checkbox" name="checkbox_elem" id="{{candidate[0]}}" value="{{candidate[0]}}">
@@ -250,6 +255,10 @@
                                   &le;
                                 {% elif line == '&ge;' %}
                                   &ge;
+                                {% elif line == '&nbsp;' %}
+                                  &nbsp;
+                                {% elif line == '&emsp;' %}
+                                  &emsp;
                                 {% else %}
                                   {{line}}
                                 {% endif %}

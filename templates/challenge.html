@@ -39,28 +39,61 @@
           var question_id = parseInt("{{question_elem[0]}}");
           var hint_div_id = "hint_{{question_elem[0]}}";
           var correct = 0;
-          // not answered, or answered
-          if (document.querySelector('input[name="radiobutton_{{question_elem[0]}}"]:checked') == null) {
-            document.getElementById(hint_div_id).innerHTML="You didn't answer this question, here's our hint:<br> {{question_elem[4]}}";
-          } else {
-            var id_selected = document.querySelector('input[name="radiobutton_{{question_elem[0]}}"]:checked').value;
-            var id_correct = "{{question_elem[0]}}_{{question_elem[3][0]}}";
-            var report_div_id = "feedback_{{question_elem[0]}}_" + id_selected;
-            // console.log(report_div_id)
-            // var correct = 0;
-            if (id_selected == id_correct)
-              correct = 1;
-            // console.log(id_selected, id_correct)
-            if (correct) {
-              // correctly answered
-              document.getElementById(report_div_id).innerHTML="<font color='green'>Correct! Congratulations!</font>";
-              // show explain
-              document.getElementById(hint_div_id).innerHTML="Explanation: {{question_elem[4]}}";
+          var answer_list_length = {{question_elem[3] | length}};
+          var multi_answers = parseInt({{question_elem[6]}});
+          var single_choice = answer_list_length == 1 && multi_answers == 0;
+          if (single_choice) {
+            // not answered, or answered
+            if (document.querySelector('input[name="radiobutton_{{question_elem[0]}}"]:checked') == null) {
+              document.getElementById(hint_div_id).innerHTML="You didn't answer this question, here's our hint:<br> {{question_elem[4]}}";
             } else {
-              // wrong
-              document.getElementById(report_div_id).innerHTML="That's not correct, better luck next time!";
+              var id_selected = document.querySelector('input[name="radiobutton_{{question_elem[0]}}"]:checked').value;
+              var id_correct = "{{question_elem[0]}}_{{question_elem[3][0]}}";
+              var report_div_id = "feedback_{{question_elem[0]}}_" + id_selected;
+              // console.log(report_div_id)
+              // var correct = 0;
+              if (id_selected == id_correct)
+                correct = 1;
+              // console.log(id_selected, id_correct)
+              if (correct) {
+                // correctly answered
+                document.getElementById(report_div_id).innerHTML="<font color='green'>Correct! Congratulations!</font>";
+                // show explain
+                document.getElementById(hint_div_id).innerHTML="Explanation: {{question_elem[4]}}";
+                } else {
+                // wrong
+                document.getElementById(report_div_id).innerHTML="That's not correct, better luck next time!";
+                // show hint
+                document.getElementById(hint_div_id).innerHTML="HINT: {{question_elem[4]}}";
+              }
+            }
+          } else {
+            // multiple choices
+            // console.log([question_id]);
+            var answer_list = [];
+            // correct answer list
+            {% for item_id in question_elem[3] %}
+              answer_list.push("{{question_elem[0]}}_{{item_id}}");
+            {% endfor %}
+            // checked answer list
+            var checked_list = [];
+            {% for candidate in question_elem[2] %}
+              var elem = document.getElementById("{{question_elem[0]}}_{{candidate[0]}}");
+              if (elem.checked)
+                checked_list.push(elem.value); // "{{question_elem[0]}}_{{candidate[0]}}"
+            {% endfor %}
+            // console.log(checked_list)
+            // then check if all correct answers are checked and only the correct answers are checked
+            if (JSON.stringify(answer_list.sort())==JSON.stringify(checked_list.sort())) {
+              correct = 1; 
+            }
+            // console.log([question_id, answer_list, checked_list])
+            if (correct) {
+              // show explain
+              document.getElementById(hint_div_id).innerHTML="<font color='green'>Correct! Congratulations!</font><br>Explanation: {{question_elem[4]}}";
+            } else {
               // show hint
-              document.getElementById(hint_div_id).innerHTML="HINT: {{question_elem[4]}}";
+              document.getElementById(hint_div_id).innerHTML="Haven't get it correct yet, better luck next time!<br>HINT: {{question_elem[4]}}";
             }
           }
           // disable all the candidates
@@ -71,6 +104,11 @@
           log_session_question_id.push(question_id);
           //////
           {% endfor %}
+          /*
+          if (!single_choice) {
+            return;
+          }
+          */
           // write feedback
           document.getElementById("feedback_bar").innerHTML="<font style='color:blue;font-size:20px;'>Feedback calculating based on your answers<br>Please wait for a few seconds...<br></font>";
           // disable check answer
@@ -201,6 +239,10 @@
                       &le;
                     {% elif line == '&ge;' %}
                       &ge;
+                    {% elif line == '&nbsp;' %}
+                      &nbsp;
+                    {% elif line == '&emsp;' %}
+                      &emsp;
                     {% else %}
                       {{line}}
                     {% endif %}
@@ -227,7 +269,12 @@
                   <tbody>
                     <tr class="table-middle">
                       <td class="table-middle">
+                        <!--input type="radio" name="radiobutton_{{question_elem[0]}}" id="{{question_elem[0]}}_{{candidate[0]}}" value="{{question_elem[0]}}_{{candidate[0]}}" class="radio"-->
+                        {% if question_elem[6] == 0 and question_elem[3] | length == 1 %}
                         <input type="radio" name="radiobutton_{{question_elem[0]}}" id="{{question_elem[0]}}_{{candidate[0]}}" value="{{question_elem[0]}}_{{candidate[0]}}" class="radio">
+                        {% else %}
+                        <input type="checkbox" name="checkbox_{{question_elem[0]}}" id="{{question_elem[0]}}_{{candidate[0]}}" value="{{question_elem[0]}}_{{candidate[0]}}" class="radio">
+                        {% endif %}
                       </td>
                       <td class="table-middle">
                         <div id="choicetext:{{question_elem[0]}}_{{candidate[0]}}">
@@ -270,6 +317,10 @@
                                   &le;
                                 {% elif line == '&ge;' %}
                                   &ge;
+                                {% elif line == '&nbsp;' %}
+                                  &nbsp;
+                                {% elif line == '&emsp;' %}
+                                  &emsp;
                                 {% else %}
                                   {{line}}
                                 {% endif %}

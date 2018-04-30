@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">calculation</skill>
+	<description>
+		Binary number expression. (2016 Fall, Final, Question 10)
+	</description>
+	<question>
+		<p>
+			<line>YouTube now uses 64 instead of 32 bits to count views. How many more is that?</line>
+			<line>select ONE.</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>2x</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>32x</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>64x</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>2_SUPS_2_SUPE_x</line>
+			</p>
+		</option>
+		<option id="c5" correct="true">
+			<p>
+				<line>
+					2_SUPS_32_SUPE_x
+				</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>2_SUPS_64_SUPE_x</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>None of these.</line>
+			</p>
+		</option>
+
+	</answers>
+	<hint>pow(2, 64) / pow(2, 32) = ?</hint>
+</content>

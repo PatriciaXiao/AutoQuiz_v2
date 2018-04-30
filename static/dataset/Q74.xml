@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">logic</skill>
+	<description>
+		Predict the outcome of code. (2016 Fall, Final, Question 13 c)
+	</description>
+	<question>
+		<p>
+			<line>Consider the following two blocks and setup code:</line>
+		</p>
+		<img>
+			<name height="6">74.1.png</name>
+			<name height="5">74.2.png</name>
+			<name height="5">74.3.png</name>
+		</img>
+		<p>
+			<line>We're now to going to zoom in on pixels affected by calls to Mystery; the sprite always starts facing right in the lower left, and the pen is in the center of the sprite. The top two images are the pixels before and after a call to Mystery with LEVELS set to 0.</line>
+		</p>
+		<img>
+			<name height="5">74.4.png</name>
+		</img>
+		<p>
+			<line>We're told that it actually costs a dollar to fill in all the pixels drawn by Helper. Which expression best captures the cost (in dollars) for this call? (select ONE)</line>
+		</p>
+		<img>
+			<name height="1">74.5.png</name>
+		</img>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>L</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>L / 2</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>N</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>N / 2</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>L * N</line>
+			</p>
+		</option>
+		<option id="c6" correct="true">
+			<p>
+				<line>L * N / 2</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>L_SUPS_N_SUPE_</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>L_SUPS_N_SUPE_ / 2</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>N_SUPS_L_SUPE_</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>N_SUPS_L_SUPE_ / 2</line>
+			</p>
+		</option>
+		<option id="c9">
+			<p>
+				<line>None of these</line>
+			</p>
+		</option>
+
+	</answers>
+	<hint>If you find it hard to calculate it using L and N, try to use exact number, such as basing on the L=16, N=3 version.</hint>
+</content>

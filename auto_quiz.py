@@ -69,14 +69,14 @@ def exercise_section(question_id=None):
         next_id = -1
     question_fname = "Q{0}.xml".format(question_id)
     # print "question file name {0}".format(question_fname)
-    question, answers, correct_ans_id, hint, description = read_xml(question_fname, os.path.join(app.root_path, 'static', 'dataset'))
+    question, answers, correct_ans_id, hint, description, multi_answers = read_xml(question_fname, os.path.join(app.root_path, 'static', 'dataset'))
     # print "next question is {0}".format(next_id)
 
-    print correct_ans_id
-    print answers
+    #print correct_ans_id
+    #print answers
 
     return render_template('exercise.html', question=question, answers=answers, \
-        question_id=question_id, correct_ans_id=correct_ans_id, hint=hint, next_id=next_id, description=description)
+        question_id=question_id, correct_ans_id=correct_ans_id, hint=hint, next_id=next_id, description=description, multi_answers=multi_answers)
     # return render_template('exercise.html', **locals())
 
 @app.route('/challenge/', methods=['GET', 'POST'])
@@ -84,18 +84,19 @@ def challenge_section():
     questions_lst = []
     # question_id_lst = [1, 2]
     user_id = current_user.get_id()
-    print user_id
+    # print user_id
     question_id = user_cache.get("question_id")
     correctness = user_cache.get("correctness")
     next_session = user_cache.get("next_session")
     user_cache.set("next_session", [], timeout=0)
     question_id_lst = get_challenge_questions(user_id, model_dir=app.root_path, prev_load=next_session)
+    # question_id_lst = [63, 4, 64]
     for question_id in question_id_lst:
         question_fname = "Q{0}.xml".format(question_id)
         # print "question file name {0}".format(question_fname)
-        question, answers, correct_ans_id, hint, description = read_xml(question_fname, os.path.join(app.root_path, 'static', 'dataset'))
+        question, answers, correct_ans_id, hint, description, multi_answers = read_xml(question_fname, os.path.join(app.root_path, 'static', 'dataset'))
         # print "next question is {0}".format(next_id)
-        questions_lst.append([question_id, question, answers, correct_ans_id, hint, description])
+        questions_lst.append([question_id, question, answers, correct_ans_id, hint, description, multi_answers])
     return render_template('challenge.html', questions_lst=questions_lst)
 
 def update_session(question_id_lst, correctness_lst, new_data):

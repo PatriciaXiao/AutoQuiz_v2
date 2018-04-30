@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">coding</skill>
+	<description>
+		Evaluate your skill of using Random (2016 Fall, Final, Question 11)
+	</description>
+	<question>
+		<p>
+			<line>A coin has two sides, labeled "1" and "2". Consider the goal of simulating the results of flipping the coin _EMPHS_five_EMPHE_ times, and displaying the _EMPHS_sum_EMPHE_ from the five flips. Which of the following code segments will produce the appropriate results? Hint: Compare the # of ways there are of summing to 5 vs. 7… (select ONE)</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<img>
+				<name height="1">62.1.png</name>
+			</img>
+		</option>
+		<option id="c2">
+			<img>
+				<name height="1">62.2.png</name>
+			</img>
+		</option>
+		<option id="c3">
+			<img>
+				<name height="1">62.3.png</name>
+			</img>
+		</option>
+		<option id="c4" correct="true">
+			<p>
+				<line>None of these.</line>
+			</p>
+		</option>
+	</answers>
+	<hint>Adding up the result of N calls to "pick-random(1)to(M)" is not equivalent with N times the result of one "pick-random(1)to(M)".</hint>
+</content>

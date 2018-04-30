@@ -67,7 +67,11 @@ skill_map = {
     'logic': 'Programming and Algorithm',
     'recursion': 'Recursion',
     'complexity': 'Programming and Algorithm',
-    'concurrency': 'Concurrency'
+    'concurrency': 'Concurrency',
+    'interpreter': 'Python',
+    'python_string': 'Python',
+    'python_list_comprehension': 'Python',
+    'python_lambda': 'Python'
 }
 
 

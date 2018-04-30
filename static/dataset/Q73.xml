@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">complexity</skill>
+	<description>
+		Estimate the runtime. (2016 Fall, Final, Question 14 e)
+	</description>
+	<question>
+		<p>
+			<line>Author a working _CODES_set?_CODEE_ block by choosing one from A, one from B, one from C. (select ONE from each)</line>
+		</p>
+		<img>
+			<name height="1">67.1.png</name>
+			<name height="1">67.2.png</name>
+			<name height="1">67.3.png</name>
+			<name height="1">67.4.png</name>
+		</img>
+		<p>
+			<line>The helper block is given:</line>
+		</p>
+		<img>
+			<name height="5">70.5.png</name>
+		</img>
+		<p>
+			<line>The possible choices are given and labeled:</line>
+		</p>
+		<img>
+			<name height="5">70.6.png</name>
+		</img>
+		<p>
+			<line>What is the running time of this _CODES_set?_CODEE_ block?</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>Constant</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>Logarithmic</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>Linear</line>
+			</p>
+		</option>
+		<option id="c4" correct="true">
+			<p>
+				<line>Quadratic</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>Exponential</line>
+			</p>
+		</option>
+
+	</answers>
+	<hint>It’s a keep of a keep, keep is linear.</hint>
+</content>

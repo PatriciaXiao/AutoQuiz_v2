@@ -41,6 +41,11 @@ def read_xml(fname, fpath):
         str_content = "\n&le;\n".join(content_list)
         content_list = str_content.split('_GE_')
         str_content = "\n&ge;\n".join(content_list)
+        # 4 * &nbsp; (or a single &emsp;
+        content_list = str_content.split('_BLANK_')
+        str_content = "\n&nbsp;\n".join(content_list)
+        content_list = str_content.split('_SPACE_')
+        str_content = "\n&emsp;\n".join(content_list)
         return str_content.split('\n')
     # read xml
     fpath = os.path.join(fpath, fname)
@@ -49,7 +54,11 @@ def read_xml(fname, fpath):
     question = []
     answers = []
     correct_ans_id = []
-    for elem in root.find('question'):
+    question_content = root.find('question')
+    question_type = question_content.get('multi_answer')
+    if question_type is None or int(question_type) != 1:
+        question_type = 0
+    for elem in question_content:
         data = []
         if elem.tag == 'p':
             for line in elem:
@@ -97,7 +106,7 @@ def read_xml(fname, fpath):
     description = clean_str(root.find('description').text)
     # print hint
     
-    return question, answers, correct_ans_id, hint, description
+    return question, answers, correct_ans_id, hint, description, question_type
 
 def save_session_data(data, file_name):
     question_id = data["question_id"]
