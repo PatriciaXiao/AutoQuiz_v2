@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">algorithm</skill>
+	<description>
+		Algorithm, knapsack problem (2017 Spring, Final, Question 6)
+	</description>
+	<question>
+		<p>
+			<line>Recall the knapsack problem involves calculating the most money you can carry in a weight-limited knapsack, given boxes of different values and weights (you may choose as many boxes of the same kind as you wish). You are given a bag that holds _BOLDS_20lbs_BOLDE_ and three boxes: _BOLDS_A=$15@15lbs, B=$5@6lbs, C=$6@7lbs._BOLDE_ How much better does the _EMPHS_optimal_EMPHE_ solution do over the _EMPHS_greedy_EMPHE_ solution? (select ONE)</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>$0</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>$1</line>
+			</p>
+		</option>
+		<option id="c3" correct="true">
+			<p>
+				<line>$2</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>$3</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>$4</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>$5</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>$6</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>$7</line>
+			</p>
+		</option>
+		<option id="c9">
+			<p>
+				<line>$8</line>
+			</p>
+		</option>
+		<option id="c10">
+			<p>
+				<line>$9</line>
+			</p>
+		</option>
+		<option id="c11">
+			<p>
+				<line>$10</line>
+			</p>
+		</option>
+
+	</answers>
+	<hint>Greedy soluction always takes the one with the highest score ( = value / weight), while optimal solution consider other possibilities as well.</hint>
+</content>

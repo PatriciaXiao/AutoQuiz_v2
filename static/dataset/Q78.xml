@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">python_higher_order_function</skill>
+	<description>
+		Python interpreter, lambda (2016 Fall, Final, Question 15 d)
+	</description>
+	<question>
+		<p>
+			<line>Interpreter fun! For each, choose ONE that best matches what would display on the next line.</line>
+			<line>Note that some of the code might have bugs! We include “Error” and “None of these” in case the output is not what is expected.</line>
+			<line> </line>
+			<line>_SPACE__GT__GT__GT__BOLDS__SPACE__SPACE_ f1 = lambda x: x+x_BOLDE_</line>
+			<line>_SPACE__GT__GT__GT__BOLDS__SPACE__SPACE_ f2 = lambda y: y _GT_ "9"_BOLDE_</line>
+			<line>_SPACE__GT__GT__GT__BOLDS__SPACE__SPACE_ list(map(lambda f: f("10"), [f1, f2]))_BOLDE_</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>[20, True]</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>[1010, True]</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>["1010", True]</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>[20, False]</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>[1010, False]</line>
+			</p>
+		</option>
+		<option id="c6" correct="true">
+			<p>
+				<line>["1010", False]</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>Error</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>None of these</line>
+			</p>
+		</option>
+
+	</answers>
+	<hint>Try it out on your command line / terminal, using Python interpreter. Operator + on strings is concatenation; string comparison is as it does in Snap!</hint>
+</content>

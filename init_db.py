@@ -71,7 +71,11 @@ skill_map = {
     'interpreter': 'Python',
     'python_string': 'Python',
     'python_list_comprehension': 'Python',
-    'python_lambda': 'Python'
+    'python_lambda': 'Python',
+    'list_comprehension': 'Python',
+    'python_higher_order_function': 'Python',
+    'python_debug': 'Python',
+    'algorithm': 'Programming and Algorithm'
 }
 
 

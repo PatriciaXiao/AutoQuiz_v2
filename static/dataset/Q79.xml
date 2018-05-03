@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">python_string</skill>
+	<description>
+		Python interpreter, lambda (2016 Fall, Final, Question 15 e)
+	</description>
+	<question>
+		<p>
+			<line>Interpreter fun! For each, choose ONE that best matches what would display on the next line.</line>
+			<line>Note that some of the code might have bugs! We include “Error” and “None of these” in case the output is not what is expected.</line>
+			<line> </line>
+			<line>(there was some typing here, probably defining the school variable)</line>
+			<line>_SPACE__GT__GT__GT__BOLDS__SPACE__SPACE_ school_BOLDE_</line>
+			<line>_SPACE_"cal"</line>
+			<line>_SPACE__GT__GT__GT__BOLDS__SPACE__SPACE_ if school = "berkeley":_BOLDE_</line>
+			<line>_SPACE_._SPACE_._SPACE_._BOLDS__SPACE__SPACE__SPACE__SPACE_ print("go " + school)_BOLDE_</line>
+			<line>_SPACE_._SPACE_._SPACE_._BOLDS__SPACE__SPACE_ else:_BOLDE_</line>
+			<line>_SPACE_._SPACE_._SPACE_._BOLDS__SPACE__SPACE__SPACE__SPACE_ print("not here")_BOLDE_</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>go berkeley</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>go cal</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>not here</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>"go berkeley"</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>"go cal"</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>"not here"</line>
+			</p>
+		</option>
+		<option id="c7" correct="true">
+			<p>
+				<line>Error</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>None of these</line>
+			</p>
+		</option>
+
+	</answers>
+	<hint>Try it out on your command line / terminal, using Python interpreter. "=" isn't "==".</hint>
+</content>

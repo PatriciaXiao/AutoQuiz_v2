@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">python_debug</skill>
+	<description>
+		Python interpreter, lambda (2016 Fall, Final, Question 15 f)
+	</description>
+	<question>
+		<p>
+			<line>Interpreter fun! For each, choose ONE that best matches what would display on the next line.</line>
+			<line>Note that some of the code might have bugs! We include "Error" and "None of these" in case the output is not what is expected.</line>
+			<line>We're trying to make a histogram function that returns the count of every item in data, for example histogram([7,8,8,8,9]) _RARR_ {7:1, 8:3, 9:1}. Check the box for every syntax or logical error you find.</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1" correct="true">
+			<p>
+				<line>_BOLDS_define histogram(data):_BOLDE_</line>
+			</p>
+		</option>
+		<option id="c2" correct="true">
+			<p>
+				<line>_BOLDS__SPACE__SPACE__SPACE__SPACE_D = {}_BOLDE_ ;;; empty histogram</line>
+			</p>
+		</option>
+		<option id="c3" correct="true">
+			<p>
+				<line>_BOLDS__SPACE__SPACE__SPACE__SPACE_foreach item in data:_BOLDE_</line>
+			</p>
+		</option>
+		<option id="c4" correct="true">
+			<p>
+				<line>_BOLDS__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE_if item in D:_BOLDE_</line>
+			</p>
+		</option>
+		<option id="c5" correct="true">
+			<p>
+				<line>_BOLDS__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE_D[item] = 0_BOLDE_</line>
+			</p>
+		</option>
+		<option id="c6" correct="true">
+			<p>
+				<line>_BOLDS__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE_else_BOLDE_</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>_BOLDS__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE__SPACE_D[item] = D[item] + 1_BOLDE_</line>
+			</p>
+		</option>
+		<option id="c8" correct="true">
+			<p>
+				<line>_BOLDS__SPACE__SPACE__SPACE__SPACE_report D_BOLDE_</line>
+			</p>
+		</option>
+
+	</answers>
+	<hint>Try it out on your command line / terminal, using Python interpreter. "define" isn't "def". Comment should use "#". Don't forget ":". "foreach" is not "for". "report" is not "return". Besides, becareful the logic error.</hint>
+</content>

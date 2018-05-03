@@ -1,50 +1,59 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <content>
-	<skill kind="detailed">python_string</skill>
+	<skill kind="detailed">list_comprehension</skill>
 	<description>
-		Python interpreter (2016 Fall, Final, Question 15 a)
+		Python interpreter (2016 Fall, Final, Question 15 b)
 	</description>
 	<question>
 		<p>
 			<line>Interpreter fun! For each, choose ONE that best matches what would display on the next line.</line>
 			<line>Note that some of the code might have bugs! We include “Error” and “None of these” in case the output is not what is expected.</line>
 			<line> </line>
-			<line>_SPACE__GT__GT__GT__BOLDS__SPACE__SPACE_ S = "Berkeley"_BOLDE_</line>
-			<line>_SPACE__GT__GT__GT__BOLDS__SPACE__SPACE_ S[1:3]_BOLDE_</line>
+			<line>_SPACE__GT__GT__GT__BOLDS__SPACE__SPACE_ [N ** 2 for N in range(4) if N != 2]_BOLDE_</line>
 		</p>
 	</question>
 	<answers>
 		<option id="c1">
 			<p>
-				<line>Be</line>
+				<line>[0,1,3]</line>
 			</p>
 		</option>
 		<option id="c2">
 			<p>
-				<line>Ber</line>
+				<line>[0,2,6]</line>
 			</p>
 		</option>
 		<option id="c3">
 			<p>
-				<line>erk</line>
+				<line>[1,3,4]</line>
 			</p>
 		</option>
-		<option id="c4" correct="true">
+		<option id="c4">
 			<p>
-				<line>er</line>
+				<line>[1,6,8]</line>
 			</p>
 		</option>
-		<option id="c5">
+		<option id="c5" correct="true">
+			<p>
+				<line>[0,1,9]</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>[1,9,16]</line>
+			</p>
+		</option>
+		<option id="c7">
 			<p>
 				<line>Error</line>
 			</p>
 		</option>
-		<option id="c6">
+		<option id="c8">
 			<p>
 				<line>None of these</line>
 			</p>
 		</option>
 
 	</answers>
-	<hint>Try it out on your command line / terminal, using Python interpreter.</hint>
+	<hint>range(4) returns [0,1,2,3], and ** means squre. You can test it out using python interprete.</hint>
 </content>
