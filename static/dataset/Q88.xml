@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">boolean</skill>
+	<description>
+		Boolean expressions (2017 Spring, Final, Question 10 c)
+	</description>
+	<question>
+		<p>
+			<line>When designing a maze, you have lots of options. You can make it easy or hard or impossible to get to the goal square (here, shown in grey). If we look at the maze on the right, there are three squares that haven't been set yet: _BOLDS_A, B, C._BOLDE_ They could be set as a wall (which we'll call _BOLDS_false_BOLDE_ and mark as black square) or empty slot (which we'll call _BOLDS_true_BOLDE_ and mark as white square).</line>
+			<line>What expression is _EMPHS_true_EMPHE_ for all the solvable mazes? (select ONE)</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>(A and B) and C</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>(A or B) or C</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>(not A) or (not C)</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>(not A) and (not C)</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>A or C</line>
+			</p>
+		</option>
+		<option id="c6" correct="true">
+			<p>
+				<line>A and C</line>
+			</p>
+		</option>
+
+	</answers>
+	<hint>Some of them have to be empty, others can be anything.</hint>
+</content>

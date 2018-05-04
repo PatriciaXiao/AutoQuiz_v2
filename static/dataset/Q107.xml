@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">python_programming</skill>
+	<description>
+		python program design (2017 Fall, Final, Question 12 g)
+	</description>
+	<question>
+		<p>
+			<line>We want to write a dictionary reverser, which will take a dictionary of keys and values and make the values the keys and have the original keys become a list of values. So, if _BOLDS_mydict_BOLDE_ is _BOLDS_{1:3, 2:3, 8:9}_BOLDE_, then _BOLDS_dictionary_reverser(mydict) _RARR_ {9:[8], 3:[1,2]}_BOLDE_. Write this by filling in the blanks with the correct expressions.</line>
+		</p>
+		<img>
+			<name height="6">103.1.png</name>
+		</img>
+		<p>
+			<line>What is eANS? (select ONE)</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>D[k]</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>R[k]</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>k[D]</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>k[R]</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>R[D]</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>D[R]</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>k[D[R]]</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>k[R[D]]</line>
+			</p>
+		</option>
+		<option id="c9">
+			<p>
+				<line>D[k[R]]</line>
+			</p>
+		</option>
+		<option id="c10">
+			<p>
+				<line>D[R[k]]</line>
+			</p>
+		</option>
+		<option id="c11" correct="true">
+			<p>
+				<line>R[D[k]]</line>
+			</p>
+		</option>
+		<option id="c12">
+			<p>
+				<line>R[k[D]]</line>
+			</p>
+		</option>
+
+	</answers>
+	<hint>try fill in the blanks first and choose the corresponding option in answer, instead of examine if each of the options would work.</hint>
+</content>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">database</skill>
+	<description>
+		usage of database (2017 Fall, Final, Question 11 a)
+	</description>
+	<question>
+		<p>
+			<line>A large data set (a list of student records) contains information about all students majoring in computer science in colleges across the USA. We don't know how a student record is encoded, but we know it contains:</line>
+			<line>_BLANK__BLANK_* The student's gender</line>
+			<line>_BLANK__BLANK_* The state in which the student attends college</line>
+			<line>_BLANK__BLANK_* The student's GPA on a 4.0 scale</line>
+		</p>
+		<p>
+			<line>Which of the following could be answered by analyzing only information in the data set? (select ONE)</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>Do students majoring in computer science tend to have higher GPAs than students majoring in other subjects?</line>
+			</p>
+		</option>
+		<option id="c2" correct="true">
+			<p>
+				<line>How many states have a higher percentage of female computer science majors than male computer science majors attending college in that state?</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>What percent of students attending college in a certain state are majoring in computer science?</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>Which college has the highest number of students majoring in computer science?</line>
+			</p>
+		</option>
+
+	</answers>
+	<hint>We don't have any additional information other than what is listed above.</hint>
+</content>

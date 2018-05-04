@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">calculation</skill>
+	<description>
+		Math problem (2017 Spring, Final, Question 10 a)
+	</description>
+	<question>
+		<p>
+			<line>When designing a maze, you have lots of options. You can make it easy or hard or impossible to get to the goal square (here, shown in grey). If we look at the maze on the right, there are three squares that haven't been set yet: _BOLDS_A, B, C._BOLDE_ They could be set as a wall (which we'll call _BOLDS_false_BOLDE_ and mark as black square) or empty slot (which we'll call _BOLDS_true_BOLDE_ and mark as white square).</line>
+			<line>How many _EMPHS_total mazes_EMPHE_ can we create? (select ONE)</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>1</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>2</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>3</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>4</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>5</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>6</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>7</line>
+			</p>
+		</option>
+		<option id="c8" correct="true">
+			<p>
+				<line>8</line>
+			</p>
+		</option>
+		<option id="c9">
+			<p>
+				<line>9</line>
+			</p>
+		</option>
+
+	</answers>
+	<hint>3bits, each true or false, pow(2, 3) possibilities in total.</hint>
+</content>

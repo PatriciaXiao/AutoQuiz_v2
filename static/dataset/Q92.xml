@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">complexity</skill>
+	<description>
+		Algorithm complexity (2017 Spring, Final, Question 11 d)
+	</description>
+	<question>
+		<p>
+			<line>Consider the problem of trying to find out which student has the largest student ID number (SID) in a class of N students, with N a power of two (2, 4, 8, 16, …). Note that all SIDs are unique.</line>
+			<line>What is the worst-case running time and the worst-case number of SID comparisons, for the algorithm listed below?</line>
+			<line>Algorithm IV: Same as Algorithm III but after a person goes around and isn’t the largest, rather than the next person being someone who hasn’t stood up before, a random person (of the N total students) is chosen again (and it could be someone who has gotten up before).</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>Constant running time</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>Logarithmic running time</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>Linear running time</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>Quadratic running time</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>Exponential running time</line>
+			</p>
+		</option>
+		<option id="c6" correct="true">
+			<p>
+				<line>May never end, could go forever</line>
+			</p>
+		</option>
+
+		<option id="c7">
+			<p>
+				<line>Constant number of SID comparisons</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>Logarithmic number of SID comparisons</line>
+			</p>
+		</option>
+		<option id="c9">
+			<p>
+				<line>Linear number of SID comparisons</line>
+			</p>
+		</option>
+		<option id="c10">
+			<p>
+				<line>Quadratic number of SID comparisons</line>
+			</p>
+		</option>
+		<option id="c11">
+			<p>
+				<line>Exponential number of SID comparisons</line>
+			</p>
+		</option>
+		<option id="c12" correct="true">
+			<p>
+				<line>Infinite number of SID comparisons</line>
+			</p>
+		</option>
+
+	</answers>
+	<hint>Everyone checks everyone else whatever times.</hint>
+</content>

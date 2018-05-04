@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">higher_order_functions</skill>
+	<description>
+		designing higher-order-functions (2017 Fall, Final, Question 11 b)
+	</description>
+	<question>
+		<p>
+			<line>A large data set (a list of student records) contains information about all students majoring in computer science in colleges across the USA. We don't know how a student record is encoded, but we know it contains:</line>
+			<line>_BLANK__BLANK_* The student's gender</line>
+			<line>_BLANK__BLANK_* The state in which the student attends college</line>
+			<line>_BLANK__BLANK_* The student's GPA on a 4.0 scale</line>
+		</p>
+		<p>
+			<line>How could we extract a list of the states (with no duplicates) with CS majors from the data set in the _BOLDS_fewest_BOLDE_ steps? (select ONE)</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>First, use _BOLDS_keep_BOLDE_, and then remove duplicates</line>
+			</p>
+		</option>
+		<option id="c2" correct="true">
+			<p>
+				<line>First, use _BOLDS_map_BOLDE_, and then remove duplicates</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>First, use _BOLDS_keep_BOLDE_, then use _BOLDS_map_BOLDE_, and then remove duplicates</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>First, use _BOLDS_map_BOLDE_, then use _BOLDS_keep_BOLDE_, and then remove duplicates</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>First remove duplicates, then use _BOLDS_keep_BOLDE_</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>First remove duplicates, then use _BOLDS_map_BOLDE_</line>
+			</p>
+		</option>
+		<option id="c7">
+			<p>
+				<line>First remove duplicates, then use _BOLDS_keep_BOLDE_, then use _BOLDS_map_BOLDE_</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>First remove duplicates, then use _BOLDS_map_BOLDE_, then use _BOLDS_keep_BOLDE_</line>
+			</p>
+		</option>
+
+	</answers>
+	<hint>before removing duplicates we need to know the full set; to get the full set we need to convert the student list into state list (of the same length, elements one by one).</hint>
+</content>

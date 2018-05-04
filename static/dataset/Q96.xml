@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">concurrency</skill>
+	<description>
+		parallel programming outcome (2017 Fall, Final, Question 8 b)
+	</description>
+	<question>
+		<p>
+			<line>The following is a helper command that increases _BOLDS_SALARY_BOLDE_. Below each script on the right, write ALL the possible values of _BOLDS_SALARY_BOLDE_ after the script has run to completion. (The _BOLDS_launch_BOLDE_ block allows its input script to run in parallel, and does not wait for its input to be finished before proceeding to the next block below it)</line>
+		</p>
+		<img>
+			<name height="8">95.1.png</name>
+			<name height="3">95.2.png</name>
+		</img>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>10</line>
+			</p>
+		</option>
+		<option id="c2" correct="true">
+			<p>
+				<line>11</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>12</line>
+			</p>
+		</option>
+		<option id="c4" correct="true">
+			<p>
+				<line>13</line>
+			</p>
+		</option>
+		<option id="c5" correct="true">
+			<p>
+				<line>14</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>15</line>
+			</p>
+		</option>
+
+
+	</answers>
+	<hint>two sequences, each has three random-length waiting slots influencing three tasks to do; consider the different possible orders.</hint>
+</content>

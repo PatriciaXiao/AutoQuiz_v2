@@ -75,7 +75,12 @@ skill_map = {
     'list_comprehension': 'Python',
     'python_higher_order_function': 'Python',
     'python_debug': 'Python',
-    'algorithm': 'Programming and Algorithm'
+    'algorithm': 'Programming and Algorithm',
+    'python_behavior': 'Python',
+    'database': 'Programming and Algorithm',
+    'higher_order_functions': 'Lists and HOFs',
+    'python_syntax': 'Python',
+    'python_programming': 'Python'
 }
 
 

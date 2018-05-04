@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">logic</skill>
+	<description>
+		predicting result of code (2017 Fall, Final, Question 10 a)
+	</description>
+	<question>
+		<p>
+			<line>The question below uses a robot in a grid of squares. The robot is initially in the bottom-left square of the grid and facing up. Code for the procedure _BOLDS_Meander_BOLDE_ is shown here. Assume the input has been assigned a positive integer value (e.g., 1, 2, 3, ...). The _BOLDS_ROTATE RIGHT_BOLDE_ block has the same function as the _BOLDS_Turn 90 degrees_BOLDE_ block.</line>
+		</p>
+		<img>
+			<name height="5">97.1.png</name>
+		</img>
+		<p>
+			<line>Which shows a possible result of calling _BOLDS_Meander_BOLDE_? (select ONE)</line>
+			<line>Initial position:</line>
+		</p>
+		<img>
+			<name height="3">97.2.png</name>
+		</img>
+	</question>
+	<answers>
+		<option id="c1">
+			<img>
+				<name height="3">97.3.png</name>
+			</img>
+		</option>
+		<option id="c2">
+			<img>
+				<name height="3">97.4.png</name>
+			</img>
+		</option>
+		<option id="c3" correct="true">
+			<img>
+				<name height="3">97.5.png</name>
+			</img>
+		</option>
+		<option id="c4">
+			<img>
+				<name height="3">97.6.png</name>
+			</img>
+		</option>
+
+
+	</answers>
+	<hint>It is drawing a square, clockwise.</hint>
+</content>

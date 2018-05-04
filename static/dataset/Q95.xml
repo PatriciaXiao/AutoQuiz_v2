@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">concurrency</skill>
+	<description>
+		part of the parallel programming question (2017 Fall, Final, Question 8 a)
+	</description>
+	<question multi_answer="1">
+		<p>
+			<line>The following is a helper command that increases _BOLDS_SALARY_BOLDE_. Below each script on the right, write ALL the possible values of _BOLDS_SALARY_BOLDE_ after the script has run to completion.</line>
+		</p>
+		<img>
+			<name height="8">95.1.png</name>
+			<name height="3">95.3.png</name>
+		</img>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>10</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>11</line>
+			</p>
+		</option>
+		<option id="c3">
+			<p>
+				<line>12</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>13</line>
+			</p>
+		</option>
+		<option id="c5" correct="true">
+			<p>
+				<line>14</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>15</line>
+			</p>
+		</option>
+
+
+	</answers>
+	<hint>random doesn't necessarily result in parallel.</hint>
+</content>

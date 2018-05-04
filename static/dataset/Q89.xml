@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<content>
+	<skill kind="detailed">complexity</skill>
+	<description>
+		Algorithm complexity (2017 Spring, Final, Question 11 a)
+	</description>
+	<question>
+		<p>
+			<line>Consider the problem of trying to find out which student has the largest student ID number (SID) in a class of N students, with N a power of two (2, 4, 8, 16, …). Note that all SIDs are unique.</line>
+			<line>What is the worst-case running time and the worst-case number of SID comparisons, for the algorithm listed below?</line>
+			<line>Algorithm I: The students line up, sitting down. The first two students stand and compare their SIDs. The student with the smaller SID sits back down, the other remains standing. The next student in line stands up and this process repeats until there is only one student (with the largest SID) left standing.</line>
+		</p>
+	</question>
+	<answers>
+		<option id="c1">
+			<p>
+				<line>Constant running time</line>
+			</p>
+		</option>
+		<option id="c2">
+			<p>
+				<line>Logarithmic running time</line>
+			</p>
+		</option>
+		<option id="c3" correct="true">
+			<p>
+				<line>Linear running time</line>
+			</p>
+		</option>
+		<option id="c4">
+			<p>
+				<line>Quadratic running time</line>
+			</p>
+		</option>
+		<option id="c5">
+			<p>
+				<line>Exponential running time</line>
+			</p>
+		</option>
+		<option id="c6">
+			<p>
+				<line>May never end, could go forever</line>
+			</p>
+		</option>
+
+		<option id="c7">
+			<p>
+				<line>Constant number of SID comparisons</line>
+			</p>
+		</option>
+		<option id="c8">
+			<p>
+				<line>Logarithmic number of SID comparisons</line>
+			</p>
+		</option>
+		<option id="c9" correct="true">
+			<p>
+				<line>Linear number of SID comparisons</line>
+			</p>
+		</option>
+		<option id="c10">
+			<p>
+				<line>Quadratic number of SID comparisons</line>
+			</p>
+		</option>
+		<option id="c11">
+			<p>
+				<line>Exponential number of SID comparisons</line>
+			</p>
+		</option>
+		<option id="c12">
+			<p>
+				<line>Infinite number of SID comparisons</line>
+			</p>
+		</option>
+
+	</answers>
+	<hint>Go down the line.</hint>
+</content>
