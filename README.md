@@ -1,5 +1,7 @@
 # AutoQuiz
-MS Project Demo, using flask
+Master of Science Project code, using flask.
+[Theses](https://www2.eecs.berkeley.edu/Pubs/TechRpts/2018/EECS-2018-54.html target="_blank") available online.
+
 
 Simplified maintnance:
 
