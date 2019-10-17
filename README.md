@@ -1,7 +1,13 @@
 # AutoQuiz
 Master of Science Project code, using [Flask](http://flask.pocoo.org/).
 
-[Theses](https://www2.eecs.berkeley.edu/Pubs/TechRpts/2018/EECS-2018-54.html) available online.
+[Thesis](https://www2.eecs.berkeley.edu/Pubs/TechRpts/2018/EECS-2018-54.html) available online.
+
+## Dependencies
+
+* Based on [Flask](http://flask.pocoo.org/) framework
+* Front-end using [JQuery](https://jquery.com/) and [Bootstrap](https://getbootstrap.com/)
+* Login system handled by [Flask-Login](https://flask-login.readthedocs.io/en/latest/)
 
 ## Simplified maintnance:
 
