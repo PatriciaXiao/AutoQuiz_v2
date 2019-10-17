@@ -3,7 +3,7 @@ Master of Science Project code, using [Flask](http://flask.pocoo.org/).
 
 [Theses](https://www2.eecs.berkeley.edu/Pubs/TechRpts/2018/EECS-2018-54.html) available online.
 
-Simplified maintnance:
+## Simplified maintnance:
 
 **0.** Initialize database by running ***sh init_db.sh*** on mac, or ***sqlite3 auto_quiz.db < schema.sql*** followed by ***python init_db.py*** in any other environment. 
 
